@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Data
 {
-    public class VeterinarySystemContext : DbContext
+    public class VeterinarySystemContext : IdentityDbContext<User>
     {
-        private const string sqlConnectionString = "Server=DESKTOP-984QGPC;Database=VeterinarySystem;Trusted_Connection=True;Integrated Security=True;TrustServerCertificate=True";
+        private const string sqlConnectionString = "For testing purposes only";
 
         public VeterinarySystemContext() { }
         public VeterinarySystemContext(DbContextOptions options) : base(options)
@@ -22,6 +22,7 @@ namespace VeterinarySystem.Data
         public DbSet<Procedure> Procedures { get; set; } = null!;
         public DbSet<Prescription> Prescriptions { get; set; } = null!;
         public DbSet<Medicine> Medicines { get; set; } = null!;
+        public DbSet<User> ApplicationUsers { get; set; } = null!;
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
