@@ -23,11 +23,12 @@ namespace VeterinarySystem.Data.Domain.EntityConfigurations
             builder.Property(p => p.IsMedical)
                 .IsRequired(true);
 
-            builder.HasOne(p => p.StaffMember)
-                .WithMany(sm => sm.Procedures);
-
             builder.HasOne(p => p.Animal)
                 .WithMany(a => a.Procedures);
+
+            builder.HasOne(p => p.Prescription)
+                .WithOne(p => p.Procedure)
+                .HasForeignKey<Prescription>(p => p.Procedure);
         }
     }
 }

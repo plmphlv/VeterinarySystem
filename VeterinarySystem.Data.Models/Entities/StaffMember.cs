@@ -8,7 +8,6 @@ namespace VeterinarySystem.Data.Domain.Entities
         {
             Appointments = new HashSet<Appointment>();
             Procedures = new HashSet<Procedure>();
-            Prescriptions = new HashSet<Prescription>();
         }
 
         public int StaffMemberId { get; set; }
@@ -20,6 +19,5 @@ namespace VeterinarySystem.Data.Domain.Entities
 
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<Procedure> Procedures { get; set; }
-        public ICollection<Prescription> Prescriptions { get; set; }
     }
 }

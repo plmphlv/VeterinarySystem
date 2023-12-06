@@ -18,13 +18,6 @@ namespace VeterinarySystem.Data.Domain.EntityConfigurations
 
             builder.Property(per => per.IssueDate)
                 .IsRequired(true);
-
-            builder.HasOne(per => per.StaffMember)
-                .WithMany(sm => sm.Prescriptions);
-
-            
-
-            //Ask how to configure Medicines
         }
     }
 }

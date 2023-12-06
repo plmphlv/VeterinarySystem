@@ -14,9 +14,8 @@ namespace VeterinarySystem.Data.Domain.Entities
         public string? Description { get; set; }
         public DateTime IssueDate { get; set; }
 
-
-        public int StaffMemberId { get; set; }
-        public StaffMember StaffMember { get; set; } = null!;
+        public int ProcedureId { get; set; }
+        public Procedure Procedure { get; set; } = null!;
 
         public ICollection<Medicine> Medicines { get; set; }
 

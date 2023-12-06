@@ -15,5 +15,6 @@ namespace VeterinarySystem.Data.Domain.Entities
 
         public int AnimalId { get; set; }
         public Animal Animal { get; set; } = null!;
+        public Prescription? Prescription { get; set; }
     }
 }
