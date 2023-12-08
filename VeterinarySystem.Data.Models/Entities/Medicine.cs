@@ -12,6 +12,9 @@ namespace VeterinarySystem.Data.Domain.Entities
         public DateTime ProductionDate { get; set; }
         public DateTime ExpiryDate { get; set; }
         public string Producer { get; set; } = null!;
+        public string Barcode { get; set; } = null!;
+        //A barcode number based on the European Article Number (EAN)
+        //standard describing barcode symbology and numbering system used in global trade to identify a specific retail product type
 
 
         public int PrescriptionId { get; set; }

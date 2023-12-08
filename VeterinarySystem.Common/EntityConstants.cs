@@ -17,5 +17,9 @@
         public const int MedicineProducerNameMaxLength = 60;
 
         public const int StaffPositionNameMaxLength = 30;
+
+        public const int BarcodeMaxLenght = 13; 
+        //Barcode maximum lenght is based on the European Article Number (EAN)
+        //standard describing barcode symbology and numbering system used in global trade to identify a specific retail product type
     }
 }

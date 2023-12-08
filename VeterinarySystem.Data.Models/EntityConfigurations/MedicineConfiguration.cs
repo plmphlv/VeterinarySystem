@@ -16,10 +16,15 @@ namespace VeterinarySystem.Data.Domain.EntityConfigurations
                 .IsRequired(true)
                 .IsUnicode(true);
 
-            builder.Property(per => per.ProductionDate)
+            builder.Property(med => med.ProductionDate)
                 .IsRequired(true);
 
-            builder.Property(per => per.ExpiryDate)
+            builder.Property(med => med.Barcode)
+                .HasMaxLength(EntityConstants.BarcodeMaxLenght)
+                .IsRequired(true)
+                .IsUnicode(false);
+
+            builder.Property(med => med.ExpiryDate)
                 .IsRequired(true);
 
             builder.Property(med => med.Producer)
