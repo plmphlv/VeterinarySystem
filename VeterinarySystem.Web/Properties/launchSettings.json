@@ -31,9 +31,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "connectionString": "Server=DESKTOP-984QGPC;Database=VeterinarySystem;Trusted_Connection=True;Integrated Security=True;TrustServerCertificate=True"
-
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }

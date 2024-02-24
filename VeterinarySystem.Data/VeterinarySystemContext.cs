@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Reflection;
 using VeterinarySystem.Data.Domain.Entities;
 
@@ -7,13 +8,11 @@ namespace VeterinarySystem.Data
 {
     public class VeterinarySystemContext : IdentityDbContext<User>
     {
-        private const string sqlConnectionString = "For testing purposes only";
-
-        public VeterinarySystemContext() { }
-        public VeterinarySystemContext(DbContextOptions options) : base(options)
+        public VeterinarySystemContext(DbContextOptions<VeterinarySystemContext> options) : base(options)
         {
 
         }
+
 
         public DbSet<StaffMember> StaffMembers { get; set; } = null!;
         public DbSet<AnimalOwner> AnimalOwners { get; set; } = null!;
@@ -27,13 +26,9 @@ namespace VeterinarySystem.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(sqlConnectionString);
-            }
-
             base.OnConfiguring(optionsBuilder);
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
