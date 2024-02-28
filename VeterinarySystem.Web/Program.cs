@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VeterinarySystem.Data;
+using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Web
 {
@@ -11,14 +12,21 @@ namespace VeterinarySystem.Web
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")! ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services.AddDbContext<VeterinarySystemContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            builder.Services.AddDefaultIdentity<StaffMember>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>()
+            builder.Services.AddDefaultIdentity<StaffMember>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<VeterinarySystemContext>();
 
             builder.Services.AddControllersWithViews();

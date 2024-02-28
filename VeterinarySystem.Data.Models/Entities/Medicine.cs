@@ -7,7 +7,7 @@ namespace VeterinarySystem.Data.Domain.Entities
     {
         public int MedicineId { get; set; }
         public string Name { get; set; } = null!;
-        public decimal Price { get; set; }
+        public decimal Price { get; set; } = 0.00m;
         public MedicineCategory Category { get; set; }
         public DateTime ProductionDate { get; set; }
         public DateTime ExpiryDate { get; set; }

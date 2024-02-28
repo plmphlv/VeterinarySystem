@@ -6,7 +6,7 @@ using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Data
 {
-    public class VeterinarySystemContext : IdentityDbContext<User>
+    public class VeterinarySystemContext : IdentityDbContext<StaffMember>
     {
         public VeterinarySystemContext(DbContextOptions<VeterinarySystemContext> options) : base(options)
         {
@@ -21,7 +21,7 @@ namespace VeterinarySystem.Data
         public DbSet<Procedure> Procedures { get; set; } = null!;
         public DbSet<Prescription> Prescriptions { get; set; } = null!;
         public DbSet<Medicine> Medicines { get; set; } = null!;
-        public DbSet<User> ApplicationUsers { get; set; } = null!;
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

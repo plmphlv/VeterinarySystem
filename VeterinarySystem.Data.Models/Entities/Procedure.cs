@@ -10,7 +10,7 @@ namespace VeterinarySystem.Data.Domain.Entities
         public bool IsMedical { get; set; }
 
 
-        public int StaffMemberId { get; set; }
+        public string StaffMemberId { get; set; } = null!;
         public StaffMember StaffMember { get; set; } = null!;
 
         public int AnimalId { get; set; }

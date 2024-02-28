@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Common", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Core", "VeterinarySystem.Core\VeterinarySystem.Core.csproj", "{9B672106-546E-4F20-B5C4-B6A4693BE4B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Web", "VeterinarySystem.Web\VeterinarySystem.Web.csproj", "{D5F7D053-A3D0-4BCA-9D7E-AADC632DA60C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Web", "VeterinarySystem.Web\VeterinarySystem.Web.csproj", "{01B878F5-48E2-4A0D-BDB9-68F3E046F57C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{9B672106-546E-4F20-B5C4-B6A4693BE4B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B672106-546E-4F20-B5C4-B6A4693BE4B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B672106-546E-4F20-B5C4-B6A4693BE4B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D5F7D053-A3D0-4BCA-9D7E-AADC632DA60C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5F7D053-A3D0-4BCA-9D7E-AADC632DA60C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5F7D053-A3D0-4BCA-9D7E-AADC632DA60C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5F7D053-A3D0-4BCA-9D7E-AADC632DA60C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01B878F5-48E2-4A0D-BDB9-68F3E046F57C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01B878F5-48E2-4A0D-BDB9-68F3E046F57C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01B878F5-48E2-4A0D-BDB9-68F3E046F57C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01B878F5-48E2-4A0D-BDB9-68F3E046F57C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

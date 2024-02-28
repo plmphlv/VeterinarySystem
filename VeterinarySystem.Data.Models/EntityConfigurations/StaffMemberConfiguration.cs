@@ -9,14 +9,14 @@ namespace VeterinarySystem.Data.Domain.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<StaffMember> builder)
         {
-            builder.HasKey(sm => sm.StaffMemberId);
+            builder.HasKey(sm => sm.Id);
 
-            builder.Property(sm => sm.StaffMemberFirstName)
+            builder.Property(sm => sm.FirstName)
                 .HasMaxLength(EntityConstants.HumanNameMaxLength)
                 .IsRequired(true)
                 .IsUnicode(true);
 
-            builder.Property(sm => sm.StaffMemberLasttName)
+            builder.Property(sm => sm.LasttName)
                 .HasMaxLength(EntityConstants.HumanNameMaxLength)
                 .IsRequired(true)
                 .IsUnicode(true);

@@ -12,7 +12,8 @@ namespace VeterinarySystem.Data.Domain.Entities
         public int AnimalOwnerId { get; set; }
         public AnimalOwner AnimalOwner { get; set; } = null!;
 
-        public int StaffMemberId { get; set; }
+        public string StaffMemberId { get; set; } = null!;
+        
         public StaffMember StaffMember { get; set; } = null!;
     }
 }
