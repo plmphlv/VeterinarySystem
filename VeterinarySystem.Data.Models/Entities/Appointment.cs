@@ -14,8 +14,8 @@ namespace VeterinarySystem.Data.Domain.Entities
         [Required]
         public DateTime AppointmentDate { get; set; }
 
-        [Unicode(true)]
-        [MaxLength(EntityConstants.DescriptionMaxLength)]
+        [Unicode(true),
+         MaxLength(EntityConstants.DescriptionMaxLength)]
         public string? AppointmentDesctiption { get; set; }
 
         [Required]

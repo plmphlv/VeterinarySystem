@@ -28,6 +28,7 @@ namespace VeterinarySystem.Data.Domain.Entities
 
         [Required]
         public int ProcedureId { get; set; }
+
         [ForeignKey(nameof(ProcedureId))]
         public Procedure Procedure { get; set; } = null!;
 

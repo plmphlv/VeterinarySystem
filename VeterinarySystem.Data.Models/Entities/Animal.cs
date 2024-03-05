@@ -16,8 +16,9 @@ namespace VeterinarySystem.Data.Domain.Entities
         [Key]
         public int Id { get; set; }
 
-        [MaxLength(EntityConstants.AmnimalNameMaxLength)]
-        [Unicode(true)]
+        [Unicode(true),
+         MaxLength(EntityConstants.AmnimalNameMaxLength)]
+        
         public string? Name { get; set; }
 
         public int? Age { get; set; }
