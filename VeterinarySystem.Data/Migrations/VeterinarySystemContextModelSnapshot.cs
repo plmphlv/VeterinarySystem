@@ -190,7 +190,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasIndex("AnimalTypeId");
 
-                    b.ToTable("Animals");
+                    b.ToTable("Animals", (string)null);
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.AnimalOwner", b =>
@@ -225,7 +225,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasKey("AnimalOwnerId");
 
-                    b.ToTable("AnimalOwners");
+                    b.ToTable("AnimalOwners", (string)null);
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.AnimalType", b =>
@@ -244,7 +244,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AnimalTypes");
+                    b.ToTable("AnimalTypes", (string)null);
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.Appointment", b =>
@@ -276,7 +276,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasIndex("StaffMemberId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.Medicine", b =>
@@ -319,7 +319,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasIndex("MedicineCategoryId");
 
-                    b.ToTable("Medicines");
+                    b.ToTable("Medicines", (string)null);
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.MedicineCategory", b =>
@@ -338,7 +338,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MedicineCategories");
+                    b.ToTable("MedicineCategories", (string)null);
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.Prescription", b =>
@@ -363,7 +363,7 @@ namespace VeterinarySystem.Data.Migrations
                     b.HasIndex("ProcedureId")
                         .IsUnique();
 
-                    b.ToTable("Prescriptions");
+                    b.ToTable("Prescriptions", (string)null);
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.PrescriptionMedicine", b =>
@@ -378,7 +378,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasIndex("MedicineId");
 
-                    b.ToTable("PrescriptionMedicines");
+                    b.ToTable("PrescriptionMedicines", (string)null);
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.Procedure", b =>
@@ -417,7 +417,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasIndex("StaffMemberId");
 
-                    b.ToTable("Procedures");
+                    b.ToTable("Procedures", (string)null);
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.StaffMember", b =>
@@ -518,7 +518,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StaffType");
+                    b.ToTable("StaffType", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
