@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using VeterinarySystem.Common;
 
 namespace VeterinarySystem.Data.Domain.Entities
 {
@@ -10,12 +13,26 @@ namespace VeterinarySystem.Data.Domain.Entities
             Appointments = new HashSet<Appointment>();
         }
 
+        [Key]
         public int AnimalOwnerId { get; set; }
-        public string OwnerFirstName { get; set; } = null!;
-        public string OwnerLastName { get; set; } = null!;
-        public string PhoneNumber { get; set; } = null!;
-        public string? Address { get; set; }
 
+        [Required]
+        [MaxLength(EntityConstants.HumanNameMaxLength)]
+        [Unicode(true)]
+        public string OwnerFirstName { get; set; } = null!;
+
+        [Required]
+        [MaxLength(EntityConstants.HumanNameMaxLength)]
+        [Unicode(true)]
+        public string OwnerLastName { get; set; } = null!;
+
+        [Required]
+        [MaxLength(EntityConstants.PhoneNumberMaxLength)]
+        public string PhoneNumber { get; set; } = null!;
+
+        [MaxLength(EntityConstants.PetOwnerAddresMaxLenght)]
+        [Unicode(true)]
+        public string? Address { get; set; }
 
         public ICollection<Animal> Animals { get; set; }
 

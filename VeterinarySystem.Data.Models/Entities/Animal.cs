@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
-using VeterinarySystem.Data.Domain.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using VeterinarySystem.Common;
 
 namespace VeterinarySystem.Data.Domain.Entities
 {
@@ -10,17 +13,30 @@ namespace VeterinarySystem.Data.Domain.Entities
             Procedures = new HashSet<Procedure>();
         }
 
-        public int AnimalId { get; set; }
-        public string? Name { get; set; }
-        public int? Age { get; set; }
-        public double Weight { get; set; }
-        public AnimalType AnimalType { get; set; }
-        //public AnimalCategory AnimalCategory { get; set; }
+        [Key]
+        public int Id { get; set; }
 
+        [MaxLength(EntityConstants.AmnimalNameMaxLength)]
+        [Unicode(true)]
+        public string? Name { get; set; }
+
+        public int? Age { get; set; }
+
+        [Required]
+        public double Weight { get; set; }
+
+        [Required]
+        public int AnimalTypeId { get; set; }
+
+        [ForeignKey(nameof(AnimalTypeId))]
+        public AnimalType AnimalType { get; set; }
 
         public ICollection<Procedure> Procedures { get; set; }
 
+        [Required]
         public int AnimalOwnerId { get; set; }
+
+        [ForeignKey(nameof(AnimalOwnerId))]
         public AnimalOwner AnimalOwner { get; set; } = null!;
     }
 }

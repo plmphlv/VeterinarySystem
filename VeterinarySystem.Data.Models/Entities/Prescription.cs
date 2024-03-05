@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using VeterinarySystem.Common;
 
 namespace VeterinarySystem.Data.Domain.Entities
 {
@@ -7,17 +11,27 @@ namespace VeterinarySystem.Data.Domain.Entities
     {
         public Prescription()
         {
-            Medicines = new HashSet<Medicine>();
+            PrescriptionMedicines = new HashSet<PrescriptionMedicine>();
+            Description = string.Empty;
+            IssueDate = DateTime.Now;
         }
 
-        public int PrescriptionId { get; set; }
-        public string? Description { get; set; }
-        public DateTime IssueDate { get; set; }
+        [Key]
+        public int Id { get; set; }
 
+        [Unicode(true),
+         MaxLength(EntityConstants.DescriptionMaxLength)]
+        public string Description { get; set; }
+
+        [Required]
+        public DateTime IssueDate { get; }
+
+        [Required]
         public int ProcedureId { get; set; }
+        [ForeignKey(nameof(ProcedureId))]
         public Procedure Procedure { get; set; } = null!;
 
-        public ICollection<Medicine> Medicines { get; set; }
+        public ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
 
     }
 }

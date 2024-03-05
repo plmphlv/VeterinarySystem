@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using VeterinarySystem.Common;
 
 namespace VeterinarySystem.Data.Domain.Entities
 {
@@ -11,11 +15,21 @@ namespace VeterinarySystem.Data.Domain.Entities
             Procedures = new HashSet<Procedure>();
         }
 
+        [Required,
+         Unicode(true), 
+         MaxLength(EntityConstants.HumanNameMaxLength)]
         public string FirstName { get; set; } = null!;
+
+        [Required,
+         Unicode(true),
+         MaxLength(EntityConstants.HumanNameMaxLength)]
         public string LasttName { get; set; } = null!;
-        public string PhoneNumter { get; set; } = null!;
-        public StaffType StaffType { get; set; }
-        public string StaffPositionName { get; set; } = null!;
+
+        [Required]
+        public int StaffTypeId { get; set; }
+
+        [ForeignKey(nameof(StaffTypeId))]
+        public StaffType StaffType { get; set; } = null!;
 
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<Procedure> Procedures { get; set; }

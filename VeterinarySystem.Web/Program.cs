@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
