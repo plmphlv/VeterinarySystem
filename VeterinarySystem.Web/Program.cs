@@ -11,7 +11,8 @@ namespace VeterinarySystem.Web
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services.AddDbContext<VeterinarySystemContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -21,12 +22,10 @@ namespace VeterinarySystem.Web
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-            });
+            })
+              .AddEntityFrameworkStores<VeterinarySystemContext>();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-            builder.Services.AddDefaultIdentity<StaffMember>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<VeterinarySystemContext>();
 
             builder.Services.AddControllersWithViews();
 
