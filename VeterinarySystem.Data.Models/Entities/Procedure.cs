@@ -18,20 +18,14 @@ namespace VeterinarySystem.Data.Domain.Entities
         [Required, 
          Unicode(true), 
          MaxLength(EntityConstants.ProcedureNameMaxLength)]
-        public string Name { get; set; } = null!;
+        public string Name { get; set; } = string.Empty;
 
-        [Unicode(true), 
+		[Unicode(true), 
          MaxLength(EntityConstants.DescriptionMaxLength)]
-        public string ProcedureDescription { get; set; }
+        public string ProcedureDescription { get; set; } = string.Empty;
 
-        [Required]
+		[Required]
         public bool IsMedical { get; set; }
-
-        [Required]
-        public string StaffMemberId { get; set; } = null!;
-
-        [ForeignKey(nameof(StaffMemberId))]
-        public StaffMember StaffMember { get; set; } = null!;
 
         [Required]
         public int AnimalId { get; set; }
@@ -39,6 +33,12 @@ namespace VeterinarySystem.Data.Domain.Entities
         [ForeignKey(nameof(AnimalId))]
         public Animal Animal { get; set; } = null!;
 
+		[Required]
+		public string StaffMemberId { get; set; } = null!;
+
+		[ForeignKey(nameof(StaffMemberId))]
+		public StaffMember StaffMember { get; set; } = null!;
+
         public Prescription? Prescription { get; set; }
-    }
+	}
 }

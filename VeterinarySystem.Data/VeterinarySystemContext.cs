@@ -13,8 +13,6 @@ namespace VeterinarySystem.Data
 
         }
 
-
-        public DbSet<StaffMember> StaffMembers { get; set; } = null!;
         public DbSet<AnimalOwner> AnimalOwners { get; set; } = null!;
         public DbSet<Animal> Animals { get; set; } = null!;
         public DbSet<Appointment> Appointments { get; set; } = null!;

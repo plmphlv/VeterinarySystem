@@ -19,4 +19,8 @@
     <ProjectReference Include="..\VeterinarySystem.Common\VeterinarySystem.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataSeed\" />
+  </ItemGroup>
+
 </Project>

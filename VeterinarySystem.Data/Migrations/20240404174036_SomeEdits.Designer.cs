@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VeterinarySystem.Data;
 
@@ -11,9 +12,11 @@ using VeterinarySystem.Data;
 namespace VeterinarySystem.Data.Migrations
 {
     [DbContext(typeof(VeterinarySystemContext))]
-    partial class VeterinarySystemContextModelSnapshot : ModelSnapshot
+    [Migration("20240404174036_SomeEdits")]
+    partial class SomeEdits
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -329,7 +332,9 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.Property<string>("MedicineCategoryName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(62)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(62)");
 
                     b.HasKey("Id");
 
