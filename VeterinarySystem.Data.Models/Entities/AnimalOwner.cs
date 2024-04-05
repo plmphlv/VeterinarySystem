@@ -32,7 +32,7 @@ namespace VeterinarySystem.Data.Domain.Entities
 		public string LastName { get; set; } = null!;
 
 		[Required]
-		[MaxLength(EntityConstants.PhoneNumberMaxLength)]
+		[MaxLength(EntityConstants.PhoneNumberMaxLenght)]
 		public string PhoneNumber { get; set; } = null!;
 
 		[MaxLength(EntityConstants.PetOwnerAddresMaxLenght)]

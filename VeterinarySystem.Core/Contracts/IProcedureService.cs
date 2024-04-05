@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VeterinarySystem.Core.Contracts
 {
-	internal interface IProcedureService
+	public interface IProcedureService
 	{
 	}
 }

@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace VeterinarySystem.Core.Contracts
 {
-	internal interface IAppointmentService
+	public interface IAppointmentService
 	{
+		Task AddAppointment();
+
+		Task RemoveAppointment();
+
+		Task EditAppointment();
 	}
 }
