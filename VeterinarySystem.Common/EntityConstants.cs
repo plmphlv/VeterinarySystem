@@ -2,11 +2,15 @@
 {
     public static class EntityConstants
     {
-        public const int PhoneNumberMaxLength = 13;
+		public const int PhoneNumberMaxLenght = 15;
 
-        public const int HumanNameMaxLength = 50;
+		public const int PhoneNumberMinLenght = 7;
 
-        public const int PetOwnerAddresMaxLenght = 90;
+		public const int HumanNameMaxLength = 50;
+
+		public const int HumanNameMinLength = 3;
+
+		public const int PetOwnerAddresMaxLenght = 90;
 
         public const int AmnimalNameMaxLength = 50;
 

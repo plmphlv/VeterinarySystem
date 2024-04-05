@@ -25,12 +25,6 @@ namespace VeterinarySystem.Data.Domain.Entities
          MaxLength(EntityConstants.HumanNameMaxLength)]
         public string LasttName { get; set; } = null!;
 
-        [Required]
-        public int StaffTypeId { get; set; }
-
-        [ForeignKey(nameof(StaffTypeId))]
-        public StaffType StaffType { get; set; } = null!;
-
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<Procedure> Procedures { get; set; }
     }

@@ -6,9 +6,9 @@ using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Data
 {
-    public class VeterinarySystemContext : IdentityDbContext<StaffMember>
+    public class VeterinarySystemDbContext : IdentityDbContext<StaffMember>
     {
-        public VeterinarySystemContext(DbContextOptions<VeterinarySystemContext> options) : base(options)
+        public VeterinarySystemDbContext(DbContextOptions<VeterinarySystemDbContext> options) : base(options)
         {
 
         }

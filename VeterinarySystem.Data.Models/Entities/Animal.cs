@@ -18,9 +18,9 @@ namespace VeterinarySystem.Data.Domain.Entities
 
         [MaxLength(EntityConstants.AmnimalNameMaxLength)]
         [Unicode(true)]
-        public string? Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public int? Age { get; set; }
+        public int Age { get; set; }
 
         [Required]
         public double Weight { get; set; }

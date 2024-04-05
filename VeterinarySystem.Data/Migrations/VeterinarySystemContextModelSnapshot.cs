@@ -10,7 +10,7 @@ using VeterinarySystem.Data;
 
 namespace VeterinarySystem.Data.Migrations
 {
-    [DbContext(typeof(VeterinarySystemContext))]
+    [DbContext(typeof(VeterinarySystemDbContext))]
     partial class VeterinarySystemContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
