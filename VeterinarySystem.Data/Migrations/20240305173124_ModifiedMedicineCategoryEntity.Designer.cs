@@ -11,7 +11,7 @@ using VeterinarySystem.Data;
 
 namespace VeterinarySystem.Data.Migrations
 {
-    [DbContext(typeof(VeterinarySystemContext))]
+    [DbContext(typeof(VeterinarySystemDbContext))]
     [Migration("20240305173124_ModifiedMedicineCategoryEntity")]
     partial class ModifiedMedicineCategoryEntity
     {
