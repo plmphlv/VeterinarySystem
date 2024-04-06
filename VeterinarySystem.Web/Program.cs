@@ -5,6 +5,7 @@ using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using VeterinarySystem.Data.Infrastructure;
 
 namespace VeterinarySystem.Web
 {
@@ -68,6 +69,8 @@ namespace VeterinarySystem.Web
             app.MapDefaultControllerRoute();
 
             app.MapRazorPages();
+
+            app.SeedAdmin();
 
             app.Run();
         }
