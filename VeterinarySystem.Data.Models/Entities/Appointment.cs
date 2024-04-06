@@ -16,7 +16,7 @@ namespace VeterinarySystem.Data.Domain.Entities
 
         [Unicode(true)]
         [MaxLength(EntityConstants.DescriptionMaxLength)]
-        public string? AppointmentDesctiption { get; set; }
+        public string AppointmentDesctiption { get; set; } = string.Empty;
 
         [Required]
         public int AnimalOwnerId { get; set; }

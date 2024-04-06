@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Reflection;
+using VeterinarySystem.Data.Domain.DataSeed.Configurations;
 using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Data

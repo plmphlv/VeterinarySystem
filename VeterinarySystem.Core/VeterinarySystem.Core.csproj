@@ -10,4 +10,8 @@
     <ProjectReference Include="..\VeterinarySystem.Data\VeterinarySystem.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Procedure\" />
+  </ItemGroup>
+
 </Project>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VeterinarySystem.Data;
 
@@ -11,9 +12,11 @@ using VeterinarySystem.Data;
 namespace VeterinarySystem.Data.Migrations
 {
     [DbContext(typeof(VeterinarySystemDbContext))]
-    partial class VeterinarySystemContextModelSnapshot : ModelSnapshot
+    [Migration("20240406092208_newChanges")]
+    partial class newChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -445,7 +448,7 @@ namespace VeterinarySystem.Data.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("LasttName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(true)
@@ -495,44 +498,6 @@ namespace VeterinarySystem.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "bcb4f420-ch4d-g1ga-ab26-c069c6f364e",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "42da4153-2239-4834-9f7f-d39bb9715a89",
-                            Email = "chad@admin.com",
-                            EmailConfirmed = false,
-                            FirstName = "Гига",
-                            LastName = "Чад",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "CHAD@ADMIN.COM",
-                            NormalizedUserName = "CHAD@ADMIM.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPw4fw1zItf7uQ/YMvF89cGQa1BGoVslhEEAYtm0zoeZvauCD2C5yYWrWelWM8/Abg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "3598f86b-b77a-417c-827e-64cd2f24d34c",
-                            TwoFactorEnabled = false,
-                            UserName = "chad@admin.com"
-                        },
-                        new
-                        {
-                            Id = "d49db8c9-73e5-4e24-8cb3-80b9ee257ba3",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d627c2a6-98aa-4ee0-b908-438ae80c7d8a",
-                            Email = "steli@vet.com",
-                            EmailConfirmed = false,
-                            FirstName = "Стелияна",
-                            LastName = "Трифонова",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "STELI@VET.COM",
-                            NormalizedUserName = "STELI@VET.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJpwCo4OAppugUAdD0z1jIS5pX96+o5AIgv9eUry6H909InH/GzswtFV7lB7uhlQHA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "03ddd882-975a-442e-8d75-3af4a6507bc4",
-                            TwoFactorEnabled = false,
-                            UserName = "steli@vet.com"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
