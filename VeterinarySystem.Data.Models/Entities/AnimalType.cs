@@ -18,7 +18,7 @@ namespace VeterinarySystem.Data.Domain.Entities
         [Required,
          Unicode(true),
          MaxLength(EntityConstants.AnomalTypeNameMaxLength)]
-        public string AnimalTypeName { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
         public ICollection<Animal> Animals { get; set; }
     }

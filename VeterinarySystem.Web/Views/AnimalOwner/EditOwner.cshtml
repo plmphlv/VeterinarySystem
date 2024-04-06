@@ -1,0 +1,16 @@
+﻿@using VeterinarySystem.Core.Models.AnimalOwner
+@model AnimalOwnerFormModel
+@{
+}
+@{
+	ViewData["Title"] = "Edit Owner";
+}
+
+<h2 class="text-center">Add new animal Owner</h2>
+<hr />
+
+<partial name="_AnimalOwnerPartial" model="@Model" />
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

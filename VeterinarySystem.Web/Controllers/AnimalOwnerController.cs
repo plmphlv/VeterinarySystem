@@ -37,9 +37,48 @@ namespace VeterinarySystem.Web.Controllers
 				return View(newOwner);
 			}
 
-			await animaOwnerService.AddAnimalOwner(newOwner);
+			int newId = await animaOwnerService.AddAnimalOwner(newOwner);
 
-			return RedirectToAction(nameof(HomeController.Privacy), "Privacy");
+			return RedirectToAction(nameof(AnimalOwnerDetails), new { newId });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> AnimalOwnerDetails(int id)
+		{
+			if (!await animaOwnerService.AnimalOwnerExists(id))
+			{
+				return BadRequest();
+			}
+
+			AnimalOwnerDetailsModel ownerDetails = await animaOwnerService.GetOwnerDetails(id);
+
+			return View(ownerDetails);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> EditOwner(int id)
+		{
+			AnimalOwnerFormModel ownerForm = await animaOwnerService.GetForm(id);
+
+			return View(ownerForm);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> EditOwner(int id, AnimalOwnerFormModel model)
+		{
+			if (!await animaOwnerService.AnimalOwnerExists(id))
+			{
+				return BadRequest();
+			}
+
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			await animaOwnerService.EditAnimalOwner(id, model);
+
+			return RedirectToAction(nameof(AnimalOwnerDetails), new { id });
 		}
 	}
 }
