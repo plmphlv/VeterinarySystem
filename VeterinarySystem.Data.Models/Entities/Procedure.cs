@@ -22,7 +22,7 @@ namespace VeterinarySystem.Data.Domain.Entities
 
 		[Unicode(true), 
          MaxLength(EntityConstants.DescriptionMaxLength)]
-        public string ProcedureDescription { get; set; } = string.Empty;
+        public string ProcedureDescription { get; set; }
 
 		[Required]
         public bool IsMedical { get; set; }

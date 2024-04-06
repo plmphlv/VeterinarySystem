@@ -9,5 +9,7 @@
 		public const string PhoneNumberLenghtError = "Invalid phone number";
 
 		public const string AppointmentDateError = "Appointment Date was not in the correct format.";
+
+		public const string OwnerExistsError = "This owner already exists!";
 	}
 }
