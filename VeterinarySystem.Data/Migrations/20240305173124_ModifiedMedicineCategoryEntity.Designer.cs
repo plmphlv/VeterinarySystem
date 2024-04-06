@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VeterinarySystem.Data;
 
@@ -10,14 +11,16 @@ using VeterinarySystem.Data;
 
 namespace VeterinarySystem.Data.Migrations
 {
-    [DbContext(typeof(VeterinarySystemDbContext))]
-    partial class VeterinarySystemContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(VeterinarySystemContext))]
+    [Migration("20240305173124_ModifiedMedicineCategoryEntity")]
+    partial class ModifiedMedicineCategoryEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -167,7 +170,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Age")
+                    b.Property<int?>("Age")
                         .HasColumnType("int");
 
                     b.Property<int>("AnimalOwnerId")
@@ -177,7 +180,6 @@ namespace VeterinarySystem.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(50)");
@@ -191,7 +193,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasIndex("AnimalTypeId");
 
-                    b.ToTable("Animals", (string)null);
+                    b.ToTable("Animals");
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.AnimalOwner", b =>
@@ -207,13 +209,13 @@ namespace VeterinarySystem.Data.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(90)");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("OwnerFirstName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("OwnerLastName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(true)
@@ -221,12 +223,12 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
                     b.HasKey("AnimalOwnerId");
 
-                    b.ToTable("AnimalOwners", (string)null);
+                    b.ToTable("AnimalOwners");
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.AnimalType", b =>
@@ -245,7 +247,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AnimalTypes", (string)null);
+                    b.ToTable("AnimalTypes");
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.Appointment", b =>
@@ -263,7 +265,6 @@ namespace VeterinarySystem.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("AppointmentDesctiption")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
@@ -278,7 +279,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasIndex("StaffMemberId");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.Medicine", b =>
@@ -321,7 +322,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasIndex("MedicineCategoryId");
 
-                    b.ToTable("Medicines", (string)null);
+                    b.ToTable("Medicines");
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.MedicineCategory", b =>
@@ -340,7 +341,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MedicineCategories", (string)null);
+                    b.ToTable("MedicineCategories");
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.Prescription", b =>
@@ -365,7 +366,7 @@ namespace VeterinarySystem.Data.Migrations
                     b.HasIndex("ProcedureId")
                         .IsUnique();
 
-                    b.ToTable("Prescriptions", (string)null);
+                    b.ToTable("Prescriptions");
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.PrescriptionMedicine", b =>
@@ -380,7 +381,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasIndex("MedicineId");
 
-                    b.ToTable("PrescriptionMedicines", (string)null);
+                    b.ToTable("PrescriptionMedicines");
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.Procedure", b =>
@@ -419,7 +420,7 @@ namespace VeterinarySystem.Data.Migrations
 
                     b.HasIndex("StaffMemberId");
 
-                    b.ToTable("Procedures", (string)null);
+                    b.ToTable("Procedures");
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.StaffMember", b =>
@@ -447,7 +448,7 @@ namespace VeterinarySystem.Data.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("LasttName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(true)
@@ -479,6 +480,9 @@ namespace VeterinarySystem.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("StaffTypeId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -496,45 +500,28 @@ namespace VeterinarySystem.Data.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.HasIndex("StaffTypeId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = "bcb4f420-ch4d-g1ga-ab26-c069c6f364e",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "42da4153-2239-4834-9f7f-d39bb9715a89",
-                            Email = "chad@admin.com",
-                            EmailConfirmed = false,
-                            FirstName = "Гига",
-                            LastName = "Чад",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "CHAD@ADMIN.COM",
-                            NormalizedUserName = "CHAD@ADMIM.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPw4fw1zItf7uQ/YMvF89cGQa1BGoVslhEEAYtm0zoeZvauCD2C5yYWrWelWM8/Abg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "3598f86b-b77a-417c-827e-64cd2f24d34c",
-                            TwoFactorEnabled = false,
-                            UserName = "chad@admin.com"
-                        },
-                        new
-                        {
-                            Id = "d49db8c9-73e5-4e24-8cb3-80b9ee257ba3",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d627c2a6-98aa-4ee0-b908-438ae80c7d8a",
-                            Email = "steli@vet.com",
-                            EmailConfirmed = false,
-                            FirstName = "Стелияна",
-                            LastName = "Трифонова",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "STELI@VET.COM",
-                            NormalizedUserName = "STELI@VET.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJpwCo4OAppugUAdD0z1jIS5pX96+o5AIgv9eUry6H909InH/GzswtFV7lB7uhlQHA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "03ddd882-975a-442e-8d75-3af4a6507bc4",
-                            TwoFactorEnabled = false,
-                            UserName = "steli@vet.com"
-                        });
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.StaffType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("StaffPositionName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StaffType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -686,6 +673,17 @@ namespace VeterinarySystem.Data.Migrations
                     b.Navigation("StaffMember");
                 });
 
+            modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.StaffMember", b =>
+                {
+                    b.HasOne("VeterinarySystem.Data.Domain.Entities.StaffType", "StaffType")
+                        .WithMany("StaffMembers")
+                        .HasForeignKey("StaffTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StaffType");
+                });
+
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.Animal", b =>
                 {
                     b.Navigation("Procedures");
@@ -723,6 +721,11 @@ namespace VeterinarySystem.Data.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("Procedures");
+                });
+
+            modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.StaffType", b =>
+                {
+                    b.Navigation("StaffMembers");
                 });
 #pragma warning restore 612, 618
         }

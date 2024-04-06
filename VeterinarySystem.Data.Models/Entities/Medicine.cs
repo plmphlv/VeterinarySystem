@@ -11,7 +11,7 @@ namespace VeterinarySystem.Data.Domain.Entities
     {
         public Medicine()
         {
-            PrescriptionMedicines =new HashSet<PrescriptionMedicine>();
+            PrescriptionMedicines = new HashSet<PrescriptionMedicine>();
         }
 
         [Key]
@@ -22,7 +22,8 @@ namespace VeterinarySystem.Data.Domain.Entities
          MaxLength(EntityConstants.MedicineNameMaxLength)]
         public string Name { get; set; } = null!;
 
-        [Required]
+        [Required,
+         Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
         [Required]
