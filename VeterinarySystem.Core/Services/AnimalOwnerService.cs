@@ -43,7 +43,7 @@ namespace VeterinarySystem.Core.Services
 			ICollection<OwnerServiceModel> owners = await ownerQuery
 				.Select(owner => new OwnerServiceModel()
 				{
-					Id = owner.AnimalOwnerId,
+					Id = owner.Id,
 					FirstName = owner.FirstName,
 					LastName = owner.LastName,
 					PhoneNumber = owner.PhoneNumber,
@@ -77,7 +77,7 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task<bool> AnimalOwnerExists(int id)
 		{
-			bool result = await data.AnimalOwners.AnyAsync(owner => owner.AnimalOwnerId == id);
+			bool result = await data.AnimalOwners.AnyAsync(owner => owner.Id == id);
 
 			return result;
 		}
@@ -85,10 +85,10 @@ namespace VeterinarySystem.Core.Services
 		public async Task<OwnerServiceModel> GetOwnerDetails(int id)
 		{
 			OwnerServiceModel? animalOwnerDetails = await data.AnimalOwners
-				.Where(owner => owner.AnimalOwnerId == id)
+				.Where(owner => owner.Id == id)
 				.Select(owner => new OwnerServiceModel()
 				{
-					Id = owner.AnimalOwnerId,
+					Id = owner.Id,
 					FirstName = owner.FirstName,
 					LastName = owner.LastName,
 					PhoneNumber = owner.PhoneNumber,
@@ -110,12 +110,17 @@ namespace VeterinarySystem.Core.Services
 		public async Task<int> AddAnimalOwner(AnimalOwnerFormModel model)
 		{
 
-			AnimalOwner animalOwner = new AnimalOwner(model.FirstName, model.LastName, model.PhoneNumber);
+			AnimalOwner animalOwner = new AnimalOwner()
+			{
+				FirstName = model.FirstName,
+				LastName = model.LastName,
+				PhoneNumber = model.PhoneNumber
+			};
 
 			await data.AnimalOwners.AddAsync(animalOwner);
 			await data.SaveChangesAsync();
 
-			return animalOwner.AnimalOwnerId;
+			return animalOwner.Id;
 		}
 
 		public async Task<AnimalOwnerFormModel> GetForm(int id)

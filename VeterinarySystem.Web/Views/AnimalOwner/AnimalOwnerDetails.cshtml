@@ -1,48 +1,49 @@
-﻿@model VeterinarySystem.Core.Models.AnimalOwner.OwnerServiceModel
+﻿@using VeterinarySystem.Core.Models.AnimalOwner
+@model OwnerServiceModel
 
 @{
-    ViewData["Title"] = "AnimalOwnerDetails";
+	ViewData["Title"] = "AnimalOwnerDetails";
 }
 
-<h1>AnimalOwnerDetails</h1>
-
 <div>
-    <h4>AnimalOwnerDetailsModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalAnimalsCount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TotalAnimalsCount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalVisits)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TotalVisits)
-        </dd>
-    </dl>
+	<h4>AnimalOwnerDetailsModel</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.FirstName)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.FirstName)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.LastName)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.LastName)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.PhoneNumber)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.PhoneNumber)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TotalAnimalsCount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TotalAnimalsCount)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TotalVisits)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TotalVisits)
+		</dd>
+	</dl>
+	<a class="btn btn-primary" asp-controller="Animal" asp-action="Add" asp-route-id="@Model.Id">Add new Animal</a>
 </div>
 <div>
-    @Html.ActionLink("Edit", "EditOwner", new { id = Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+	@Html.ActionLink("Edit", "EditOwner", new { id = Model.Id }) |
+	<a asp-action="Index">Back to List</a> |
+
 </div>

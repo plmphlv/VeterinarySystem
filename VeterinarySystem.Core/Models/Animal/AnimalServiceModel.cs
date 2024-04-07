@@ -9,6 +9,8 @@
 
         public double Weight { get; set; }
 
-        public string AnimalTypeName { get; set; } = string.Empty;
-    }
+        public string AnimalTypeName { get; set; } = null!;
+
+		public string OwnerFullName { get; set; } = null!;
+	}
 }

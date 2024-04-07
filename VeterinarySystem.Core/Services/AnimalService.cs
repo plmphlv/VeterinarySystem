@@ -16,24 +16,45 @@ namespace VeterinarySystem.Core.Services
 			data = context;
 		}
 
-		public async Task<bool> AnimalExists(AnimalFormModel animalForm)
+		public async Task<ICollection<AnimalTypesServiceModels>> AllAnimalTypes()
 		{
-			bool result = await data.Animals.AnyAsync(animal =>
+			ICollection<AnimalTypesServiceModels> names = await data.AnimalTypes
+				.Select(c => new AnimalTypesServiceModels()
+				{
+					Id = c.Id,
+					Name = c.Name,
+				})
+				.ToListAsync();
+
+			return names;
+		}
+
+		public async Task<bool> AnimalExists(AnimalFormModel animalForm, int ownerId)
+		{
+			bool result = await data.Animals
+				.AnyAsync(animal =>
 			animal.Name == animalForm.Name &&
-			animal.Weight == animalForm.Weight &&
 			animal.AnimalTypeId == animalForm.AnimalTypeId &&
-			animal.AnimalOwnerId == animalForm.AnimalOwnerId);
+			animal.AnimalOwnerId == ownerId);
 
 			return result;
 		}
 
-		public async Task AddNewAnimal(AnimalFormModel animalForm)
+		public async Task<bool> AnimalExists(int id)
+		{
+			bool result = await data.Animals
+				.AnyAsync(animal => animal.Id == id);
+
+			return result;
+		}
+
+		public async Task<int> AddNewAnimal(AnimalFormModel animalForm, int ownerId)
 		{
 			Animal animal = new Animal()
 			{
 				Weight = animalForm.Weight,
 				AnimalTypeId = animalForm.AnimalTypeId,
-				AnimalOwnerId = animalForm.AnimalOwnerId
+				AnimalOwnerId = ownerId
 			};
 
 			if (!animalForm.Name.IsNullOrEmpty())
@@ -43,6 +64,8 @@ namespace VeterinarySystem.Core.Services
 
 			await data.Animals.AddAsync(animal);
 			await data.SaveChangesAsync();
+
+			return animal.Id;
 		}
 
 		public async Task DeleteAnimal(int id)
@@ -59,8 +82,6 @@ namespace VeterinarySystem.Core.Services
 
 			animal.Weight = animalForm.Weight;
 			animal.AnimalTypeId = animalForm.AnimalTypeId;
-			animal.AnimalOwnerId = animalForm.AnimalOwnerId;
-
 
 			if (!animalForm.Name.IsNullOrEmpty())
 			{
@@ -69,6 +90,27 @@ namespace VeterinarySystem.Core.Services
 
 
 			await data.SaveChangesAsync();
+		}
+
+		public async Task<AnimalServiceModel> GetAnimalDetails(int id)
+		{
+			AnimalServiceModel animal = await data.Animals.Select(animal => new  AnimalServiceModel()
+			{
+				Id = animal.Id,
+				Name=animal.Name,
+				Weight = animal.Weight,
+				Age = animal.Age,
+				AnimalTypeName = animal.AnimalType.Name,
+				OwnerFullName = $"{animal.AnimalOwner.FirstName} {animal.AnimalOwner.LastName}"
+			})
+				.FirstOrDefaultAsync(animal => animal.Id == id);
+
+			if (animal.Name.IsNullOrEmpty())
+			{
+				animal.Name = "No name was given";
+			}
+
+			return animal;
 		}
 	}
 }

@@ -7,19 +7,14 @@ namespace VeterinarySystem.Data.Domain.Entities
 {
 	public class AnimalOwner
 	{
-		public AnimalOwner(string firstName,
-			string lastName,
-			string phoneNumber)
+		public AnimalOwner()
 		{
-			FirstName = firstName;
-			LastName = lastName;
-			PhoneNumber = phoneNumber;
 			Animals = new HashSet<Animal>();
 			Appointments = new HashSet<Appointment>();
 		}
 
 		[Key]
-		public int AnimalOwnerId { get; set; }
+		public int Id { get; set; }
 
 		[Required]
 		[MaxLength(EntityConstants.HumanNameMaxLength)]

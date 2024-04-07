@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VeterinarySystem.Data;
 
@@ -11,9 +12,11 @@ using VeterinarySystem.Data;
 namespace VeterinarySystem.Data.Migrations
 {
     [DbContext(typeof(VeterinarySystemDbContext))]
-    partial class VeterinarySystemContextModelSnapshot : ModelSnapshot
+    [Migration("20240407114559_SeedAnimalTypes")]
+    partial class SeedAnimalTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,11 +199,11 @@ namespace VeterinarySystem.Data.Migrations
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.AnimalOwner", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AnimalOwnerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AnimalOwnerId"));
 
                     b.Property<string>("Address")
                         .HasMaxLength(90)
@@ -224,18 +227,9 @@ namespace VeterinarySystem.Data.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.HasKey("Id");
+                    b.HasKey("AnimalOwnerId");
 
                     b.ToTable("AnimalOwners");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FirstName = "Plamen",
-                            LastName = "Pehlivanov",
-                            PhoneNumber = "0123456789"
-                        });
                 });
 
             modelBuilder.Entity("VeterinarySystem.Data.Domain.Entities.AnimalType", b =>
@@ -542,27 +536,9 @@ namespace VeterinarySystem.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d49db8c9-73e5-4e24-8cb3-80b9ee257ba3",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "54710c28-1c96-4a5d-bc26-0672d516fe7d",
-                            Email = "steli@vet.com",
-                            EmailConfirmed = false,
-                            FirstName = "Steliyana",
-                            LastName = "Tifonova",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "STELI@VET.COM",
-                            NormalizedUserName = "STELI@VET.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMYCw9sO+pUBWDQgo5Ax7pYI7BHgBVUMJPORzTluDyJgmyM5HLF91jPgmx63M00tSA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "1f884f99-37ce-4b4e-83bf-3ccbef3ee6f5",
-                            TwoFactorEnabled = false,
-                            UserName = "steli@vet.com"
-                        },
-                        new
-                        {
                             Id = "bcb4f420-ch4d-g1ga-ab26-c069c6f364e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dfa52b2f-ae33-4adc-8805-f4a6175f4eef",
+                            ConcurrencyStamp = "11634d50-766d-4005-9920-efdbfdf62f64",
                             Email = "chad@admin.com",
                             EmailConfirmed = false,
                             FirstName = "Гига",
@@ -570,11 +546,29 @@ namespace VeterinarySystem.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "CHAD@ADMIN.COM",
                             NormalizedUserName = "CHAD@ADMIM.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEONAchbJPZ2gvc4Pr00ncBDE8pF4WhCg3tXe08IeZMYDSN1X7cwSMN4KjmbEkrjwww==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKFsqBLdeIs4ITQ0rPawetpClDDQRVIxKBeBSLg9R9A+oWPuThcIjU4m8GEJmNrtMw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fc54b700-640e-4d65-9b36-c76ad59ea2de",
+                            SecurityStamp = "72416b63-ee82-41bd-a122-d27ef648ff89",
                             TwoFactorEnabled = false,
                             UserName = "chad@admin.com"
+                        },
+                        new
+                        {
+                            Id = "d49db8c9-73e5-4e24-8cb3-80b9ee257ba3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4576d978-7ab3-4caa-b0a2-38a7d2da3a59",
+                            Email = "steli@vet.com",
+                            EmailConfirmed = false,
+                            FirstName = "Стелияна",
+                            LastName = "Трифонова",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "STELI@VET.COM",
+                            NormalizedUserName = "STELI@VET.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEETj7SFlNDPEKEz7gOu/EQlhs1ljv9m9gbByPNgaCEct8EHlh8IKEC3PIrO3WQRoMA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5ab5c42a-ab85-4501-8fe2-a830991a333e",
+                            TwoFactorEnabled = false,
+                            UserName = "steli@vet.com"
                         });
                 });
 

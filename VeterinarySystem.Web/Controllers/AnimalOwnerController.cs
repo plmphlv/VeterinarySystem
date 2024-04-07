@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Core.Models.AnimalOwner;
+using VeterinarySystem.Core.Services;
 
 namespace VeterinarySystem.Web.Controllers
 {
@@ -21,7 +23,7 @@ namespace VeterinarySystem.Web.Controllers
 		{
 			OwnerQueryModel ownerQueryResult = await animaOwnerService.Search(query.SearchTerm, query.Parameter);
 
-			query.TotalOwnersCount= ownerQueryResult.SearchResults;
+			query.TotalOwnersCount = ownerQueryResult.SearchResults;
 			query.Owners = ownerQueryResult.OwnersFound;
 
 			return View(query);
@@ -90,6 +92,18 @@ namespace VeterinarySystem.Web.Controllers
 			await animaOwnerService.EditAnimalOwner(id, model);
 
 			return RedirectToAction(nameof(AnimalOwnerDetails), new { id });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> GoToAddAnimal(int ownerId)
+		{
+			if (!await animaOwnerService.AnimalOwnerExists(ownerId))
+			{
+				return BadRequest();
+			}
+
+
+			return RedirectToAction("Add", nameof(AnimalController), new { ownerId });
 		}
 	}
 }
