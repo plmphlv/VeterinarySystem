@@ -17,6 +17,17 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpGet]
+		public async Task<IActionResult> Search([FromQuery] AllOwnersQuery query)
+		{
+			OwnerQueryModel ownerQueryResult = await animaOwnerService.Search(query.SearchTerm, query.Parameter);
+
+			query.TotalOwnersCount= ownerQueryResult.SearchResults;
+			query.Owners = ownerQueryResult.OwnersFound;
+
+			return View(query);
+		}
+
+		[HttpGet]
 		public async Task<IActionResult> AddNewOwner()
 		{
 			AnimalOwnerFormModel newOwner = new AnimalOwnerFormModel();
@@ -50,7 +61,7 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			AnimalOwnerDetailsModel ownerDetails = await animaOwnerService.GetOwnerDetails(id);
+			OwnerServiceModel ownerDetails = await animaOwnerService.GetOwnerDetails(id);
 
 			return View(ownerDetails);
 		}

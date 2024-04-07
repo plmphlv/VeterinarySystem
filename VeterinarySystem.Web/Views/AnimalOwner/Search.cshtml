@@ -1,0 +1,37 @@
+﻿@using VeterinarySystem.Core.Models.AnimalOwner
+@model AllOwnersQuery
+@{
+}
+<form method="get">
+	<div class="row">
+		<div class="form-group col-md-3">
+			<div class="form-group">
+				<label asp-for="Parameter"></label>
+				<select asp-for="Parameter" class="form-control">
+					<option value="0">Full Name</option>
+					<option value="1">Phone number</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group col-md-3">
+			<label asp-for="SearchTerm"></label>
+			<input asp-for="SearchTerm" class="form-control" placeholder="Search">
+		</div>
+		<div class="col-md-3">
+			<div class="form-group mt-4 p-2">
+				<input type="submit" value="Search" class="btn btn-primary" />
+				<a asp-controller="AnimalOwner" asp-action="Search" class="btn btn-danger">Clear Search</a>
+			</div>
+		</div>
+	</div>
+</form>
+@if (!Model.Owners.Any())
+{
+	<h2 class="text-center">No owners found by the given criteria!</h2>
+}
+<div class="row">
+	@foreach (var owner in Model.Owners)
+	{
+		<partial name="_OwnersPartial" model="@owner" />
+	}
+</div>

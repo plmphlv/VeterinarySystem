@@ -1,5 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Infrastructure;
+using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Core.Models.AnimalOwner;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
@@ -13,6 +18,54 @@ namespace VeterinarySystem.Core.Services
 		public AnimalOwnerService(VeterinarySystemDbContext dbContext)
 		{
 			data = dbContext;
+		}
+
+		public async Task<OwnerQueryModel> Search(string? searchTerm, SearchParameter parameter = SearchParameter.FullName)
+		{
+			IQueryable<AnimalOwner> ownerQuery = data.AnimalOwners.AsQueryable();
+
+			if (!string.IsNullOrEmpty(searchTerm))
+			{
+				searchTerm = searchTerm.Trim();
+
+				if (parameter == SearchParameter.FullName)
+				{
+					string[] searchTermSplit = searchTerm.Split(' ');
+
+					ownerQuery = data.AnimalOwners.Where(owner => owner.FirstName == searchTermSplit[0] && owner.LastName == searchTermSplit[1]);
+				}
+				else if (parameter == SearchParameter.PhoneNumber)
+				{
+					ownerQuery = data.AnimalOwners.Where(owner => owner.PhoneNumber == searchTerm);
+				}
+			}
+
+			ICollection<OwnerServiceModel> owners = await ownerQuery
+				.Select(owner => new OwnerServiceModel()
+				{
+					Id = owner.AnimalOwnerId,
+					FirstName = owner.FirstName,
+					LastName = owner.LastName,
+					PhoneNumber = owner.PhoneNumber,
+					TotalAnimalsCount = owner.Animals.Count(),
+					TotalVisits = owner.Appointments.Count(),
+					Animals = owner.Animals.Select(animal => new AnimalServiceModel()
+					{
+						Id = animal.Id,
+						Age = animal.Age,
+						Weight = animal.Weight,
+						AnimalTypeName = animal.AnimalType.Name
+					}).ToList()
+				}
+			).ToListAsync();
+
+			OwnerQueryModel searchResults = new OwnerQueryModel()
+			{
+				SearchResults = owners.Count(),
+				OwnersFound = owners
+			};
+
+			return searchResults;
 		}
 
 		public async Task<bool> AnimalOwnerExists(AnimalOwnerFormModel model)
@@ -29,11 +82,11 @@ namespace VeterinarySystem.Core.Services
 			return result;
 		}
 
-		public async Task<AnimalOwnerDetailsModel> GetOwnerDetails(int id)
+		public async Task<OwnerServiceModel> GetOwnerDetails(int id)
 		{
-			AnimalOwnerDetailsModel? animalOwnerDetails = await data.AnimalOwners
+			OwnerServiceModel? animalOwnerDetails = await data.AnimalOwners
 				.Where(owner => owner.AnimalOwnerId == id)
-				.Select(owner => new AnimalOwnerDetailsModel()
+				.Select(owner => new OwnerServiceModel()
 				{
 					Id = owner.AnimalOwnerId,
 					FirstName = owner.FirstName,
@@ -41,7 +94,7 @@ namespace VeterinarySystem.Core.Services
 					PhoneNumber = owner.PhoneNumber,
 					TotalAnimalsCount = owner.Animals.Count(),
 					TotalVisits = owner.Appointments.Count(),
-					Animals = owner.Animals.Select(animal => new AnimalDetailsModel()
+					Animals = owner.Animals.Select(animal => new AnimalServiceModel()
 					{
 						Id = animal.Id,
 						Age = animal.Age,

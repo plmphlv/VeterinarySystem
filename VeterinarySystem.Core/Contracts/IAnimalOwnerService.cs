@@ -1,4 +1,5 @@
-﻿using VeterinarySystem.Core.Models.AnimalOwner;
+﻿using VeterinarySystem.Core.Infrastructure;
+using VeterinarySystem.Core.Models.AnimalOwner;
 
 namespace VeterinarySystem.Core.Contracts
 {
@@ -8,7 +9,7 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task<bool> AnimalOwnerExists(int id);
 
-		Task<AnimalOwnerDetailsModel> GetOwnerDetails(int id);
+		Task<OwnerServiceModel> GetOwnerDetails(int id);
 
 		Task<int> AddAnimalOwner(AnimalOwnerFormModel model);
 
@@ -17,5 +18,7 @@ namespace VeterinarySystem.Core.Contracts
 		Task EditAnimalOwner(int id, AnimalOwnerFormModel model);
 
 		Task DeleteAnimalOwner(int id);
+
+		Task<OwnerQueryModel> Search(string searchTerm, SearchParameter parameter =SearchParameter.FullName);
 	}
 }

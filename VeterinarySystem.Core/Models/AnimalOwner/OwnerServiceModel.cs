@@ -1,8 +1,9 @@
 ﻿using System.Collections;
+using VeterinarySystem.Core.Models.Animal;
 
 namespace VeterinarySystem.Core.Models.AnimalOwner
 {
-	public class AnimalOwnerDetailsModel
+    public class OwnerServiceModel
 	{
 		public int Id { get; set; }
 
@@ -12,7 +13,7 @@ namespace VeterinarySystem.Core.Models.AnimalOwner
 
 		public string PhoneNumber { get; set; } = null!;
 
-		public ICollection<AnimalDetailsModel> Animals { get; set; } = new List<AnimalDetailsModel>();
+		public ICollection<AnimalServiceModel> Animals { get; set; } = new List<AnimalServiceModel>();
 
 		public int TotalAnimalsCount { get; set; }
 
