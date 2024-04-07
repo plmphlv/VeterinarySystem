@@ -36,14 +36,14 @@ namespace VeterinarySystem.Web.Controllers
 
 		[HttpPost]
 		[Route("Animal/Add/{ownerId:int}")]
-		public async Task<IActionResult> Add(int ownerId, AnimalFormModel model)
+		public async Task<IActionResult> Add(int id, AnimalFormModel model)
 		{
-			if (!await ownerService.AnimalOwnerExists(ownerId))
+			if (!await ownerService.AnimalOwnerExists(id))
 			{
 				return BadRequest();
 			}
 
-			if (await animalService.AnimalExists(model, ownerId))
+			if (await animalService.AnimalExists(model, id))
 			{
 				ModelState.AddModelError(nameof(model), ErrorMessages.AnimalExistsError);
 			}
@@ -53,9 +53,9 @@ namespace VeterinarySystem.Web.Controllers
 				return View(model);
 			}
 
-			int id = await animalService.AddNewAnimal(model, ownerId);
+			int newId = await animalService.AddNewAnimal(model, id);
 
-			return RedirectToAction("Details", new { id });
+			return RedirectToAction("Details", new { newId });
 		}
 
 		[HttpGet]
@@ -70,6 +70,66 @@ namespace VeterinarySystem.Web.Controllers
 			AnimalServiceModel model = await animalService.GetAnimalDetails(animalId);
 
 			return View(model);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Edit(int id)
+		{
+			if (!await ownerService.AnimalOwnerExists(id))
+			{
+				return BadRequest();
+			}
+
+			AnimalFormModel model = new AnimalFormModel()
+			{
+				//AnimalOwnerId = ownerId,
+				AnimalTypes = await animalService.AllAnimalTypes()
+			};
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Edit(int id, AnimalFormModel model)
+		{
+			if (!await animalService.AnimalExists(id))
+			{
+				return BadRequest();
+			}
+
+			//if (await animalService.AnimalExists(model, id))
+			//{
+			//	ModelState.AddModelError(nameof(model), ErrorMessages.AnimalExistsError);
+			//}
+
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			await animalService.EditAnimal(id, model);
+
+			return RedirectToAction("Details", new { id });
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(int id)
+		{
+			if (!await animalService.AnimalExists(id))
+			{
+				return BadRequest();
+			}
+
+			//if (await animalService.AnimalExists(model, id))
+			//{
+			//	ModelState.AddModelError(nameof(model), ErrorMessages.AnimalExistsError);
+			//}
+
+
+
+			await animalService.DeleteAnimal(id);
+
+			return RedirectToAction(nameof(Details), nameof(AnimalOwnerController), new { id });
 		}
 	}
 }

@@ -59,7 +59,7 @@ namespace VeterinarySystem.Core.Services
 
 			if (!animalForm.Name.IsNullOrEmpty())
 			{
-				animal.Name = animalForm.Name;
+				animal.Name = "No name was given";
 			}
 
 			await data.Animals.AddAsync(animal);
@@ -80,12 +80,17 @@ namespace VeterinarySystem.Core.Services
 		{
 			Animal animal = await data.Animals.FirstOrDefaultAsync(animal => animal.Id == id);
 
+			if (animal is null)
+			{
+				throw new ArgumentNullException(nameof(animal));
+			}
+
 			animal.Weight = animalForm.Weight;
 			animal.AnimalTypeId = animalForm.AnimalTypeId;
 
 			if (!animalForm.Name.IsNullOrEmpty())
 			{
-				animal.Name = animalForm.Name;
+				animal.Name = "No name was given";
 			}
 
 
