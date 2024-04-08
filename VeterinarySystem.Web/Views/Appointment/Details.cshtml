@@ -42,9 +42,13 @@
 			@Html.DisplayFor(model => model.StaffName)
 		</dd>
 	</dl>
-	<a class="btn btn-primary" asp-controller="Appointment" asp-action="ChangeStatus" asp-route-id="@Model.Id">Change Upcoming Status</a>
-
-	<a class="btn btn-primary" asp-controller="Appointment" asp-action="DeleteAppointment" asp-route-id="@Model.Id">Delete Appointment</a>
+	<form class="ml-2" asp-controller="Appointment" asp-action="ChangeStatus" asp-route-id="@Model.Id" method="post">
+		<input class="btn btn-primary" type="submit" value="Change Upcoming Status" />
+	</form>
+	<br/>
+	<form class="ml-2" asp-controller="Appointment" asp-action="DeleteAppointment" asp-route-id="@Model.Id" method="post">
+		<input class="btn btn-primary" type="submit" value="Delete Appointment" />
+	</form>
 </div>
 <div>
 	@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |

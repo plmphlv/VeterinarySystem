@@ -52,6 +52,7 @@ namespace VeterinarySystem.Web.Controllers
 
             if (!ModelState.IsValid)
             {
+                model.Staff = await appointmentService.GetStaffMembers();
                 return View(model);
             }
 
@@ -96,7 +97,7 @@ namespace VeterinarySystem.Web.Controllers
 
             int ownerId = await appointmentService.DeleteAppointment(id);
 
-            return RedirectToAction(nameof(Details), nameof(AnimalOwnerController), new { Id = ownerId });
+            return RedirectToAction(nameof(Details), "AnimalOwner", new { Id = ownerId });
         }
     }
 }
