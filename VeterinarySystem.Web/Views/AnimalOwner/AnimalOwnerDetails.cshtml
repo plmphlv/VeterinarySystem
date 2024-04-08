@@ -47,3 +47,13 @@
 	<a asp-action="Index">Back to List</a> |
 
 </div>
+@if (!Model.Animals.Any())
+{
+	<h2 class="text-center">This owner has no pets</h2>
+}
+<div class="row">
+	@foreach (var animal in Model.Animals)
+	{
+		<partial name="_OwnersAnimalsPartial" model="@animal" />
+	}
+</div>

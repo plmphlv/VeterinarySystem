@@ -27,7 +27,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			AnimalFormModel model = new AnimalFormModel()
 			{
-				//AnimalOwnerId = ownerId,
+				OwnerId = id,
 				AnimalTypes = await animalService.AllAnimalTypes()
 			};
 
@@ -35,7 +35,7 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpPost]
-		[Route("Animal/Add/{ownerId:int}")]
+		//[Route("Animal/Add/{ownerId:int}")]
 		public async Task<IActionResult> Add(int id, AnimalFormModel model)
 		{
 			if (!await ownerService.AnimalOwnerExists(id))
@@ -55,19 +55,19 @@ namespace VeterinarySystem.Web.Controllers
 
 			int newId = await animalService.AddNewAnimal(model, id);
 
-			return RedirectToAction("Details", new { newId });
+			return RedirectToAction("Details", new { id = newId });
 		}
 
 		[HttpGet]
-		[Route("Animal/Details/{animalId:int}")]
-		public async Task<IActionResult> Details(int animalId)
+		//[Route("Animal/Details/{animalId:int}")]
+		public async Task<IActionResult> Details(int id)
 		{
-			if (!await animalService.AnimalExists(animalId))
+			if (!await animalService.AnimalExists(id))
 			{
 				return BadRequest();
 			}
 
-			AnimalServiceModel model = await animalService.GetAnimalDetails(animalId);
+			AnimalServiceModel model = await animalService.GetAnimalDetails(id);
 
 			return View(model);
 		}
@@ -75,16 +75,16 @@ namespace VeterinarySystem.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Edit(int id)
 		{
-			if (!await ownerService.AnimalOwnerExists(id))
+			if (!await animalService.AnimalExists(id))
 			{
 				return BadRequest();
 			}
 
-			AnimalFormModel model = new AnimalFormModel()
-			{
-				//AnimalOwnerId = ownerId,
-				AnimalTypes = await animalService.AllAnimalTypes()
-			};
+			AnimalFormModel model = await animalService.GetAnimalForm(id);
+
+			model.AnimalTypeId = await animalService.GetAnimalTypeId(id);
+
+			model.AnimalTypes = await animalService.AllAnimalTypes();
 
 			return View(model);
 		}
@@ -97,10 +97,13 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			//if (await animalService.AnimalExists(model, id))
-			//{
-			//	ModelState.AddModelError(nameof(model), ErrorMessages.AnimalExistsError);
-			//}
+			int ownerId = await animalService.GetOwnerByPetId(id);
+
+
+			if (!await ownerService.AnimalOwnerExists(ownerId))
+			{
+				return BadRequest();
+			}
 
 			if (!ModelState.IsValid)
 			{
@@ -120,16 +123,16 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			//if (await animalService.AnimalExists(model, id))
-			//{
-			//	ModelState.AddModelError(nameof(model), ErrorMessages.AnimalExistsError);
-			//}
+			int ownerId = await animalService.GetOwnerByPetId(id);
 
-
+			if (await animalService.AnimalExists(ownerId))
+			{
+				return BadRequest();
+			}
 
 			await animalService.DeleteAnimal(id);
 
-			return RedirectToAction(nameof(Details), nameof(AnimalOwnerController), new { id });
+			return RedirectToAction(nameof(Details), nameof(AnimalOwnerController), new { Id = ownerId });
 		}
 	}
 }

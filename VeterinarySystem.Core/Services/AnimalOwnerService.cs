@@ -97,6 +97,7 @@ namespace VeterinarySystem.Core.Services
 					Animals = owner.Animals.Select(animal => new AnimalServiceModel()
 					{
 						Id = animal.Id,
+						Name = animal.Name,
 						Age = animal.Age,
 						Weight = animal.Weight,
 						AnimalTypeName = animal.AnimalType.Name

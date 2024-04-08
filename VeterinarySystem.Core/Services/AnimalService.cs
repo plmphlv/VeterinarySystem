@@ -53,6 +53,7 @@ namespace VeterinarySystem.Core.Services
 			Animal animal = new Animal()
 			{
 				Weight = animalForm.Weight,
+				Age = animalForm.Age,
 				AnimalTypeId = animalForm.AnimalTypeId,
 				AnimalOwnerId = ownerId
 			};
@@ -85,35 +86,68 @@ namespace VeterinarySystem.Core.Services
 				throw new ArgumentNullException(nameof(animal));
 			}
 
-			animal.Weight = animalForm.Weight;
-			animal.AnimalTypeId = animalForm.AnimalTypeId;
-
-			if (!animalForm.Name.IsNullOrEmpty())
+			if (animalForm.Name.IsNullOrEmpty())
 			{
 				animal.Name = "No name was given";
 			}
+			else
+			{
+				animal.Name = animalForm.Name;
+			}
 
+			animal.Age = animalForm.Age;
+			animal.Weight = animalForm.Weight;
+			animal.AnimalTypeId = animalForm.AnimalTypeId;
 
 			await data.SaveChangesAsync();
 		}
 
 		public async Task<AnimalServiceModel> GetAnimalDetails(int id)
 		{
-			AnimalServiceModel animal = await data.Animals.Select(animal => new  AnimalServiceModel()
+			AnimalServiceModel animal = await data.Animals.Select(animal => new AnimalServiceModel()
 			{
 				Id = animal.Id,
-				Name=animal.Name,
+				Name = animal.Name,
 				Weight = animal.Weight,
 				Age = animal.Age,
 				AnimalTypeName = animal.AnimalType.Name,
+				OwnerId = animal.AnimalOwnerId,
 				OwnerFullName = $"{animal.AnimalOwner.FirstName} {animal.AnimalOwner.LastName}"
 			})
 				.FirstOrDefaultAsync(animal => animal.Id == id);
 
-			if (animal.Name.IsNullOrEmpty())
-			{
-				animal.Name = "No name was given";
-			}
+			return animal;
+		}
+
+		public async Task<int> GetAnimalTypeId(int animalId)
+		{
+			int animalTypeId = (await data.Animals.FindAsync(animalId)).AnimalTypeId;
+
+			return animalTypeId;
+		}
+
+		public async Task<int> GetOwnerByPetId(int animalId)
+		{
+			int animalTypeId = (await data.Animals.FindAsync(animalId)).AnimalOwnerId;
+
+			return animalTypeId;
+		}
+
+		public async Task<AnimalFormModel> GetAnimalForm(int animalId)
+		{
+			AnimalFormModel? animal = await data.Animals
+				.Where(animal => animal.Id == animalId
+				).Select(animal => new AnimalFormModel()
+				{
+					Name = animal.Name,
+					Age = animal.Age,
+					Weight = animal.Weight,
+				}).FirstOrDefaultAsync();
+
+			
+				//AnimalTypeId = animalTypeId,
+				//AnimalTypes = await animalService.AllAnimalTypes()
+			
 
 			return animal;
 		}
