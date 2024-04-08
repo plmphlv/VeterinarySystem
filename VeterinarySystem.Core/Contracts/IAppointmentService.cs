@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using VeterinarySystem.Core.Models.Appointment;
+using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Core.Contracts
 {
 	public interface IAppointmentService
 	{
-		Task AddAppointment();
+		Task<int> AddAppointment(AppointmentFromModel form, int ownerId);//C
 
-		Task RemoveAppointment();
+		Task<AppointmentServiceModel> GetAppointmentDetails(int appontmentId);
 
-		Task EditAppointment();
+		Task EditAppointment(AppointmentFromModel form);
+
+		Task RemoveAppointment(int appontmentId);
+
+		Task ChangeAppointmentUpcomingStatus(int appointmentId);
+
+		Task<bool> AppointmenExists(int appontmentId);
 	}
 }

@@ -24,6 +24,8 @@ namespace VeterinarySystem.Data.Domain.Entities
         [ForeignKey(nameof(AnimalOwnerId))]
         public AnimalOwner AnimalOwner { get; set; } = null!;
 
+        public bool IsUpcoming { get; set; }
+
         [Required]
         public string StaffMemberId { get; set; } = null!;
 
