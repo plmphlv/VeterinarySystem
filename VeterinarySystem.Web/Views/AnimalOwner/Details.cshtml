@@ -2,11 +2,11 @@
 @model OwnerServiceModel
 
 @{
-	ViewData["Title"] = "AnimalOwnerDetails";
+	ViewData["Title"] = "Owner Details";
 }
 
 <div>
-	<h4>AnimalOwnerDetailsModel</h4>
+	<h4>Owner Details</h4>
 	<hr />
 	<dl class="row">
 		<dt class="col-sm-2">
@@ -41,9 +41,11 @@
 		</dd>
 	</dl>
 	<a class="btn btn-primary" asp-controller="Animal" asp-action="Add" asp-route-id="@Model.Id">Add new Animal</a>
+
+	<a class="btn btn-primary" asp-controller="Appointment" asp-action="Add" asp-route-id="@Model.Id">Add new Appointment</a>
 </div>
 <div>
-	@Html.ActionLink("Edit", "EditOwner", new { id = Model.Id }) |
+	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
 	<a asp-action="Index">Back to List</a> |
 
 </div>
@@ -55,5 +57,15 @@
 	@foreach (var animal in Model.Animals)
 	{
 		<partial name="_OwnersAnimalsPartial" model="@animal" />
+	}
+</div>
+@if (!Model.Appointments.Any())
+{
+	<h2 class="text-center">This owner has no appointments</h2>
+}
+<div class="row">
+	@foreach (var appointment in Model.Appointments)
+	{
+		<partial name="_OwnersAppointmentsPartial" model="@appointment" />
 	}
 </div>

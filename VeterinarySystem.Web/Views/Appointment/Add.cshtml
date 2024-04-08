@@ -1,0 +1,15 @@
+﻿@using VeterinarySystem.Core.Models.Appointment
+@model AppointmentFromModel
+
+@{
+	ViewData["Title"] = "Add new Appointment";
+}
+
+<h2 class="text-center">Add new Appointment</h2>
+<hr />
+
+<partial name="_AppointmentFormPartial" model="@Model" />
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

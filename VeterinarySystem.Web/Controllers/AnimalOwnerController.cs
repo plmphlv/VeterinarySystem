@@ -30,7 +30,7 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> AddNewOwner()
+		public async Task<IActionResult> Add()
 		{
 			AnimalOwnerFormModel newOwner = new AnimalOwnerFormModel();
 
@@ -38,7 +38,7 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> AddNewOwner(AnimalOwnerFormModel newOwner)
+		public async Task<IActionResult> Add(AnimalOwnerFormModel newOwner)
 		{
 			if (await animaOwnerService.AnimalOwnerExists(newOwner))
 			{
@@ -52,11 +52,11 @@ namespace VeterinarySystem.Web.Controllers
 
 			int newId = await animaOwnerService.AddAnimalOwner(newOwner);
 
-			return RedirectToAction(nameof(AnimalOwnerDetails), new { newId });
+			return RedirectToAction(nameof(Details), new { Id = newId });
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> AnimalOwnerDetails(int id)
+		public async Task<IActionResult> Details(int id)
 		{
 			if (!await animaOwnerService.AnimalOwnerExists(id))
 			{
@@ -69,7 +69,7 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> EditOwner(int id)
+		public async Task<IActionResult> Edit(int id)
 		{
 			AnimalOwnerFormModel ownerForm = await animaOwnerService.GetForm(id);
 
@@ -77,7 +77,7 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> EditOwner(int id, AnimalOwnerFormModel model)
+		public async Task<IActionResult> Edit(int id, AnimalOwnerFormModel model)
 		{
 			if (!await animaOwnerService.AnimalOwnerExists(id))
 			{
@@ -91,19 +91,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			await animaOwnerService.EditAnimalOwner(id, model);
 
-			return RedirectToAction(nameof(AnimalOwnerDetails), new { id });
-		}
-
-		[HttpGet]
-		public async Task<IActionResult> GoToAddAnimal(int ownerId)
-		{
-			if (!await animaOwnerService.AnimalOwnerExists(ownerId))
-			{
-				return BadRequest();
-			}
-
-
-			return RedirectToAction("Add", nameof(AnimalController), new { ownerId });
+			return RedirectToAction(nameof(Details), new { id });
 		}
 	}
 }

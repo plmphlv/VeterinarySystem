@@ -2,7 +2,9 @@
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Appointment;
+using VeterinarySystem.Core.Models.StaffMember;
 using VeterinarySystem.Data;
+using VeterinarySystem.Data.DataSeeding.Admin;
 using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Core.Services
@@ -43,7 +45,9 @@ namespace VeterinarySystem.Core.Services
 					Description = appointment.AppointmentDesctiption,
 					AnimalOwnerId = appointment.AnimalOwnerId,
 					IsUpcoming = appointment.IsUpcoming,
-					StaffMemberId = appointment.StaffMemberId
+					OwnerFullName = $"{appointment.AnimalOwner.FirstName} {appointment.AnimalOwner.LastName}",
+					StaffMemberId = appointment.StaffMemberId,
+					StaffName = $"{appointment.StaffMember.FirstName} {appointment.StaffMember.LastName}"
 				})
 				.FirstOrDefaultAsync(appointment => appointment.Id == appontmentId);
 
@@ -84,6 +88,32 @@ namespace VeterinarySystem.Core.Services
 			bool result = await data.Appointments.AnyAsync(appontment => appontment.Id == appontmentId);
 
 			return result;
+		}
+
+		public async Task<ICollection<StaffServiceModel>> GetStaffMembers()
+		{
+			ICollection<StaffServiceModel> staff = await data.Users
+				.Where(u => u.Email != AdminUser.AdminEmail)
+				.Select(u => new StaffServiceModel()
+				{
+					StaffId = u.Id,
+					StaffName = $"{u.FirstName} {u.LastName}"
+				})
+				.ToListAsync();
+
+			return staff;
+		}
+
+		public async Task<int> DeleteAppointment(int appontmentId)
+		{
+			Appointment appointment = await data.Appointments.FirstOrDefaultAsync(appointment => appointment.Id == appontmentId);
+
+			int ownerId = appointment.AnimalOwnerId;
+
+			data.Appointments.Remove(appointment);
+			await data.SaveChangesAsync();
+
+			return ownerId;
 		}
 	}
 }

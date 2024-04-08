@@ -2,10 +2,12 @@
 using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
+using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Infrastructure;
 using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Core.Models.AnimalOwner;
+using VeterinarySystem.Core.Models.Appointment;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
 
@@ -94,6 +96,17 @@ namespace VeterinarySystem.Core.Services
 					PhoneNumber = owner.PhoneNumber,
 					TotalAnimalsCount = owner.Animals.Count(),
 					TotalVisits = owner.Appointments.Count(),
+					Appointments = owner.Appointments.Select(a => new AppointmentServiceModel
+					{
+						Id = a.Id,
+						AppointmentDate = a.AppointmentDate.ToString(EntityConstants.DateFormat),
+						Description = a.AppointmentDesctiption,
+						IsUpcoming = a.IsUpcoming,
+						AnimalOwnerId = a.AnimalOwnerId,
+						OwnerFullName = $"{a.AnimalOwner.FirstName} {a.AnimalOwner.LastName}",
+						StaffMemberId = a.StaffMemberId,
+						StaffName = $"{a.StaffMember.FirstName} {a.StaffMember.LastName}"
+					}).ToList(),
 					Animals = owner.Animals.Select(animal => new AnimalServiceModel()
 					{
 						Id = animal.Id,

@@ -1,4 +1,5 @@
 ﻿using VeterinarySystem.Core.Models.Appointment;
+using VeterinarySystem.Core.Models.StaffMember;
 using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Core.Contracts
@@ -16,5 +17,9 @@ namespace VeterinarySystem.Core.Contracts
 		Task ChangeAppointmentUpcomingStatus(int appointmentId);
 
 		Task<bool> AppointmenExists(int appontmentId);
+
+		Task<ICollection<StaffServiceModel>> GetStaffMembers();
+
+		Task<int> DeleteAppointment(int appontmentId);
 	}
 }
