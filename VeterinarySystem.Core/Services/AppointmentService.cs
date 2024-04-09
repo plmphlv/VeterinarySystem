@@ -25,8 +25,8 @@ namespace VeterinarySystem.Core.Services
 			{
 				AppointmentDate = form.Date,
 				AppointmentDesctiption = form.Desctiption,
-				StaffMemberId = form.StaffMemberId,
 				AnimalOwnerId = ownerId,
+				StaffMemberId = form.StaffMemberId,
 				IsUpcoming = true,
 			};
 
@@ -40,29 +40,37 @@ namespace VeterinarySystem.Core.Services
 		public async Task<AppointmentServiceModel> GetAppointmentDetails(int appontmentId)
 		{
 			AppointmentServiceModel? appointment = await data.Appointments
+				.AsNoTracking()
+				.Where(appointment => appointment.Id == appontmentId)
 				.Select(appointment => new AppointmentServiceModel()
 				{
 					Id = appointment.Id,
 					AppointmentDate = appointment.AppointmentDate.ToString(EntityConstants.DateFormat),
 					Description = appointment.AppointmentDesctiption,
-					//AnimalOwnerId = appointment.AnimalOwnerId,
 					IsUpcoming = appointment.IsUpcoming,
 					OwnerFullName = $"{appointment.AnimalOwner.FirstName} {appointment.AnimalOwner.LastName}",
 					StaffName = $"{appointment.StaffMember.FirstName} {appointment.StaffMember.LastName}"
 				})
-				.FirstOrDefaultAsync(appointment => appointment.Id == appontmentId);
+				.FirstOrDefaultAsync();
 
 			return appointment;
 		}
 
-		public Task EditAppointment(AppointmentFromModel form)
+		public async Task EditAppointment(int appontmentId, AppointmentFromModel form)
 		{
-			throw new NotImplementedException();
+			Appointment? appointment = await data.Appointments
+				.FirstOrDefaultAsync(appointment => appointment.Id == appontmentId);
+
+			appointment.AppointmentDesctiption = form.Desctiption;
+			appointment.AppointmentDate = form.Date;
+			appointment.StaffMemberId = form.StaffMemberId;
+
+			await data.SaveChangesAsync();
 		}
 
 		public async Task RemoveAppointment(int appontmentId)
 		{
-			Appointment appointment = await data.Appointments
+			Appointment? appointment = await data.Appointments
 				.FirstOrDefaultAsync(appointment => appointment.Id == appontmentId);
 
 			data.Appointments.Remove(appointment);
@@ -71,7 +79,7 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task ChangeAppointmentUpcomingStatus(int appointmentId)
 		{
-			Appointment appointment = await data.Appointments.
+			Appointment? appointment = await data.Appointments.
 				FirstOrDefaultAsync(ap => ap.Id == appointmentId);
 
 			if (appointment.IsUpcoming is true)
@@ -88,14 +96,15 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task<bool> AppointmenExists(int appontmentId)
 		{
-			bool result = await data.Appointments.AnyAsync(appontment => appontment.Id == appontmentId);
+			bool result = await data.Appointments.AsNoTracking()
+				.AnyAsync(appontment => appontment.Id == appontmentId);
 
 			return result;
 		}
 
 		public async Task<int> DeleteAppointment(int appontmentId)
 		{
-			Appointment appointment = await data.Appointments.FirstOrDefaultAsync(appointment => appointment.Id == appontmentId);
+			Appointment? appointment = await data.Appointments.FirstOrDefaultAsync(appointment => appointment.Id == appontmentId);
 
 			int ownerId = appointment.AnimalOwnerId;
 
@@ -108,6 +117,7 @@ namespace VeterinarySystem.Core.Services
 		public async Task<ICollection<StaffServiceModel>> GetStaffMembers()
 		{
 			ICollection<StaffServiceModel> staff = await data.Users
+				.AsNoTracking()
 				.Where(u => u.Email != AdminUser.AdminEmail)
 				.Select(u => new StaffServiceModel()
 				{

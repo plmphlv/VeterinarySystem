@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Data;
@@ -19,6 +20,7 @@ namespace VeterinarySystem.Core.Services
 		public async Task<ICollection<AnimalTypesServiceModels>> AllAnimalTypes()
 		{
 			ICollection<AnimalTypesServiceModels> names = await data.AnimalTypes
+				.AsNoTracking()
 				.Select(c => new AnimalTypesServiceModels()
 				{
 					Id = c.Id,
@@ -32,6 +34,7 @@ namespace VeterinarySystem.Core.Services
 		public async Task<bool> AnimalExists(AnimalFormModel animalForm, int ownerId)
 		{
 			bool result = await data.Animals
+				.AsNoTracking()
 				.AnyAsync(animal =>
 			animal.Name == animalForm.Name &&
 			animal.AnimalTypeId == animalForm.AnimalTypeId &&
@@ -71,7 +74,8 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task DeleteAnimal(int id)
 		{
-			Animal animal = await data.Animals.FirstOrDefaultAsync(animal => animal.Id == id);
+			Animal? animal = await data.Animals
+				.FirstOrDefaultAsync(animal => animal.Id == id);
 
 			data.Animals.Remove(animal);
 			await data.SaveChangesAsync();
@@ -79,7 +83,8 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task EditAnimal(int id, AnimalFormModel animalForm)
 		{
-			Animal animal = await data.Animals.FirstOrDefaultAsync(animal => animal.Id == id);
+			Animal? animal = await data.Animals
+				.FirstOrDefaultAsync(animal => animal.Id == id);
 
 			if (animal is null)
 			{
@@ -104,50 +109,57 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task<AnimalServiceModel> GetAnimalDetails(int id)
 		{
-			AnimalServiceModel animal = await data.Animals.Select(animal => new AnimalServiceModel()
-			{
-				Id = animal.Id,
-				Name = animal.Name,
-				Weight = animal.Weight,
-				Age = animal.Age,
-				AnimalTypeName = animal.AnimalType.Name,
-				OwnerId = animal.AnimalOwnerId,
-				OwnerFullName = $"{animal.AnimalOwner.FirstName} {animal.AnimalOwner.LastName}"
-			})
+			AnimalServiceModel? animal = await data.Animals
+				.AsNoTracking()
+				.Select(animal => new AnimalServiceModel()
+				{
+					Id = animal.Id,
+					Name = animal.Name,
+					Weight = animal.Weight,
+					Age = animal.Age,
+					AnimalTypeName = animal.AnimalType.Name,
+					OwnerFullName = $"{animal.AnimalOwner.FirstName} {animal.AnimalOwner.LastName}"
+				})
 				.FirstOrDefaultAsync(animal => animal.Id == id);
 
 			return animal;
 		}
 
-		public async Task<int> GetAnimalTypeId(int animalId)
+		public async Task<int> GetAnimalTypeById(int animalId)
 		{
-			int animalTypeId = (await data.Animals.FindAsync(animalId)).AnimalTypeId;
+			int typeId = await data.Animals
+				.AsNoTracking()
+				.Where(animal => animal.Id == animalId)
+				.Select(animal => animal.AnimalTypeId)
+				.FirstOrDefaultAsync();
 
-			return animalTypeId;
+			return typeId;
 		}
 
 		public async Task<int> GetOwnerByPetId(int animalId)
 		{
-			int animalTypeId = (await data.Animals.FindAsync(animalId)).AnimalOwnerId;
+			int ownerId = await data.Animals
+				.AsNoTracking()
+				.Where(animal => animal.Id == animalId)
+				.Select(animal => animal.AnimalOwnerId)
+				.FirstOrDefaultAsync();
 
-			return animalTypeId;
+			return ownerId;
 		}
 
 		public async Task<AnimalFormModel> GetAnimalForm(int animalId)
 		{
 			AnimalFormModel? animal = await data.Animals
+				.AsNoTracking()
 				.Where(animal => animal.Id == animalId
 				).Select(animal => new AnimalFormModel()
 				{
 					Name = animal.Name,
 					Age = animal.Age,
 					Weight = animal.Weight,
-				}).FirstOrDefaultAsync();
+					AnimalTypeId = animal.AnimalTypeId,
 
-			
-				//AnimalTypeId = animalTypeId,
-				//AnimalTypes = await animalService.AllAnimalTypes()
-			
+				}).FirstOrDefaultAsync();
 
 			return animal;
 		}

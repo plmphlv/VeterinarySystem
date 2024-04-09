@@ -18,7 +18,7 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task<ICollection<AnimalTypesServiceModels>> AllAnimalTypes();
 
-		Task<int> GetAnimalTypeId(int animalId);
+		Task<int> GetAnimalTypeById(int animalId);
 
 		Task<int> GetOwnerByPetId(int animalId);
 

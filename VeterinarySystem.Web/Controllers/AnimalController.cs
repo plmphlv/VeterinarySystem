@@ -82,7 +82,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			AnimalFormModel model = await animalService.GetAnimalForm(id);
 
-			model.AnimalTypeId = await animalService.GetAnimalTypeId(id);
+			model.AnimalTypeId = await animalService.GetAnimalTypeById(id);
 
 			model.AnimalTypes = await animalService.AllAnimalTypes();
 

@@ -25,9 +25,16 @@ namespace VeterinarySystem.Core.Tools.ExtenshionMethods
 		{
 			DateTime dateTime = DateTime.Now;
 
-			dateTime = dateTime.AddTicks(-(dateTime.Ticks % TimeSpan.TicksPerSecond));
+			// Create a new DateTime object with the same date and time but formatted as needed
+			DateTime formattedDateTime = new DateTime(
+				dateTime.Year,
+				dateTime.Month,
+				dateTime.Day,
+				dateTime.Hour,
+				dateTime.Minute,
+				0);
 
-			return dateTime;
+			return formattedDateTime;
 		}
 
 		public static bool CompareDate(this DateTime appointmentDate)

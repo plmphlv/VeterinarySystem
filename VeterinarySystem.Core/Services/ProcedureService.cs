@@ -59,23 +59,28 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task<ProcedureServiceModel> GetProcetudeDetails(int id)
 		{
-			ProcedureServiceModel model = await data.Procedures.Select(p => new ProcedureServiceModel()
-			{
-				Id = p.Id,
-				Name = p.Name,
-				Description = p.Description,
-				Date = p.Date.ToString(EntityConstants.DateFormat),
-				AnimalName = p.Animal.Name,
-				StaffMemberFullName = $"{p.StaffMember.FirstName} {p.StaffMember.LastName}"
-			})
-				.FirstOrDefaultAsync(p => p.Id == id);
+			ProcedureServiceModel? model = await data.Procedures
+				.AsNoTracking()
+				.Where(p => p.Id == id)
+				.Select(p => new ProcedureServiceModel()
+				{
+					Id = p.Id,
+					Name = p.Name,
+					Description = p.Description,
+					Date = p.Date.ToString(EntityConstants.DateFormat),
+					AnimalName = p.Animal.Name,
+					StaffMemberFullName = $"{p.StaffMember.FirstName} {p.StaffMember.LastName}"
+				})
+				.FirstOrDefaultAsync();
 
 			return model;
 		}
 
 		public async Task<bool> ProcedureExists(int id)
 		{
-			bool result = await data.Procedures.AnyAsync(x => x.Id == id);
+			bool result = await data.Procedures
+				.AsNoTracking()
+				.AnyAsync(x => x.Id == id);
 
 			return result;
 		}
@@ -83,6 +88,7 @@ namespace VeterinarySystem.Core.Services
 		public async Task<ICollection<StaffServiceModel>> GetStaffMembers()
 		{
 			ICollection<StaffServiceModel> staff = await data.Users
+				.AsNoTracking()
 				.Where(u => u.Email != AdminUser.AdminEmail)
 				.Select(u => new StaffServiceModel()
 				{
