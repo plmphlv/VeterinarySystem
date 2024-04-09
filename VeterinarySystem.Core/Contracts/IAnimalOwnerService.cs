@@ -13,7 +13,7 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task<int> AddAnimalOwner(AnimalOwnerFormModel model);
 
-		Task<AnimalOwnerFormModel> GetForm(int id);
+		Task<AnimalOwnerFormModel> GetEditingForm(int id);
 
 		Task EditAnimalOwner(int id, AnimalOwnerFormModel model);
 

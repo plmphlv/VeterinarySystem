@@ -147,7 +147,7 @@ namespace VeterinarySystem.Core.Services
 			return ownerId;
 		}
 
-		public async Task<AnimalFormModel> GetAnimalForm(int animalId)
+		public async Task<AnimalFormModel> GetAnimalEditingForm(int animalId)
 		{
 			AnimalFormModel? animal = await data.Animals
 				.AsNoTracking()

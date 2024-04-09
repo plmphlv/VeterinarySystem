@@ -36,21 +36,21 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Add(AnimalOwnerFormModel newOwner)
+		public async Task<IActionResult> Add(AnimalOwnerFormModel fomr)
 		{
-			if (await animaOwnerService.AnimalOwnerExists(newOwner))
+			if (await animaOwnerService.AnimalOwnerExists(fomr))
 			{
-				ModelState.AddModelError(nameof(newOwner), ErrorMessages.OwnerExistsError);
+				ModelState.AddModelError(nameof(fomr), ErrorMessages.OwnerExistsError);
 			}
 
 			if (!ModelState.IsValid)
 			{
-				return View(newOwner);
+				return View(fomr);
 			}
 
-			int newId = await animaOwnerService.AddAnimalOwner(newOwner);
+			int newEntityId = await animaOwnerService.AddAnimalOwner(fomr);
 
-			return RedirectToAction(nameof(Details), new { Id = newId });
+			return RedirectToAction(nameof(Details), new { Id = newEntityId });
 		}
 
 		[HttpGet]
@@ -69,7 +69,7 @@ namespace VeterinarySystem.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Edit(int id)
 		{
-			AnimalOwnerFormModel ownerForm = await animaOwnerService.GetForm(id);
+			AnimalOwnerFormModel ownerForm = await animaOwnerService.GetEditingForm(id);
 
 			return View(ownerForm);
 		}
@@ -89,7 +89,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			await animaOwnerService.EditAnimalOwner(id, model);
 
-			return RedirectToAction(nameof(Details), new { id });
+			return RedirectToAction(nameof(Details), new { Id = id });
 		}
 	}
 }

@@ -3,6 +3,7 @@ using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Procedure;
 using VeterinarySystem.Core.Models.StaffMember;
+using VeterinarySystem.Core.Tools.ExtenshionMethods;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.DataSeeding.Admin;
 using VeterinarySystem.Data.Domain.Entities;
@@ -98,6 +99,22 @@ namespace VeterinarySystem.Core.Services
 				.ToListAsync();
 
 			return staff;
+		}
+
+		public async Task<ProcedureFormModel> GetEditingForm(int id)
+		{
+			ProcedureFormModel? form = await data.Procedures
+				.AsNoTracking()
+				.Where(procedure=>procedure.Id == id)
+				.Select(procedure => new ProcedureFormModel()
+				{
+					Name=procedure.Name,
+					Description =procedure.Description,
+					Date=procedure.Date,
+					StaffMemberId = procedure.StaffMemberId
+				}).FirstOrDefaultAsync();
+
+			return form;
 		}
 	}
 }

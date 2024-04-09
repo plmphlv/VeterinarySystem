@@ -26,8 +26,6 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-
-
 			AppointmentFromModel appointmentFromModel = new AppointmentFromModel()
 			{
 				Date = DateTimeQuickTools.GetDate(),
@@ -38,29 +36,29 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Add(int id, AppointmentFromModel model)
+		public async Task<IActionResult> Add(int id, AppointmentFromModel form)
 		{
 			if (!await ownerService.AnimalOwnerExists(id))
 			{
 				return BadRequest();
 			}
 
-			if (!model.Date.CompareDate())
+			if (!form.Date.CompareDate())
 			{
 				ModelState
-				   .AddModelError(nameof(model.Date), ErrorMessages.EarlierThatTodayDateError);
+				   .AddModelError(nameof(form.Date), ErrorMessages.EarlierThatTodayDateError);
 
 			}
 
 			if (!ModelState.IsValid)
 			{
-				model.Staff = await appointmentService.GetStaffMembers();
-				return View(model);
+				form.Staff = await appointmentService.GetStaffMembers();
+				return View(form);
 			}
 
-			int appointmentId = await appointmentService.AddAppointment(model, id);
+			int newEntityId = await appointmentService.AddAppointment(form, id);
 
-			return RedirectToAction(nameof(Details), new { Id = appointmentId });
+			return RedirectToAction(nameof(Details), new { Id = newEntityId });
 		}
 
 		[HttpGet]

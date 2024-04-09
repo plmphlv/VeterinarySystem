@@ -17,7 +17,6 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpGet]
-		//[Route("Animal/Add/{ownerId:int}")]
 		public async Task<IActionResult> Add(int id)
 		{
 			if (!await ownerService.AnimalOwnerExists(id))
@@ -27,7 +26,6 @@ namespace VeterinarySystem.Web.Controllers
 
 			AnimalFormModel model = new AnimalFormModel()
 			{
-				OwnerId = id,
 				AnimalTypes = await animalService.AllAnimalTypes()
 			};
 
@@ -35,31 +33,29 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpPost]
-		//[Route("Animal/Add/{ownerId:int}")]
-		public async Task<IActionResult> Add(int id, AnimalFormModel model)
+		public async Task<IActionResult> Add(int id, AnimalFormModel form)
 		{
 			if (!await ownerService.AnimalOwnerExists(id))
 			{
 				return BadRequest();
 			}
 
-			if (await animalService.AnimalExists(model, id))
+			if (await animalService.AnimalExists(form, id))
 			{
-				ModelState.AddModelError(nameof(model), ErrorMessages.AnimalExistsError);
+				ModelState.AddModelError(nameof(form), ErrorMessages.AnimalExistsError);
 			}
 
 			if (!ModelState.IsValid)
 			{
-				return View(model);
+				return View(form);
 			}
 
-			int newId = await animalService.AddNewAnimal(model, id);
+			int newEntityId = await animalService.AddNewAnimal(form, id);
 
-			return RedirectToAction("Details", new { id = newId });
+			return RedirectToAction("Details", new { id = newEntityId });
 		}
 
 		[HttpGet]
-		//[Route("Animal/Details/{animalId:int}")]
 		public async Task<IActionResult> Details(int id)
 		{
 			if (!await animalService.AnimalExists(id))
@@ -80,9 +76,7 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			AnimalFormModel model = await animalService.GetAnimalForm(id);
-
-			model.AnimalTypeId = await animalService.GetAnimalTypeById(id);
+			AnimalFormModel model = await animalService.GetAnimalEditingForm(id);
 
 			model.AnimalTypes = await animalService.AllAnimalTypes();
 
@@ -90,7 +84,7 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Edit(int id, AnimalFormModel model)
+		public async Task<IActionResult> Edit(int id, AnimalFormModel fomr)
 		{
 			if (!await animalService.AnimalExists(id))
 			{
@@ -107,12 +101,12 @@ namespace VeterinarySystem.Web.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				return View(model);
+				return View(fomr);
 			}
 
-			await animalService.EditAnimal(id, model);
+			await animalService.EditAnimal(id, fomr);
 
-			return RedirectToAction("Details", new { id });
+			return RedirectToAction("Details", new { Id = id });
 		}
 
 		[HttpPost]
@@ -132,7 +126,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			await animalService.DeleteAnimal(id);
 
-			return RedirectToAction(nameof(Details), nameof(AnimalOwnerController), new { Id = ownerId });
+			return RedirectToAction(nameof(Details), "AnimalOwner", new { Id = ownerId });
 		}
 	}
 }

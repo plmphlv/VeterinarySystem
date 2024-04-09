@@ -2,7 +2,6 @@
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Procedure;
-using VeterinarySystem.Core.Services;
 using VeterinarySystem.Core.Tools.ExtenshionMethods;
 
 namespace VeterinarySystem.Web.Controllers
@@ -30,35 +29,34 @@ namespace VeterinarySystem.Web.Controllers
 			ProcedureFormModel model = new ProcedureFormModel()
 			{
 				Date = DateTimeQuickTools.GetDate(),
-				Staff = await procedureService.GetStaffMembers(),
-				AnimalId = id
+				Staff = await procedureService.GetStaffMembers()
 			};
 
 			return View(model);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Add(int id, ProcedureFormModel model)
+		public async Task<IActionResult> Add(int id, ProcedureFormModel form)
 		{
 			if (!await animalService.AnimalExists(id))
 			{
 				return BadRequest();
 			}
 
-			if (!model.Date.CompareDate())
+			if (!form.Date.CompareDate())
 			{
 				ModelState
-				   .AddModelError(nameof(model.Date), ErrorMessages.EarlierThatTodayDateError);
+				   .AddModelError(nameof(form.Date), ErrorMessages.EarlierThatTodayDateError);
 			}
 
 			if (ModelState.IsValid)
 			{
-				return View(model);
+				return View(form);
 			}
 
-			int newId = await procedureService.CreateNewProcetude(id, model);
+			int newEntityId = await procedureService.CreateNewProcetude(id, form);
 
-			return RedirectToAction(nameof(Details), new { Id = newId });
+			return RedirectToAction(nameof(Details), new { Id = newEntityId });
 		}
 
 		[HttpGet]
@@ -82,41 +80,38 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			ProcedureFormModel model = new ProcedureFormModel()
-			{
-				Date = DateTimeQuickTools.GetDate(),
-				Staff = await procedureService.GetStaffMembers(),
-				AnimalId = id
-			};
+			ProcedureFormModel form = await procedureService.GetEditingForm(id);
 
-			return View(model);
+			form.Staff = await procedureService.GetStaffMembers();
+
+			return View(form);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Edit(int id, ProcedureFormModel model)
+		public async Task<IActionResult> Edit(int id, ProcedureFormModel form)
 		{
 			if (!await procedureService.ProcedureExists(id))
 			{
 				return BadRequest();
 			}
 
-			if (!await animalService.AnimalExists(model.AnimalId))
+			if (!await animalService.AnimalExists(form.AnimalId))
 			{
 				return BadRequest();
 			}
 
-			if (!model.Date.CompareDate())
+			if (!form.Date.CompareDate())
 			{
 				ModelState
-				   .AddModelError(nameof(model.Date), ErrorMessages.EarlierThatTodayDateError);
+				   .AddModelError(nameof(form.Date), ErrorMessages.EarlierThatTodayDateError);
 			}
 
 			if (ModelState.IsValid)
 			{
-				return View(model);
+				return View(form);
 			}
 
-			await procedureService.EditProcetude(model, id);
+			await procedureService.EditProcetude(form, id);
 
 			return RedirectToAction(nameof(Details), new { Id = id });
 		}

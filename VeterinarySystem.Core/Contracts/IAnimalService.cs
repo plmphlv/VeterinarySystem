@@ -22,6 +22,6 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task<int> GetOwnerByPetId(int animalId);
 
-		Task<AnimalFormModel> GetAnimalForm(int animalId);
+		Task<AnimalFormModel> GetAnimalEditingForm(int animalId);
 	}
 }

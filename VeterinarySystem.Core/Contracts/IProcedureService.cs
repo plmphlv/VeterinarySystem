@@ -16,6 +16,6 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task<ICollection<StaffServiceModel>> GetStaffMembers();
 
-
+		Task<ProcedureFormModel> GetEditingForm(int id);
 	}
 }
