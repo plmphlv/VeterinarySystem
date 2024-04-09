@@ -1,0 +1,15 @@
+﻿@using VeterinarySystem.Core.Models.Procedure
+@model ProcedureFormModel
+
+@{
+	ViewData["Title"] = "Record new procedure";
+}
+
+<h2 class="text-center">Record new procedure</h2>
+<hr />
+
+<partial name="_ProcedureFormPartial" model="@Model" />
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

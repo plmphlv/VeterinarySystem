@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using System.Globalization;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
@@ -94,20 +93,6 @@ namespace VeterinarySystem.Core.Services
 			return result;
 		}
 
-		public async Task<ICollection<StaffServiceModel>> GetStaffMembers()
-		{
-			ICollection<StaffServiceModel> staff = await data.Users
-				.Where(u => u.Email != AdminUser.AdminEmail)
-				.Select(u => new StaffServiceModel()
-				{
-					StaffId = u.Id,
-					StaffName = $"{u.FirstName} {u.LastName}"
-				})
-				.ToListAsync();
-
-			return staff;
-		}
-
 		public async Task<int> DeleteAppointment(int appontmentId)
 		{
 			Appointment appointment = await data.Appointments.FirstOrDefaultAsync(appointment => appointment.Id == appontmentId);
@@ -120,49 +105,18 @@ namespace VeterinarySystem.Core.Services
 			return ownerId;
 		}
 
-		public bool DateFormatIsValid(string dateString)
+		public async Task<ICollection<StaffServiceModel>> GetStaffMembers()
 		{
-			DateTime dateAndTime = DateTime.Now;
+			ICollection<StaffServiceModel> staff = await data.Users
+				.Where(u => u.Email != AdminUser.AdminEmail)
+				.Select(u => new StaffServiceModel()
+				{
+					StaffId = u.Id,
+					StaffName = $"{u.FirstName} {u.LastName}"
+				})
+				.ToListAsync();
 
-			if (!DateTime.TryParseExact(
-				dateString,
-				EntityConstants.DateFormat,
-				CultureInfo.InvariantCulture,
-				DateTimeStyles.None,
-				out dateAndTime))
-			{
-				return false;
-			}
-			return true;
-		}
-
-		public DateTime GetDate()
-		{
-			string dateString = DateTime.Now.ToString(EntityConstants.DateFormat);
-			DateTime dateAndTime = DateTime.Now;
-
-			DateTime.TryParseExact(
-				dateString,
-				EntityConstants.DateFormat,
-				CultureInfo.InvariantCulture,
-				DateTimeStyles.None,
-				out dateAndTime);
-
-			return dateAndTime;
-		}
-
-		public bool CompareAppointmentDate(DateTime appointmentDate)
-		{
-			DateTime now = DateTime.Now;
-
-			if (DateTime.Compare(appointmentDate, now) == 1)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return staff;
 		}
 	}
 }

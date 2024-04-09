@@ -1,37 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using VeterinarySystem.Common;
 
 namespace VeterinarySystem.Data.Domain.Entities
 {
-    public class Procedure
-    {
-        public Procedure()
-        {
-            ProcedureDescription = string.Empty;
-        }
+	public class Procedure
+	{
+		[Key]
+		public int Id { get; set; }
 
-        [Key]
-        public int Id { get; set; }
+		[Required,
+		 Unicode(true),
+		 MaxLength(EntityConstants.ProcedureNameMaxLength)]
+		public string Name { get; set; } = string.Empty;
 
-        [Required, 
-         Unicode(true), 
-         MaxLength(EntityConstants.ProcedureNameMaxLength)]
-        public string Name { get; set; } = string.Empty;
-
-		[Unicode(true), 
-         MaxLength(EntityConstants.DescriptionMaxLength)]
-        public string ProcedureDescription { get; set; }
+		[Unicode(true),
+		 Required,
+		 MaxLength(EntityConstants.DescriptionMaxLength)]
+		public string Description { get; set; } = string.Empty;
 
 		[Required]
-        public bool IsMedical { get; set; }
+		public DateTime Date { get; set; }
 
-        [Required]
-        public int AnimalId { get; set; }
+		[Required]
+		public int AnimalId { get; set; }
 
-        [ForeignKey(nameof(AnimalId))]
-        public Animal Animal { get; set; } = null!;
+		[ForeignKey(nameof(AnimalId))]
+		public Animal Animal { get; set; } = null!;
 
 		[Required]
 		public string StaffMemberId { get; set; } = null!;
@@ -39,6 +36,6 @@ namespace VeterinarySystem.Data.Domain.Entities
 		[ForeignKey(nameof(StaffMemberId))]
 		public StaffMember StaffMember { get; set; } = null!;
 
-        public Prescription? Prescription { get; set; }
+		public Prescription? Prescription { get; set; }
 	}
 }

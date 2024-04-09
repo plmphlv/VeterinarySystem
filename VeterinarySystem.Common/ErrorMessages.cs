@@ -14,6 +14,6 @@
 
         public const string AnimalExistsError = "This animal already exists!";
 
-        public const string EarlierThatTodayDateError = "Appointment Date can only be set for future time.";
+        public const string EarlierThatTodayDateError = "Date can only be set for future time.";
     }
 }

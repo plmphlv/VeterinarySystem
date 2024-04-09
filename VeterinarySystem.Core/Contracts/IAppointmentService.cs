@@ -3,7 +3,7 @@ using VeterinarySystem.Core.Models.StaffMember;
 
 namespace VeterinarySystem.Core.Contracts
 {
-    public interface IAppointmentService
+	public interface IAppointmentService
     {
         Task<int> AddAppointment(AppointmentFromModel form, int ownerId);//C
 
@@ -17,14 +17,9 @@ namespace VeterinarySystem.Core.Contracts
 
         Task<bool> AppointmenExists(int appontmentId);
 
-        Task<ICollection<StaffServiceModel>> GetStaffMembers();
-
         Task<int> DeleteAppointment(int appontmentId);
 
-        bool DateFormatIsValid(string dateString);
-
-        bool CompareAppointmentDate(DateTime appointmentDate);
-
-        DateTime GetDate();
-    }
+        Task<ICollection<StaffServiceModel>> GetStaffMembers();
+		
+	}
 }

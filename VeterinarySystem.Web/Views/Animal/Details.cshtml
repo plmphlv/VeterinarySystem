@@ -36,8 +36,8 @@
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.AnimalTypeName)
 		</dd>
-
 	</dl>
+	<a asp-controller="Procedure" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-primary">Add new procerure to record</a>
 </div>
 <div>
 	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

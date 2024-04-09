@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Core.Models.AnimalOwner;
-using VeterinarySystem.Core.Services;
 
 namespace VeterinarySystem.Web.Controllers
 {
