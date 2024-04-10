@@ -42,7 +42,9 @@ namespace VeterinarySystem.Web
 
             builder.Services.AddTransient<IProcedureService, ProcedureService>();
 
-            builder.Services.AddControllersWithViews();
+			builder.Services.AddTransient<IPrescriptionService, PrescriptionService>();
+
+			builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 

@@ -85,13 +85,12 @@ namespace VeterinarySystem.Core.Services
 
 			return result;
 		}
+
 		public async Task<PrescriptionFormModel> GetNewPrescriptionForm()
 		{
-			int prescriptionNumber = await GetNewPrescriptionNumber();
-
 			return new PrescriptionFormModel()
 			{
-				Number = $"{prescriptionNumber:D9}",
+				Number = await GetNewPrescriptionNumber(),
 				IssueDate = DateTimeQuickTools.GetDateAndTime().Date,
 			};
 		}
@@ -143,25 +142,25 @@ namespace VeterinarySystem.Core.Services
 			return staff;
 		}
 
-		public async Task<int> GetCurremtPrescriptionNumber()
+		public async Task<string> GetCurremtPrescriptionNumber()
 		{
-			PrescriptionCounter counter = await data.PrescriptionCounters
+			PrescriptionCounter? counter = await data.PrescriptionCounters
 				.FirstOrDefaultAsync();
 
-			counter.CurrentNumber++;
+			
 
-			int number = counter.CurrentNumber;
-
-			return number;
+			return $"{counter.CurrentNumber:D9}";
 		}
 
-		public async Task<int> GetNewPrescriptionNumber()
+		public async Task<string> GetNewPrescriptionNumber()
 		{
-			PrescriptionCounter counter = await data.PrescriptionCounters
-				.AsNoTracking()
-				.FirstOrDefaultAsync();
+			PrescriptionCounter? counter = await data.PrescriptionCounters.FirstOrDefaultAsync();
 
-			return counter.CurrentNumber;
+			counter.CurrentNumber += 1;
+
+			await data.SaveChangesAsync();
+
+			return $"{counter.CurrentNumber:D9}";
 		}
 	}
 }

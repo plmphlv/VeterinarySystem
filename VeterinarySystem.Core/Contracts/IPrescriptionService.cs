@@ -19,14 +19,14 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task<ICollection<StaffServiceModel>> GetStaffMembers();
 
-		Task<PrescriptionFromModel> GetFormForEditing(int prescriptionId);
+		Task<PrescriptionFormModel> GetFormForEditing(int prescriptionId);
 
 		Task<PrescriptionFormModel> GetNewPrescriptionForm();
 
 		Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName);
 
-		Task<int> GetNewPrescriptionNumber();
+		Task<string> GetNewPrescriptionNumber();
 
-		Task<int> GetCurremtPrescriptionNumber();
+		Task<string> GetCurremtPrescriptionNumber();
 	}
 }
