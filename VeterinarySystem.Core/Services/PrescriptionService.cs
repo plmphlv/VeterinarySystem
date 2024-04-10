@@ -89,7 +89,7 @@ namespace VeterinarySystem.Core.Services
 			return result;
 		}
 
-		public async Task<Models.Prescription.PrescriptionFormModel> GetNewPrescriptionForm()
+		public async Task<PrescriptionFormModel> GetNewPrescriptionForm()
 		{
 			return new Models.Prescription.PrescriptionFormModel()
 			{
@@ -98,7 +98,7 @@ namespace VeterinarySystem.Core.Services
 			};
 		}
 
-		public async Task<Models.Prescription.PrescriptionFormModel> GetFormForEditing(int prescriptionId)
+		public async Task<PrescriptionFormModel> GetFormForEditing(int prescriptionId)
 		{
 			PrescriptionFormModel? form = await data.Prescriptions
 				.AsNoTracking()
@@ -107,7 +107,7 @@ namespace VeterinarySystem.Core.Services
 				{
 					Number = prescription.Number,
 					Description = prescription.Description,
-					IssueDate = prescription.IssueDate,
+					IssueDate = prescription.IssueDate
 				})
 				.FirstOrDefaultAsync();
 

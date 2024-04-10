@@ -33,5 +33,11 @@ namespace VeterinarySystem.Data.Domain.Entities
 
 		[ForeignKey(nameof(AnimalId))]
 		public Animal Animal { get; set; } = null!;
+
+		[Required]
+		public string StaffMemberId { get; set; }
+
+		[ForeignKey(nameof(StaffMemberId))]
+		public StaffMember StaffMember { get; set; } = null!;
 	}
 }

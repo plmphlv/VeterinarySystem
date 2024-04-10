@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Tools.ExtenshionMethods;
-using VeterinarySystem.Data.Migrations;
 
 namespace VeterinarySystem.Web.Controllers
 {
+	[Authorize]
 	public class PrescriptionController : Controller
 	{
 		private readonly IAnimalService animalService;
@@ -28,6 +30,7 @@ namespace VeterinarySystem.Web.Controllers
 			}
 
 			PrescriptionFormModel newForm = await prescriptionService.GetNewPrescriptionForm();
+			newForm.Staff = await prescriptionService.GetStaffMembers();
 
 			return View(newForm);
 		}
@@ -44,15 +47,21 @@ namespace VeterinarySystem.Web.Controllers
 
 			if (newForm.Number != number)
 			{
-				newForm.Number = number;
-				return View(newForm);
+				ModelState.AddModelError(nameof(newForm.Number), ErrorMessages.PrescriptionNumberError);
 			}
 
 			DateTime date = DateTimeQuickTools.GetDateAndTime().Date;
 
 			if (newForm.IssueDate != date)
 			{
+				ModelState.AddModelError(nameof(newForm.IssueDate), ErrorMessages.IssueDateError);
+			}
+
+			if (!ModelState.IsValid)
+			{
+				newForm.Number = number;
 				newForm.IssueDate = date;
+				newForm.Staff = await prescriptionService.GetStaffMembers();
 				return View(newForm);
 			}
 
@@ -83,6 +92,7 @@ namespace VeterinarySystem.Web.Controllers
 			}
 
 			PrescriptionFormModel editForm = await prescriptionService.GetFormForEditing(id);
+			editForm.Staff = await prescriptionService.GetStaffMembers();
 
 			return View(editForm);
 		}
@@ -95,14 +105,26 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			if (editForm.IssueDate != await prescriptionService.CheckPrescriptionDate(id))
+			string number = await prescriptionService.GetPrescriptionNumber();
+
+			if (editForm.Number != number)
 			{
-				return BadRequest();
+				ModelState.AddModelError(nameof(editForm.Number), ErrorMessages.PrescriptionNumberError);
 			}
 
-			if (editForm.Number != await prescriptionService.CheckPrescriptionNumber(id))
+			DateTime date = DateTimeQuickTools.GetDateAndTime().Date;
+
+			if (editForm.IssueDate != date)
 			{
-				return BadRequest();
+				ModelState.AddModelError(nameof(editForm.IssueDate), ErrorMessages.IssueDateError);
+			}
+
+			if (!ModelState.IsValid)
+			{
+				editForm.Number = number;
+				editForm.IssueDate = date;
+				editForm.Staff = await prescriptionService.GetStaffMembers();
+				return View(editForm);
 			}
 
 			await prescriptionService.EditPrescription(id, editForm);

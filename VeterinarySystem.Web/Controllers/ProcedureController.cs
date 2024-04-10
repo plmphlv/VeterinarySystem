@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Common;
@@ -7,6 +8,7 @@ using VeterinarySystem.Core.Tools.ExtenshionMethods;
 
 namespace VeterinarySystem.Web.Controllers
 {
+	[Authorize]
 	public class ProcedureController : Controller
 	{
 		private readonly IAnimalService animalService;
@@ -52,6 +54,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			if (ModelState.IsValid)
 			{
+				form.Staff= await procedureService.GetStaffMembers();
 				return View(form);
 			}
 
@@ -109,6 +112,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			if (ModelState.IsValid)
 			{
+				form.Staff= await procedureService.GetStaffMembers();
 				return View(form);
 			}
 

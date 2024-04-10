@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Animal;
@@ -7,6 +8,7 @@ using VeterinarySystem.Core.Services;
 
 namespace VeterinarySystem.Web.Controllers
 {
+	[Authorize]
 	public class AnimalController : Controller
 	{
 		private readonly IAnimalOwnerService ownerService;

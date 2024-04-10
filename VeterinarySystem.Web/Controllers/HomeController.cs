@@ -10,6 +10,7 @@ namespace VeterinarySystem.Web.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly IAppointmentService appointmentService;
+
 		public HomeController(ILogger<HomeController> logger, IAppointmentService _appointmentService)
 		{
 			_logger = logger;
@@ -18,9 +19,13 @@ namespace VeterinarySystem.Web.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			ICollection<AppointmentServiceModel> schedule = await appointmentService.TodaysSchedule();
+			if (this.User.Identity.IsAuthenticated)
+			{
+				ICollection<AppointmentServiceModel> schedule = await appointmentService.TodaysSchedule();
 
-			return View(schedule);
+				return View(schedule);
+			}
+			return View();
 		}
 
 		public IActionResult Privacy()
