@@ -8,6 +8,6 @@
 		public string IssueDate {  get; set; } = string.Empty;
 		public int AnimalId { get; set; }
 		public string AnimalName { get; set;} = string.Empty;
-		public string StaffMemberFullName {  get; set; } = string.Empty;
+		public string StaffName {  get; set; } = string.Empty;
 	}
 }

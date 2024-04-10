@@ -33,6 +33,7 @@ namespace VeterinarySystem.Core.Services
 				Description = form.Description,
 				IssueDate = form.IssueDate,
 				AnimalId = animalId,
+				StaffMemberId = form.StaffMemberId
 			};
 
 			data.Prescriptions.Add(prescription);
@@ -53,7 +54,8 @@ namespace VeterinarySystem.Core.Services
 					Description = prescription.Description,
 					IssueDate = prescription.IssueDate.ToString(EntityConstants.DateOnlyFormat),
 					AnimalId = prescription.AnimalId,
-					AnimalName = prescription.Animal.Name
+					AnimalName = prescription.Animal.Name,
+					StaffName = $"{prescription.StaffMember.FirstName}  {prescription.StaffMember.LastName}"
 				})
 				.FirstOrDefaultAsync();
 
@@ -65,6 +67,7 @@ namespace VeterinarySystem.Core.Services
 			Prescription prescription = await data.Prescriptions.FirstOrDefaultAsync(prescription => prescription.Id == prescriptionId);
 
 			prescription.Description = form.Description;
+			prescription.StaffMemberId = form.StaffMemberId;
 
 			await data.SaveChangesAsync();
 		}
