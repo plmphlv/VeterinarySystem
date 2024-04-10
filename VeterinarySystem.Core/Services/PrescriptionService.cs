@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Appointment;
 using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Models.StaffMember;
+using VeterinarySystem.Core.Tools.ExtenshionMethods;
 using VeterinarySystem.Data;
+using VeterinarySystem.Data.DataSeeding.Admin;
 using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Core.Services
@@ -18,13 +21,15 @@ namespace VeterinarySystem.Core.Services
 			data = _context;
 		}
 
-		public async Task<int> AddPrescription(PrescriptionFormModel form, int ownerId)
+
+		public async Task<int> AddPrescription(PrescriptionFormModel form, int animalId)
 		{
 			Prescription prescription = new Prescription()
 			{
 				Number = form.Number,
 				Description = form.Description,
-				AnimalId = form.ProcedureId,
+				IssueDate = form.IssueDate,
+				AnimalId = animalId,
 			};
 
 			data.Prescriptions.Add(prescription);
@@ -33,39 +38,109 @@ namespace VeterinarySystem.Core.Services
 			return prescription.Id;
 		}
 
-		public Task<PrescriptionServiceModel> GetPrescriptionDetails(int appontmentId)
+		public async Task<PrescriptionServiceModel> GetPrescriptionDetails(int prescriptionId)
 		{
-			throw new NotImplementedException();
+			PrescriptionServiceModel? prescriptionDetails = await data.Prescriptions
+				.AsNoTracking()
+				.Where(prescription => prescription.Id == prescriptionId)
+				.Select(prescription => new PrescriptionServiceModel()
+				{
+					Id = prescription.Id,
+					Number = prescription.Number,
+					Description = prescription.Description,
+					IssueDate = prescription.IssueDate.ToString(EntityConstants.DateOnlyFormat),
+					AnimalId = prescription.AnimalId,
+					AnimalName = prescription.Animal.Name
+				})
+				.FirstOrDefaultAsync();
+
+			return prescriptionDetails;
 		}
 
-		public Task EditPrescription(int appontmentId, AppointmentFromModel form)
+		public async Task EditPrescription(int prescriptionId, AppointmentFromModel form)
 		{
-			throw new NotImplementedException();
+			Prescription prescription = await data.Prescriptions.FirstOrDefaultAsync(prescription => prescription.Id == prescriptionId);
+
+			prescription.Description = form.Desctiption;
+
+			await data.SaveChangesAsync();
 		}
 
-		public Task<int> DeletePrescription(int appontmentId)
+		public async Task<int> DeletePrescription(int prescriptionId)
 		{
-			throw new NotImplementedException();
+			Prescription prescription = await data.Prescriptions.FirstOrDefaultAsync(prescription => prescription.Id == prescriptionId);
+
+			int animalId = prescription.AnimalId;
+
+			data.Prescriptions.Remove(prescription);
+			await data.SaveChangesAsync();
+
+			return animalId;
 		}
 
-		public Task<bool> PrescriptionExists(int appontmentId)
+		public async Task<bool> PrescriptionExists(int prescriptionId)
 		{
-			throw new NotImplementedException();
+			bool result = await data.Prescriptions
+				.AnyAsync(prescription => prescription.Id == prescriptionId);
+
+			return result;
+		}
+		public async Task<PrescriptionFormModel> GetNewPrescriptionForm()
+		{
+			int prescriptionNumber = await GetNewPrescriptionNumber();
+
+			return new PrescriptionFormModel()
+			{
+				Number = $"{prescriptionNumber:D9}",
+				IssueDate = DateTimeQuickTools.GetDateAndTime().Date,
+			};
 		}
 
-		public Task<PrescriptionFromModel> GetFormForEditing(int appontmentId)
+		public async Task<PrescriptionFormModel> GetFormForEditing(int prescriptionId)
 		{
-			throw new NotImplementedException();
+			PrescriptionFormModel? form = await data.Prescriptions
+				.AsNoTracking()
+				.Where(prescription => prescription.Id == prescriptionId)
+				.Select(prescription => new PrescriptionFormModel()
+				{
+					Number = prescription.Number,
+					Description = prescription.Description,
+					IssueDate = prescription.IssueDate,
+				})
+				.FirstOrDefaultAsync();
+
+			return form;
 		}
 
-		public Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName)
+		public async Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName)
 		{
-			throw new NotImplementedException();
+			DeleteViewModel? model = await data.Prescriptions
+				.AsNoTracking()
+				.Where(e => e.Id == id)
+				.Select(e => new DeleteViewModel()
+				{
+					Id = e.Id,
+					Name = e.Number,
+					Controller = controllerName
+				})
+				.FirstOrDefaultAsync();
+
+			return model;
 		}
 
-		public Task<ICollection<StaffServiceModel>> GetStaffMembers()
+		public async Task<ICollection<StaffServiceModel>> GetStaffMembers()
 		{
-			throw new NotImplementedException();
+			ICollection<StaffServiceModel> staff = await data.Users
+				.AsNoTracking()
+				.Where(u => u.Email != AdminUser.AdminEmail)
+				.Select(u => new StaffServiceModel()
+				{
+					StaffId = u.Id,
+					StaffName = $"{u.FirstName} {u.LastName}"
+				})
+				.ToListAsync();
+
+			return staff;
 		}
 
 		public async Task<int> GetCurremtPrescriptionNumber()

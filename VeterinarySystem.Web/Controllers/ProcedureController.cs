@@ -3,7 +3,6 @@ using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.Procedure;
-using VeterinarySystem.Core.Services;
 using VeterinarySystem.Core.Tools.ExtenshionMethods;
 
 namespace VeterinarySystem.Web.Controllers

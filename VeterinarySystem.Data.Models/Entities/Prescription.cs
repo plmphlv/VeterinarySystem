@@ -32,6 +32,6 @@ namespace VeterinarySystem.Data.Domain.Entities
 		public int AnimalId { get; set; }
 
 		[ForeignKey(nameof(AnimalId))]
-		public Animal Procedure { get; set; } = null!;
+		public Animal Animal { get; set; } = null!;
 	}
 }

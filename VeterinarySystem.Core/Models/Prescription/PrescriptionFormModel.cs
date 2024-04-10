@@ -4,6 +4,6 @@
 	{
 		public string Number { get; set; } = string.Empty;
 		public string Description { get; set; } = string.Empty;
-		public int ProcedureId { get; set; }
+		public DateTime IssueDate { get; set; }
 	}
 }

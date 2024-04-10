@@ -7,11 +7,11 @@ namespace VeterinarySystem.Core.Contracts
 {
 	public interface IPrescriptionService
 	{
-		Task<int> AddPrescription(PrescriptionFormModel form, int ownerId);//C
+		Task<int> AddPrescription(PrescriptionFormModel form, int animalId);//C
 
 		Task<PrescriptionServiceModel> GetPrescriptionDetails(int prescriptionId);
 
-		Task EditPrescription(int appontmentId, AppointmentFromModel form);
+		Task EditPrescription(int prescriptionId, AppointmentFromModel form);
 
 		Task<int> DeletePrescription(int prescriptionId);
 
@@ -20,6 +20,8 @@ namespace VeterinarySystem.Core.Contracts
 		Task<ICollection<StaffServiceModel>> GetStaffMembers();
 
 		Task<PrescriptionFromModel> GetFormForEditing(int prescriptionId);
+
+		Task<PrescriptionFormModel> GetNewPrescriptionForm();
 
 		Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName);
 

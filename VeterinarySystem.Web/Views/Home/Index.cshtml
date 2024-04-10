@@ -8,13 +8,16 @@
 
 @{
 	ViewData["Title"] = "Home Page";
+
 	string lastName = string.Empty;
+	
 	if (SignInManager.IsSignedIn(User))
 	{
 		StaffMember user = await UserManager.FindByIdAsync(User.Id());
 		lastName = user.LastName;
 	}
 }
+
 @if (this.User.Identity.IsAuthenticated)
 {
 	@if (!Model.Any())

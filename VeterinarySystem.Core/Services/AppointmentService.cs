@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Appointment;
@@ -9,7 +8,6 @@ using VeterinarySystem.Core.Tools.ExtenshionMethods;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.DataSeeding.Admin;
 using VeterinarySystem.Data.Domain.Entities;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace VeterinarySystem.Core.Services
 {
