@@ -10,17 +10,12 @@
 	<hr />
 	<dl class="row">
 		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.FirstName)
+			@Html.DisplayNameFor(model => model.FullName)
 		</dt>
 		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.FirstName)
+			@Html.DisplayFor(model => model.FullName)
 		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.LastName)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.LastName)
-		</dd>
+
 		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.PhoneNumber)
 		</dt>
@@ -43,12 +38,10 @@
 	<a class="btn btn-primary" asp-controller="Animal" asp-action="Add" asp-route-id="@Model.Id">Add new Animal</a>
 
 	<a class="btn btn-primary" asp-controller="Appointment" asp-action="Add" asp-route-id="@Model.Id">Add new Appointment</a>
-</div>
-<div>
-	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-	<a asp-action="Index">Back to List</a> |
 
+	<a class="btn btn-danger" asp-controller="AnimalOwner" asp-action="Delete" asp-route-id="@Model.Id">Delete Owner</a>
 </div>
+<h4>Pets</h4>
 @if (!Model.Animals.Any())
 {
 	<h2 class="text-center">This owner has no pets</h2>
@@ -57,15 +50,5 @@
 	@foreach (var animal in Model.Animals)
 	{
 		<partial name="_OwnersAnimalsPartial" model="@animal" />
-	}
-</div>
-@if (!Model.Appointments.Any())
-{
-	<h2 class="text-center">This owner has no appointments</h2>
-}
-<div class="row">
-	@foreach (var appointment in Model.Appointments)
-	{
-		<partial name="_OwnersAppointmentsPartial" model="@appointment" />
 	}
 </div>

@@ -1,0 +1,12 @@
+﻿@using VeterinarySystem.Core.Models.Appointment
+@model AppointmentServiceModel
+
+<div class="card" style="width: 18rem;">
+	<div class="card-body">
+		<h5 class="card-title">Appointment Info</h5>
+		<p class="card-text">Description: @Model.Description</p>
+		<p class="card-text">Date: @Model.AppointmentDate</p>
+		<p class="card-text">Owner: @Model.OwnerFullName</p>
+		<a class="btn btn-primary" asp-controller="Appointment" asp-action="Details" asp-route-id="@Model.Id">Details</a>
+	</div>
+</div>

@@ -21,7 +21,7 @@ namespace VeterinarySystem.Core.Tools.ExtenshionMethods
 			return true;
 		}
 
-		public static DateTime GetDate()
+		public static DateTime GetDateAndTime()
 		{
 			DateTime dateTime = DateTime.Now;
 
@@ -37,7 +37,21 @@ namespace VeterinarySystem.Core.Tools.ExtenshionMethods
 			return formattedDateTime;
 		}
 
-		public static bool CompareDate(this DateTime appointmentDate)
+        public static DateTime GetDateOnly(this DateTime dateTime)
+        {
+            string dateTimeString = dateTime.ToString(EntityConstants.DateFormat);
+
+            DateTime.TryParseExact(
+                dateTimeString,
+                EntityConstants.DateOnlyFormat,
+                CultureInfo.InvariantCulture,
+            DateTimeStyles.None,
+                out dateTime);
+
+            return dateTime;
+        }
+
+        public static bool CompareDate(this DateTime appointmentDate)
 		{
 			DateTime now = DateTime.Now;
 

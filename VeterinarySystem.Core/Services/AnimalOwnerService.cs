@@ -4,7 +4,7 @@ using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Infrastructure;
 using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Core.Models.AnimalOwner;
-using VeterinarySystem.Core.Models.Appointment;
+using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
 
@@ -41,12 +41,11 @@ namespace VeterinarySystem.Core.Services
 				}
 			}
 
-			ICollection<OwnerServiceModel> owners = await ownerQuery
-				.Select(owner => new OwnerServiceModel()
+			ICollection<AnimalOwnerMiniServiceModel> owners = await ownerQuery
+				.Select(owner => new AnimalOwnerMiniServiceModel()
 				{
 					Id = owner.Id,
-					FirstName = owner.FirstName,
-					LastName = owner.LastName,
+					FullName = $"{owner.FirstName} {owner.LastName}",
 					PhoneNumber = owner.PhoneNumber
 				}
 			).ToListAsync();
@@ -92,15 +91,12 @@ namespace VeterinarySystem.Core.Services
 				.Select(owner => new OwnerServiceModel()
 				{
 					Id = owner.Id,
-					FirstName = owner.FirstName,
-					LastName = owner.LastName,
+					FullName = $"{owner.FirstName} {owner.LastName}",
 					PhoneNumber = owner.PhoneNumber,
-					Appointments = owner.Appointments.Select(a => new AppointmentServiceModel
-					{
-						Id = a.Id,
-						AppointmentDate = a.AppointmentDate.ToString(EntityConstants.DateFormat),
-						Description = a.AppointmentDesctiption,
-					}).ToList(),
+					LastAppointments = owner.Appointments
+					.OrderByDescending(a => a.AppointmentDate)
+					.Select(a => a.AppointmentDate.ToString(EntityConstants.DateFormat))
+					.FirstOrDefault() ?? "This owner has no previous appointments",
 					Animals = owner.Animals.Select(animal => new AnimalServiceModel()
 					{
 						Id = animal.Id,
@@ -109,10 +105,10 @@ namespace VeterinarySystem.Core.Services
 						Weight = animal.Weight,
 						AnimalTypeName = animal.AnimalType.Name
 					}).ToList()
-				}).SingleOrDefaultAsync(owner => owner.Id == id);
+				})
+				.SingleOrDefaultAsync(owner => owner.Id == id);
 
 			animalOwnerDetails.TotalAnimalsCount = animalOwnerDetails.Animals.Count();
-			animalOwnerDetails.TotalVisits = animalOwnerDetails.Appointments.Count();
 
 			return animalOwnerDetails;
 		}
@@ -165,6 +161,22 @@ namespace VeterinarySystem.Core.Services
 
 			data.AnimalOwners.Remove(owner);
 			await data.SaveChangesAsync();
+		}
+
+		public async Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName)
+		{
+			DeleteViewModel? model = await data.AnimalOwners
+				.AsNoTracking()
+				.Where(e => e.Id == id)
+				.Select(e => new DeleteViewModel()
+				{
+					Id = e.Id,
+					Name = $"{e.FirstName} {e.LastName}",
+					Controller = controllerName
+				}
+			).FirstOrDefaultAsync();
+
+			return model;
 		}
 	}
 }

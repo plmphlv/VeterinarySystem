@@ -11,7 +11,8 @@ namespace VeterinarySystem.Data.Domain.Entities
         public Animal()
         {
             Procedures = new HashSet<Procedure>();
-        }
+			Prescriptions = new HashSet<Prescription>();
+		}
 
         [Key]
         public int Id { get; set; }
@@ -31,12 +32,14 @@ namespace VeterinarySystem.Data.Domain.Entities
         [ForeignKey(nameof(AnimalTypeId))]
         public AnimalType AnimalType { get; set; }
 
-        public ICollection<Procedure> Procedures { get; set; }
-
         [Required]
         public int AnimalOwnerId { get; set; }
 
         [ForeignKey(nameof(AnimalOwnerId))]
         public AnimalOwner AnimalOwner { get; set; } = null!;
-    }
+
+        public ICollection<Procedure> Procedures { get; set; }
+
+		public ICollection<Prescription> Prescriptions { get; set; }
+	}
 }

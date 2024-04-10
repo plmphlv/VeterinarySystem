@@ -14,6 +14,6 @@ namespace VeterinarySystem.Core.Models.AnimalOwner
 
 		public IEnumerable<string> Categories { get; set; } = null!;
 
-		public IEnumerable<OwnerServiceModel> Owners { get; set; } = new List<OwnerServiceModel>();
+		public IEnumerable<AnimalOwnerMiniServiceModel> Owners { get; set; } = new List<AnimalOwnerMiniServiceModel>();
 	}
 }

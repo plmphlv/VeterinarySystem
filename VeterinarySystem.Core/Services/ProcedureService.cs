@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.Procedure;
 using VeterinarySystem.Core.Models.StaffMember;
-using VeterinarySystem.Core.Tools.ExtenshionMethods;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.DataSeeding.Admin;
 using VeterinarySystem.Data.Domain.Entities;
@@ -36,13 +36,17 @@ namespace VeterinarySystem.Core.Services
 			return procedure.Id;
 		}
 
-		public async Task DeleteProcetude(int id)
+		public async Task<int> DeleteProcetude(int id)
 		{
-			Procedure model = await data.Procedures
+			Procedure procedure = await data.Procedures
 				.FirstOrDefaultAsync(x => x.Id == id);
 
-			data.Procedures.Remove(model);
+			int entityId = procedure.AnimalId;
+
+			data.Procedures.Remove(procedure);
 			await data.SaveChangesAsync();
+
+			return entityId;
 		}
 
 		public async Task EditProcetude(ProcedureFormModel model, int id)
@@ -105,16 +109,32 @@ namespace VeterinarySystem.Core.Services
 		{
 			ProcedureFormModel? form = await data.Procedures
 				.AsNoTracking()
-				.Where(procedure=>procedure.Id == id)
+				.Where(procedure => procedure.Id == id)
 				.Select(procedure => new ProcedureFormModel()
 				{
-					Name=procedure.Name,
-					Description =procedure.Description,
-					Date=procedure.Date,
+					Name = procedure.Name,
+					Description = procedure.Description,
+					Date = procedure.Date,
 					StaffMemberId = procedure.StaffMemberId
 				}).FirstOrDefaultAsync();
 
 			return form;
+		}
+
+		public async Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName)
+		{
+			DeleteViewModel? model = await data.Procedures
+				.AsNoTracking()
+				.Where(e => e.Id == id)
+				.Select(e => new DeleteViewModel()
+				{
+					Id = e.Id,
+					Name = e.Name,
+					Controller = controllerName
+				}
+			).FirstOrDefaultAsync();
+
+			return model;
 		}
 	}
 }

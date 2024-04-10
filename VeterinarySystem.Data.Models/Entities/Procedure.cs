@@ -36,6 +36,5 @@ namespace VeterinarySystem.Data.Domain.Entities
 		[ForeignKey(nameof(StaffMemberId))]
 		public StaffMember StaffMember { get; set; } = null!;
 
-		public Prescription? Prescription { get; set; }
 	}
 }

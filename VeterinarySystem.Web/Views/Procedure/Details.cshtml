@@ -42,6 +42,8 @@
 			@Html.DisplayFor(model => model.StaffMemberFullName)
 		</dd>
 	</dl>
+	<a class="btn btn-primary" asp-controller="Procedure" asp-action="Edit" asp-route-id="@Model.Id">Edit Procedure</a>
+	<a class="btn btn-danger" asp-controller="AnimalOwner" asp-action="Delete" asp-route-id="@Model.Id">Delete Procedure</a>
 </div>
 <div>
 	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

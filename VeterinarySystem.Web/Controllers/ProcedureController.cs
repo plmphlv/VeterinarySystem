@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.Procedure;
+using VeterinarySystem.Core.Services;
 using VeterinarySystem.Core.Tools.ExtenshionMethods;
 
 namespace VeterinarySystem.Web.Controllers
@@ -28,7 +30,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			ProcedureFormModel model = new ProcedureFormModel()
 			{
-				Date = DateTimeQuickTools.GetDate(),
+				Date = DateTimeQuickTools.GetDateAndTime(),
 				Staff = await procedureService.GetStaffMembers()
 			};
 
@@ -114,6 +116,28 @@ namespace VeterinarySystem.Web.Controllers
 			await procedureService.EditProcetude(form, id);
 
 			return RedirectToAction(nameof(Details), new { Id = id });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Delete(int id)
+		{
+			string controllerName = this.GetType().Name.Replace("Controller", "");
+			DeleteViewModel model = await procedureService.GetDeleteViewModel(id, controllerName);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(int id, DeleteViewModel model)
+		{
+			if (!await procedureService.ProcedureExists(id))
+			{
+				return BadRequest();
+			}
+
+			int entityId= await procedureService.DeleteProcetude(id);
+
+			return RedirectToAction(nameof(Details), "Animal", new { Id = entityId });
 		}
 	}
 }

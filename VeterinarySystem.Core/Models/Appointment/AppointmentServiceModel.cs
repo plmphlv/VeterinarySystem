@@ -12,6 +12,8 @@
 
         public string OwnerFullName { get; set; } = string.Empty;
 
+        public int OwnerId { get; set; }
+
         public string StaffName { get; set; } = string.Empty;
     }
 }

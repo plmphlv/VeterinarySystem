@@ -1,9 +1,10 @@
 ﻿using VeterinarySystem.Core.Infrastructure;
 using VeterinarySystem.Core.Models.AnimalOwner;
+using VeterinarySystem.Core.Models.Common;
 
 namespace VeterinarySystem.Core.Contracts
 {
-    public interface IAnimalOwnerService
+	public interface IAnimalOwnerService
 	{
 		Task<bool> AnimalOwnerExists(AnimalOwnerFormModel model);
 
@@ -19,6 +20,8 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task DeleteAnimalOwner(int id);
 
-		Task<OwnerQueryModel> Search(string searchTerm, SearchParameter parameter =SearchParameter.FullName);
+		Task<OwnerQueryModel> Search(string searchTerm, SearchParameter parameter = SearchParameter.FullName);
+
+		Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName);
 	}
 }

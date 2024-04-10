@@ -45,10 +45,9 @@
 	<form class="ml-2" asp-controller="Appointment" asp-action="ChangeStatus" asp-route-id="@Model.Id" method="post">
 		<input class="btn btn-primary" type="submit" value="Change Upcoming Status" />
 	</form>
-	<br/>
-	<form class="ml-2" asp-controller="Appointment" asp-action="DeleteAppointment" asp-route-id="@Model.Id" method="post">
-		<input class="btn btn-primary" type="submit" value="Delete Appointment" />
-	</form>
+	<br />
+	<a class="btn btn-primary" asp-controller="AnimalOwner" asp-action="Details" asp-route-id="@Model.OwnerId">Back To Owner</a>
+	<a class="btn btn-danger" asp-controller="Appointment" asp-action="Delete" asp-route-id="@Model.Id">Delete Appointment</a>
 </div>
 <div>
 	@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |

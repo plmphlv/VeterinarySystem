@@ -5,11 +5,11 @@ using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Data.DataSeeding.Configurations
 {
-	public class AnimalTypeConfiguration : IEntityTypeConfiguration<AnimalType>
+	public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
 	{
-		public void Configure(EntityTypeBuilder<AnimalType> builder)
+		public void Configure(EntityTypeBuilder<Animal> builder)
 		{
-			builder.HasData(DataSeed.SeedAnimalTypes());
+			builder.HasData(DataSeed.SeedAnimals());
 		}
 	}
 }

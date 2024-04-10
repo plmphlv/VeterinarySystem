@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.AnimalOwner;
+using VeterinarySystem.Core.Models.Common;
 
 namespace VeterinarySystem.Web.Controllers
 {
@@ -28,7 +29,7 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Add()
+		public IActionResult Add()
 		{
 			AnimalOwnerFormModel newOwner = new AnimalOwnerFormModel();
 
@@ -90,6 +91,28 @@ namespace VeterinarySystem.Web.Controllers
 			await animaOwnerService.EditAnimalOwner(id, model);
 
 			return RedirectToAction(nameof(Details), new { Id = id });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Delete(int id)
+		{
+			string controllerName = this.GetType().Name.Replace("Controller", "");
+			DeleteViewModel ownerForm = await animaOwnerService.GetDeleteViewModel(id, controllerName);
+
+			return View(ownerForm);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(int id, AnimalOwnerFormModel model)
+		{
+			if (!await animaOwnerService.AnimalOwnerExists(id))
+			{
+				return BadRequest();
+			}
+
+			await animaOwnerService.DeleteAnimalOwner(id);
+
+			return RedirectToAction(nameof(Search));
 		}
 	}
 }

@@ -3,10 +3,13 @@ using System.Globalization;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Appointment;
+using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.StaffMember;
+using VeterinarySystem.Core.Tools.ExtenshionMethods;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.DataSeeding.Admin;
 using VeterinarySystem.Data.Domain.Entities;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace VeterinarySystem.Core.Services
 {
@@ -36,7 +39,6 @@ namespace VeterinarySystem.Core.Services
 			return appointment.Id;
 		}
 
-
 		public async Task<AppointmentServiceModel> GetAppointmentDetails(int appontmentId)
 		{
 			AppointmentServiceModel? appointment = await data.Appointments
@@ -48,6 +50,7 @@ namespace VeterinarySystem.Core.Services
 					AppointmentDate = appointment.AppointmentDate.ToString(EntityConstants.DateFormat),
 					Description = appointment.AppointmentDesctiption,
 					IsUpcoming = appointment.IsUpcoming,
+					OwnerId = appointment.AnimalOwnerId,
 					OwnerFullName = $"{appointment.AnimalOwner.FirstName} {appointment.AnimalOwner.LastName}",
 					StaffName = $"{appointment.StaffMember.FirstName} {appointment.StaffMember.LastName}"
 				})
@@ -127,6 +130,59 @@ namespace VeterinarySystem.Core.Services
 				.ToListAsync();
 
 			return staff;
+		}
+
+		public async Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName)
+		{
+			DeleteViewModel? model = await data.Appointments
+				.AsNoTracking()
+				.Where(e => e.Id == id)
+				.Select(e => new DeleteViewModel()
+				{
+					Id = e.Id,
+					Name = e.AppointmentDate.ToString(EntityConstants.DateFormat),
+					Controller = controllerName
+				}
+			).FirstOrDefaultAsync();
+
+			return model;
+		}
+
+		public async Task<AppointmentFromModel> GetFormForEditing(int appontmentId)
+		{
+			AppointmentFromModel? form = await data.Appointments
+				.AsNoTracking()
+				.Where(appontment => appontment.Id == appontmentId)
+				.Select(appontment => new AppointmentFromModel()
+				{
+					Desctiption = appontment.AppointmentDesctiption,
+					Date = appontment.AppointmentDate,
+					StaffMemberId = appontment.StaffMemberId,
+				})
+				.FirstOrDefaultAsync();
+
+			return form;
+		}
+
+		public async Task<ICollection<AppointmentServiceModel>> TodaysSchedule()
+		{
+			DateTime today = (DateTimeQuickTools.GetDateAndTime()).Date;
+
+			ICollection<AppointmentServiceModel> schedule = await data.Appointments
+			.AsNoTracking()
+				.Where(appointmen => appointmen.AppointmentDate.Date == today &&
+				appointmen.IsUpcoming == true)
+				.OrderBy(appointment => appointment.AppointmentDate)
+				.Select(appointment => new AppointmentServiceModel()
+				{
+					Id = appointment.Id,
+					AppointmentDate = appointment.AppointmentDate.ToString(EntityConstants.DateFormat),
+					Description = appointment.AppointmentDesctiption,
+					OwnerFullName = $"{appointment.AnimalOwner.FirstName} {appointment.AnimalOwner.LastName}"
+				})
+				.ToListAsync();
+
+			return schedule;
 		}
 	}
 }

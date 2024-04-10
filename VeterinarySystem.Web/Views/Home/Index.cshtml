@@ -1,8 +1,35 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Microsoft.AspNetCore.Identity
+@using VeterinarySystem.Core.Models.Appointment
+@using VeterinarySystem.Data.Domain.Entities
+@using VeterinarySystem.Web.Infrastructure
+@model ICollection<AppointmentServiceModel>
+@inject SignInManager<StaffMember> SignInManager
+@inject UserManager<StaffMember> UserManager
+
+@{
+	ViewData["Title"] = "Home Page";
+	string lastName = string.Empty;
+	if (SignInManager.IsSignedIn(User))
+	{
+		StaffMember user = await UserManager.FindByIdAsync(User.Id());
+		lastName = user.LastName;
+	}
+}
+@if (this.User.Identity.IsAuthenticated)
+{
+	@if (!Model.Any())
+	{
+		<h3 class="text-center">Hello Dr. @lastName. You have no appointments for today.</h3>
+	}
+	else
+	{
+		<h3 class="text-center">Hello Dr. @lastName. Here is today's Schedule:</h3>
+		<br />
+		@foreach (AppointmentServiceModel appointment in Model)
+		{
+			<partial name="_AppointmentSchedulePartial" model="@appointment" />
+		}
+	}
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+

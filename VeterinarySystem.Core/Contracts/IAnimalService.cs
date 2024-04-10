@@ -1,4 +1,5 @@
 ﻿using VeterinarySystem.Core.Models.Animal;
+using VeterinarySystem.Core.Models.Common;
 
 namespace VeterinarySystem.Core.Contracts
 {
@@ -23,5 +24,7 @@ namespace VeterinarySystem.Core.Contracts
 		Task<int> GetOwnerByPetId(int animalId);
 
 		Task<AnimalFormModel> GetAnimalEditingForm(int animalId);
+
+		Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName);
 	}
 }

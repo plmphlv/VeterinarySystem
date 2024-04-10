@@ -2,6 +2,8 @@
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Animal;
+using VeterinarySystem.Core.Models.Common;
+using VeterinarySystem.Core.Services;
 
 namespace VeterinarySystem.Web.Controllers
 {
@@ -84,7 +86,7 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Edit(int id, AnimalFormModel fomr)
+		public async Task<IActionResult> Edit(int id, AnimalFormModel form)
 		{
 			if (!await animalService.AnimalExists(id))
 			{
@@ -101,16 +103,25 @@ namespace VeterinarySystem.Web.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				return View(fomr);
+				return View(form);
 			}
 
-			await animalService.EditAnimal(id, fomr);
+			await animalService.EditAnimal(id, form);
 
 			return RedirectToAction("Details", new { Id = id });
 		}
 
-		[HttpPost]
+		[HttpGet]
 		public async Task<IActionResult> Delete(int id)
+		{
+			string controllerName = this.GetType().Name.Replace("Controller", "");
+			DeleteViewModel model = await animalService.GetDeleteViewModel(id, controllerName);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(int id, DeleteViewModel model)
 		{
 			if (!await animalService.AnimalExists(id))
 			{

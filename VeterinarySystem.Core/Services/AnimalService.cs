@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Animal;
+using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
 
@@ -162,6 +163,22 @@ namespace VeterinarySystem.Core.Services
 				}).FirstOrDefaultAsync();
 
 			return animal;
+		}
+
+		public async Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName)
+		{
+			DeleteViewModel? model = await data.Animals
+				.AsNoTracking()
+				.Where(e => e.Id == id)
+				.Select(e => new DeleteViewModel()
+				{
+					Id = e.Id,
+					Name = e.Name,
+					Controller = controllerName
+				}
+			).FirstOrDefaultAsync();
+
+			return model;
 		}
 	}
 }

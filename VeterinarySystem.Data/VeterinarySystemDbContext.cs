@@ -20,10 +20,8 @@ namespace VeterinarySystem.Data
         public DbSet<Appointment> Appointments { get; set; } = null!;
         public DbSet<Procedure> Procedures { get; set; } = null!;
         public DbSet<Prescription> Prescriptions { get; set; } = null!;
-        public DbSet<Medicine> Medicines { get; set; } = null!;
-        public DbSet<PrescriptionMedicine> PrescriptionMedicines { get; set; } = null!;
-        public DbSet<MedicineCategory> MedicineCategories { get; set; } = null!;
         public DbSet<AnimalType> AnimalTypes { get; set; } = null!;
+        public DbSet<PrescriptionCounter> PrescriptionCounters { get; set; } = null!;
 
 
 

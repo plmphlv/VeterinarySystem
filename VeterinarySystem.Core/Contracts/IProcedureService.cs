@@ -1,4 +1,5 @@
-﻿using VeterinarySystem.Core.Models.Procedure;
+﻿using VeterinarySystem.Core.Models.Common;
+using VeterinarySystem.Core.Models.Procedure;
 using VeterinarySystem.Core.Models.StaffMember;
 
 namespace VeterinarySystem.Core.Contracts
@@ -10,12 +11,14 @@ namespace VeterinarySystem.Core.Contracts
 		Task<ProcedureServiceModel> GetProcetudeDetails(int id);
 
 		Task EditProcetude(ProcedureFormModel model, int id);
-		Task DeleteProcetude(int id);
+		Task<int> DeleteProcetude(int id);
 
 		Task<bool> ProcedureExists(int id);
 
 		Task<ICollection<StaffServiceModel>> GetStaffMembers();
 
 		Task<ProcedureFormModel> GetEditingForm(int id);
+
+		Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName);
 	}
 }

@@ -37,7 +37,9 @@
 			@Html.DisplayFor(model => model.AnimalTypeName)
 		</dd>
 	</dl>
-	<a asp-controller="Procedure" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-primary">Add new procerure to record</a>
+	<a class="btn btn-primary" asp-controller="AnimalOwner" asp-action="Details" asp-route-id="@Model.OwnerId">Back To Owner</a>
+	<a class="btn btn-primary" asp-controller="Procedure" asp-action="Add" asp-route-id="@Model.Id">Add new procerure to record</a>
+	<a class="btn btn-danger" asp-controller="Animal" asp-action="Delete" asp-route-id="@Model.Id">Delete Animal</a>
 </div>
 <div>
 	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

@@ -1,4 +1,5 @@
 ﻿using VeterinarySystem.Core.Models.Appointment;
+using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.StaffMember;
 
 namespace VeterinarySystem.Core.Contracts
@@ -21,5 +22,10 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task<ICollection<StaffServiceModel>> GetStaffMembers();
 
+		Task<DeleteViewModel>GetDeleteViewModel(int id, string controllerName);
+
+		Task<AppointmentFromModel> GetFormForEditing(int appontmentId);
+
+		Task<ICollection<AppointmentServiceModel>> TodaysSchedule();
 	}
 }

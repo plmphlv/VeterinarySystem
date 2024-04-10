@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Core.Models.Appointment;
+using VeterinarySystem.Core.Models.Common;
+using VeterinarySystem.Core.Services;
 using VeterinarySystem.Core.Tools.ExtenshionMethods;
 
 namespace VeterinarySystem.Web.Controllers
@@ -28,7 +31,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			AppointmentFromModel appointmentFromModel = new AppointmentFromModel()
 			{
-				Date = DateTimeQuickTools.GetDate(),
+				Date = DateTimeQuickTools.GetDateAndTime(),
 				Staff = await appointmentService.GetStaffMembers()
 			};
 
@@ -70,8 +73,47 @@ namespace VeterinarySystem.Web.Controllers
 			}
 
 			AppointmentServiceModel model = await appointmentService.GetAppointmentDetails(id);
-
 			return View(model);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Edit(int id)
+		{
+			if (!await appointmentService.AppointmenExists(id))
+			{
+				return BadRequest();
+			}
+
+			AppointmentFromModel form = await appointmentService.GetFormForEditing(id);
+
+			form.Staff = await appointmentService.GetStaffMembers();
+
+			return View(form);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Edit(int id, AppointmentFromModel form)
+		{
+			if (!await appointmentService.AppointmenExists(id))
+			{
+				return BadRequest();
+			}
+
+			if (!await ownerService.AnimalOwnerExists(id))
+			{
+				return BadRequest();
+			}
+
+			if (!ModelState.IsValid)
+			{
+				form.Staff = await appointmentService.GetStaffMembers();
+
+				return View(form);
+			}
+
+			await appointmentService.EditAppointment(id, form);
+
+			return RedirectToAction("Details", new { Id = id });
 		}
 
 		[HttpPost]
@@ -87,8 +129,17 @@ namespace VeterinarySystem.Web.Controllers
 			return RedirectToAction(nameof(Details), new { Id = id });
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> Delete(int id)
+		{
+			string controllerName = this.GetType().Name.Replace("Controller", "");
+			DeleteViewModel model = await appointmentService.GetDeleteViewModel(id, controllerName);
+
+			return View(model);
+		}
+
 		[HttpPost]
-		public async Task<IActionResult> DeleteAppointment(int id)
+		public async Task<IActionResult> Delete(int id, DeleteViewModel model)
 		{
 			if (!await appointmentService.AppointmenExists(id))
 			{
