@@ -110,6 +110,7 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
+			string controllerName = this.GetType().Name.Replace("Controller", "");
 			await animaOwnerService.DeleteAnimalOwner(id);
 
 			return RedirectToAction(nameof(Search));

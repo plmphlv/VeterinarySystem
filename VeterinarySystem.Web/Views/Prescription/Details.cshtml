@@ -2,42 +2,41 @@
 @model PrescriptionServiceModel
 
 @{
-    ViewData["Title"] = "Details";
+	ViewData["Title"] = "Details";
 }
 
 <h1>Details</h1>
 
 <div>
-    <h4>PrescriptionServiceModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Number)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Number)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IssueDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IssueDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AnimalName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AnimalName)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+	<h4>PrescriptionServiceModel</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Number)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Number)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Description)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Description)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.IssueDate)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.IssueDate)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.AnimalName)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.AnimalName)
+		</dd>
+	</dl>
+	<a asp-controller="Animal" asp-action="Details" asp-route-id="@Model.AnimalId">Edit Prescription</a>
+	<a asp-controller="Prescription" asp-action="Edit">Edit Prescription</a>
+	@* <a asp-controller="Prescription" asp-action="Delete">Delete Prescription</a> *@
 </div>

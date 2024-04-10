@@ -20,6 +20,8 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task DeleteAnimalOwner(int id);
 
+		Task<DeleteViewModel> GetDeleteModel(int id);
+
 		Task<OwnerQueryModel> Search(string searchTerm, SearchParameter parameter = SearchParameter.FullName);
 
 		Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName);

@@ -178,5 +178,18 @@ namespace VeterinarySystem.Core.Services
 
 			return model;
 		}
+
+		public async Task DeleteAnimalOwner(int id, string controllerName)
+		{
+			AnimalOwner owner = await data.AnimalOwners.FirstOrDefaultAsync(owner => owner.Id == id);
+
+			data.AnimalOwners.Remove(owner);
+			await data.SaveChangesAsync();
+		}
+
+		public Task<DeleteViewModel> GetDeleteModel(int id)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

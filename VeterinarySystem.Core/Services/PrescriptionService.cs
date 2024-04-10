@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.Appointment;
 using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Models.StaffMember;
@@ -61,11 +60,11 @@ namespace VeterinarySystem.Core.Services
 			return prescriptionDetails;
 		}
 
-		public async Task EditPrescription(int prescriptionId, AppointmentFromModel form)
+		public async Task EditPrescription(int prescriptionId, PrescriptionFormModel form)
 		{
 			Prescription prescription = await data.Prescriptions.FirstOrDefaultAsync(prescription => prescription.Id == prescriptionId);
 
-			prescription.Description = form.Desctiption;
+			prescription.Description = form.Description;
 
 			await data.SaveChangesAsync();
 		}
@@ -90,16 +89,16 @@ namespace VeterinarySystem.Core.Services
 			return result;
 		}
 
-		public async Task<PrescriptionFormModel> GetNewPrescriptionForm()
+		public async Task<Models.Prescription.PrescriptionFormModel> GetNewPrescriptionForm()
 		{
-			return new PrescriptionFormModel()
+			return new Models.Prescription.PrescriptionFormModel()
 			{
 				Number = await GetPrescriptionNumber(),
 				IssueDate = DateTimeQuickTools.GetDateAndTime().Date,
 			};
 		}
 
-		public async Task<PrescriptionFormModel> GetFormForEditing(int prescriptionId)
+		public async Task<Models.Prescription.PrescriptionFormModel> GetFormForEditing(int prescriptionId)
 		{
 			PrescriptionFormModel? form = await data.Prescriptions
 				.AsNoTracking()
@@ -154,6 +153,22 @@ namespace VeterinarySystem.Core.Services
 			counter.CurrentNumber += 1;
 
 			return $"{counter.CurrentNumber:D9}";
+		}
+
+		public async Task<string> CheckPrescriptionNumber(int id)
+		{
+			return await data.Prescriptions
+				.Where(prescription => prescription.Id == id)
+				.Select(prescription => prescription.Number)
+				.FirstOrDefaultAsync();
+		}
+
+		public async Task<DateTime> CheckPrescriptionDate(int id)
+		{
+			return await data.Prescriptions
+				.Where(prescription => prescription.Id == id)
+				.Select(prescription => prescription.IssueDate)
+				.FirstOrDefaultAsync();
 		}
 	}
 }

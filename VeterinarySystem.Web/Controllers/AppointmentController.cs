@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Core.Models.Appointment;
 using VeterinarySystem.Core.Models.Common;
-using VeterinarySystem.Core.Services;
+using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Tools.ExtenshionMethods;
 
 namespace VeterinarySystem.Web.Controllers

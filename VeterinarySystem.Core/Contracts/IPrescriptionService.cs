@@ -1,5 +1,4 @@
-﻿using VeterinarySystem.Core.Models.Appointment;
-using VeterinarySystem.Core.Models.Common;
+﻿using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Models.StaffMember;
 
@@ -11,7 +10,7 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task<PrescriptionServiceModel> GetPrescriptionDetails(int prescriptionId);
 
-		Task EditPrescription(int prescriptionId, AppointmentFromModel form);
+		Task EditPrescription(int prescriptionId, PrescriptionFormModel form);
 
 		Task<int> DeletePrescription(int prescriptionId);
 
@@ -26,5 +25,9 @@ namespace VeterinarySystem.Core.Contracts
 		Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName);
 
 		Task<string> GetPrescriptionNumber();
+
+		Task<string> CheckPrescriptionNumber(int id);
+
+		Task<DateTime> CheckPrescriptionDate(int id);
 	}
 }
