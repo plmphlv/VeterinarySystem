@@ -25,8 +25,6 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName);
 
-		Task<string> GetNewPrescriptionNumber();
-
-		Task<string> GetCurremtPrescriptionNumber();
+		Task<string> GetPrescriptionNumber();
 	}
 }

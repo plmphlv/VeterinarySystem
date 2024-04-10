@@ -38,25 +38,25 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			string number = await prescriptionService.GetCurremtPrescriptionNumber();
+			string number = await prescriptionService.GetPrescriptionNumber();
 
 			if (newForm.Number != number)
 			{
-				newForm.Number= number;
+				newForm.Number = number;
 				return View(newForm);
 			}
 
 			DateTime date = DateTimeQuickTools.GetDateAndTime().Date;
 
-			if (newForm.IssueDate!=date)
+			if (newForm.IssueDate != date)
 			{
-				newForm.IssueDate= date;
+				newForm.IssueDate = date;
 				return View(newForm);
 			}
 
-			int newId = await prescriptionService.AddPrescription(newForm,id);
+			int newId = await prescriptionService.AddPrescription(newForm, id);
 
-			return RedirectToAction(nameof(Details), new { Id= newId });
+			return RedirectToAction(nameof(Details), new { Id = newId });
 		}
 
 		[HttpGet]

@@ -24,6 +24,10 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task<int> AddPrescription(PrescriptionFormModel form, int animalId)
 		{
+			PrescriptionCounter? counter = await data.PrescriptionCounters.FirstOrDefaultAsync();
+
+			counter.CurrentNumber += 1;
+
 			Prescription prescription = new Prescription()
 			{
 				Number = form.Number,
@@ -90,7 +94,7 @@ namespace VeterinarySystem.Core.Services
 		{
 			return new PrescriptionFormModel()
 			{
-				Number = await GetNewPrescriptionNumber(),
+				Number = await GetPrescriptionNumber(),
 				IssueDate = DateTimeQuickTools.GetDateAndTime().Date,
 			};
 		}
@@ -142,23 +146,12 @@ namespace VeterinarySystem.Core.Services
 			return staff;
 		}
 
-		public async Task<string> GetCurremtPrescriptionNumber()
+		public async Task<string> GetPrescriptionNumber()
 		{
 			PrescriptionCounter? counter = await data.PrescriptionCounters
 				.FirstOrDefaultAsync();
 
-			
-
-			return $"{counter.CurrentNumber:D9}";
-		}
-
-		public async Task<string> GetNewPrescriptionNumber()
-		{
-			PrescriptionCounter? counter = await data.PrescriptionCounters.FirstOrDefaultAsync();
-
 			counter.CurrentNumber += 1;
-
-			await data.SaveChangesAsync();
 
 			return $"{counter.CurrentNumber:D9}";
 		}
