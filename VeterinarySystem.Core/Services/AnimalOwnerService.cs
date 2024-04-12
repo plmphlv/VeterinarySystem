@@ -19,7 +19,10 @@ namespace VeterinarySystem.Core.Services
 			data = dbContext;
 		}
 
-		public async Task<OwnerQueryModel> Search(string? searchTerm, SearchParameter parameter = SearchParameter.FullName)
+		public async Task<OwnerQueryModel> Search(string? searchTerm, 
+			SearchParameter parameter = SearchParameter.FullName, 
+			int pageSize = 5, 
+			int currentPage = 1)
 		{
 			IQueryable<AnimalOwner> ownerQuery = data.AnimalOwners
 				.AsNoTracking()
@@ -41,7 +44,14 @@ namespace VeterinarySystem.Core.Services
 				}
 			}
 
+			int totalCount = ownerQuery.Count();
+
+			int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
 			ICollection<AnimalOwnerMiniServiceModel> owners = await ownerQuery
+				.OrderBy(owner => owner.Id)
+				.Skip((currentPage - 1) * pageSize)
+				.Take(pageSize)
 				.Select(owner => new AnimalOwnerMiniServiceModel()
 				{
 					Id = owner.Id,
@@ -52,8 +62,9 @@ namespace VeterinarySystem.Core.Services
 
 			OwnerQueryModel searchResults = new OwnerQueryModel()
 			{
-				SearchResults = owners.Count(),
-				OwnersFound = owners
+				TotalOwnersFound = totalCount,
+				OwnersFound = owners,
+				TotalPages = totalPages
 			};
 
 			return searchResults;

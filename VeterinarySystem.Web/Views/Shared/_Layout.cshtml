@@ -29,6 +29,9 @@
 							<li class="nav-item">
 								<a class="nav-link text-dark" asp-area="" asp-controller="AnimalOwner" asp-action="Add">Add New Animal Owner</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Search">Schedules</a>
+							</li>
 							@if (this.User.Identity.IsAuthenticated && User.IsInRole(AdminUser.AdminRoleName))
 							{
 								<li class="nav-item">
@@ -50,7 +53,7 @@
 
 	<footer class="border-top footer text-muted">
 		<div class="container">
-			&copy; 2024 - VeterinarySystem.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+			&copy; @DateTime.Now.Year - VeterinarySystem
 		</div>
 	</footer>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>

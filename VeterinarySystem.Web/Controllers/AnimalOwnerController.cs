@@ -20,10 +20,15 @@ namespace VeterinarySystem.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Search([FromQuery] AllOwnersQuery query)
 		{
-			OwnerQueryModel ownerQueryResult = await animaOwnerService.Search(query.SearchTerm, query.Parameter);
+			OwnerQueryModel ownerQueryResult = await animaOwnerService
+				.Search(query.SearchTerm,
+				query.Parameter,
+				AllOwnersQuery.OwnersPerPAge,
+				query.CurrentPage);
 
-			query.TotalOwnersCount = ownerQueryResult.SearchResults;
+			query.TotalOwnersCount = ownerQueryResult.TotalOwnersFound;
 			query.Owners = ownerQueryResult.OwnersFound;
+			query.TotalPages = ownerQueryResult.TotalPages;
 
 			return View(query);
 		}
@@ -37,19 +42,19 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Add(AnimalOwnerFormModel fomr)
+		public async Task<IActionResult> Add(AnimalOwnerFormModel form)
 		{
-			if (await animaOwnerService.AnimalOwnerExists(fomr))
+			if (await animaOwnerService.AnimalOwnerExists(form))
 			{
-				ModelState.AddModelError(nameof(fomr), ErrorMessages.OwnerExistsError);
+				ModelState.AddModelError(nameof(form), ErrorMessages.OwnerExistsError);
 			}
 
 			if (!ModelState.IsValid)
 			{
-				return View(fomr);
+				return View(form);
 			}
 
-			int newEntityId = await animaOwnerService.AddAnimalOwner(fomr);
+			int newEntityId = await animaOwnerService.AddAnimalOwner(form);
 
 			return RedirectToAction(nameof(Details), new { Id = newEntityId });
 		}

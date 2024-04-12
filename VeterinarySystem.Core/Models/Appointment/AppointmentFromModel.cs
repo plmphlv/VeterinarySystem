@@ -6,7 +6,7 @@ namespace VeterinarySystem.Core.Models.Appointment
 {
 	public class AppointmentFromModel
 	{
-		public string Desctiption { get; set; } = string.Empty;
+		public string Description { get; set; } = string.Empty;
 
 		[Required(ErrorMessage = ErrorMessages.RequiredError)]
 		public DateTime Date { get; set; }

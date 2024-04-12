@@ -97,11 +97,6 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			if (!await ownerService.AnimalOwnerExists(id))
-			{
-				return BadRequest();
-			}
-
 			if (!form.Date.CompareDate())
 			{
 				ModelState
@@ -109,7 +104,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			}
 
-				if (!ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
 				form.Staff = await appointmentService.GetStaffMembers();
 
@@ -154,6 +149,31 @@ namespace VeterinarySystem.Web.Controllers
 			int ownerId = await appointmentService.DeleteAppointment(id);
 
 			return RedirectToAction(nameof(Details), "AnimalOwner", new { Id = ownerId });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Search([FromQuery]AllAppointmentsQueryModel query)
+		{
+			if (query.StartDate is null && query.EndDate is null)
+			{
+				query.StartDate = DateTime.Today;
+				query.EndDate = DateTime.Today;
+			}
+
+			// Call your service method to get appointments for the specified period
+			AppointmenQueryServiceModel queryResult = await appointmentService.GetAppointmensForPeriod(
+				query.StartDate,
+				query.EndDate,
+				query.CurrentPage, // Pass currentPage parameter
+				AllAppointmentsQueryModel.AppointmensPerPage // Pass appointmentsPerPage parameter
+			);
+
+			// Update properties of the query model based on the search result
+			query.Appointments = queryResult.Appointmens;
+			query.AppointmensCount = queryResult.TotalAppointmens;
+			query.CurrentPage = query.CurrentPage; // Update the CurrentPage property
+
+			return View(query);
 		}
 	}
 }

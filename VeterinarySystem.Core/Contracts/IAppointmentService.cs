@@ -27,5 +27,12 @@ namespace VeterinarySystem.Core.Contracts
 		Task<AppointmentFromModel> GetFormForEditing(int appontmentId);
 
 		Task<ICollection<AppointmentServiceModel>> TodaysSchedule();
+
+		Task<AppointmenQueryServiceModel> GetAppointmensForPeriod(
+			DateTime? startDate,
+			DateTime? endDate,
+			int currentPage = 1,
+			int appointmentsPerPage = 1
+			);
 	}
 }

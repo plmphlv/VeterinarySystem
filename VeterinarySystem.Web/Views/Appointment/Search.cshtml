@@ -1,0 +1,52 @@
+﻿@using VeterinarySystem.Core.Models.Appointment
+@model AllAppointmentsQueryModel
+
+@{
+	ViewBag.Title = "All Appointments";
+}
+
+<h2>All Appointments</h2>
+
+@using (Html.BeginForm("Search", "Appointment", FormMethod.Get))
+{
+	<p>
+		@Html.Label("Start Date:")
+		@Html.TextBoxFor(m => m.StartDate, new { type = "date" })
+
+		@Html.Label("End Date:")
+		@Html.TextBoxFor(m => m.EndDate, new { type = "date" })
+
+		<button type="submit">Search</button>
+	</p>
+}
+
+@if (Model.Appointments.Any())
+{
+
+	<ul class="row">
+		@foreach (AppointmentServiceModel appointment in Model.Appointments)
+		{
+			<partial name="_AppointmentSchedulePartial" model="@appointment" />
+		}
+	</ul>
+
+}
+else
+{
+	<p>No appointments found.</p>
+}
+
+@if (Model.AppointmensCount > AllAppointmentsQueryModel.AppointmensPerPage)
+{
+	<div class="row">
+		@if (Model.CurrentPage > 1)
+		{
+			<a href="@Url.Action("Search", "Appointment", new { StartDate = Model.StartDate, EndDate = Model.EndDate, CurrentPage = Model.CurrentPage - 1 })">Previous</a>
+		}
+		<span>Page @Model.CurrentPage</span>
+		@if (Model.CurrentPage < Model.TotalPages)
+		{
+			<a href="@Url.Action("Search", "Appointment", new {  StartDate = Model.StartDate, EndDate = Model.EndDate, CurrentPage = Model.CurrentPage + 1 })">Next</a>
+		}
+	</div>
+}

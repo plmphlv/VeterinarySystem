@@ -1,5 +1,5 @@
-﻿@using VeterinarySystem.Core.Models.Prescription
-@model PrescriptionServiceModel
+﻿@using VeterinarySystem.Core.Models.Appointment
+@model AppointmentServiceModel
 
 @{
 	ViewData["Title"] = "Detais";
@@ -12,28 +12,22 @@
 	<hr />
 	<dl class="row">
 		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Number)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Number)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.IssueDate)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.IssueDate)
-		</dd>
-		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.Description)
 		</dt>
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.Description)
 		</dd>
 		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.AnimalName)
+			@Html.DisplayNameFor(model => model.IsUpcoming)
 		</dt>
 		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.AnimalName)
+			@Html.DisplayFor(model => model.IsUpcoming)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.OwnerFullName)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.OwnerFullName)
 		</dd>
 		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.StaffName)
@@ -43,7 +37,7 @@
 		</dd>
 	</dl>
 	<br />
-	<a class="btn btn-primary" asp-controller="Animal" asp-action="Details" asp-route-id="@Model.AnimalId">Back To Animal</a>
-	<a class="btn btn-primary" asp-controller="Prescription" asp-action="Edit" asp-route-id="@Model.Id">Edit Prescription</a>
-	<a class="btn btn-danger" asp-controller="Prescription" asp-action="Delete" asp-route-id="@Model.Id">Delete Appointment</a>
+	<a class="btn btn-primary" asp-controller="Animal" asp-action="Details" asp-route-id="@Model.OwnerId">Back To Owner</a>
+	<a class="btn btn-primary" asp-controller="Appointment" asp-action="Edit" asp-route-id="@Model.Id">Edit Appointment</a>
+	<a class="btn btn-danger" asp-controller="Appointment" asp-action="Delete" asp-route-id="@Model.Id">Delete Appointment</a>
 </div>
