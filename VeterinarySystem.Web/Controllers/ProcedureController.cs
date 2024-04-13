@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Common;
+using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Models.Procedure;
+using VeterinarySystem.Core.Services;
 using VeterinarySystem.Core.Tools.ExtenshionMethods;
 
 namespace VeterinarySystem.Web.Controllers
@@ -54,7 +56,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			if (ModelState.IsValid)
 			{
-				form.Staff= await procedureService.GetStaffMembers();
+				form.Staff = await procedureService.GetStaffMembers();
 				return View(form);
 			}
 
@@ -112,7 +114,7 @@ namespace VeterinarySystem.Web.Controllers
 
 			if (ModelState.IsValid)
 			{
-				form.Staff= await procedureService.GetStaffMembers();
+				form.Staff = await procedureService.GetStaffMembers();
 				return View(form);
 			}
 
@@ -138,9 +140,29 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			int entityId= await procedureService.DeleteProcetude(id);
+			int entityId = await procedureService.DeleteProcetude(id);
 
 			return RedirectToAction(nameof(Details), "Animal", new { Id = entityId });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> ProcedureHistory([FromQuery] ProcedureHistoryQueryModel query)
+		{
+			if (!await animalService.AnimalExists(query.AnimalId))
+			{
+				return BadRequest();
+			}
+
+			ProcedureQueryServiceModel serviceQuery = await procedureService.GetProcedureHistory(query.AnimalId,
+				query.Order,
+				query.CurrentPage,
+				ProcedureHistoryQueryModel.ProceduresPerPage);
+
+			query.TotalProcedures = serviceQuery.TotalProcedures;
+			query.TotalPages = serviceQuery.TotalPages;
+			query.Procedures = serviceQuery.Procedures;
+
+			return View(query);
 		}
 	}
 }

@@ -1,0 +1,12 @@
+﻿@using VeterinarySystem.Core.Models.Procedure
+@model ProcedureServiceModel
+
+<div class="card" style="width: 18rem;">
+	<div class="card-body">
+		<h5 class="card-title">Procedure Info</h5>
+		<p class="card-text">Description: @Model.Description</p>
+		<p class="card-text">Performed on @Model.Date</p>
+		<p class="card-text">Performed by @Model.StaffMemberFullName</p>
+		<a class="btn btn-primary" asp-controller="Procedure" asp-action="Details" asp-route-id="@Model.Id">Details</a>
+	</div>
+</div>

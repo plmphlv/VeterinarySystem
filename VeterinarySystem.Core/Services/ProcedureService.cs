@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Infrastructure;
 using VeterinarySystem.Core.Models.Common;
+using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Models.Procedure;
 using VeterinarySystem.Core.Models.StaffMember;
 using VeterinarySystem.Data;
@@ -135,6 +137,49 @@ namespace VeterinarySystem.Core.Services
 			).FirstOrDefaultAsync();
 
 			return model;
+		}
+
+		public async Task<ProcedureQueryServiceModel> GetProcedureHistory(int animalId,
+			MedicalHistoryOrder order = MedicalHistoryOrder.Newest,
+			int currentPage = 1,
+			int proceduresPerPage = 1)
+		{
+			IQueryable<Procedure> query = data.Procedures
+				.AsNoTracking()
+				.Where(prescription => prescription.AnimalId == animalId)
+				.AsQueryable();
+
+			if (order == MedicalHistoryOrder.Oldest)
+			{
+				query = query.OrderBy(prescription => prescription.Date);
+			}
+			else
+			{
+				query = query.OrderByDescending(prescription => prescription.Date);
+			}
+
+			int totalPrescriptions = query.Count();
+			int totalPages = (int)Math.Ceiling((double)totalPrescriptions / proceduresPerPage);
+
+			ICollection<ProcedureServiceModel> prescriptions = await query
+				.Skip((currentPage - 1) * proceduresPerPage)
+				.Take(proceduresPerPage)
+				.Select(prescriptions => new ProcedureServiceModel()
+				{
+					Id = prescriptions.Id,
+					Description = prescriptions.Description,
+					Date = prescriptions.Date.ToString(EntityConstants.DateOnlyFormat),
+					StaffMemberFullName = $"{prescriptions.StaffMember.FirstName} {prescriptions.StaffMember.LastName}"
+				}).ToListAsync();
+
+			ProcedureQueryServiceModel serviceQuery = new ProcedureQueryServiceModel()
+			{
+				TotalProcedures = totalPrescriptions,
+				TotalPages = totalPages,
+				Procedures = prescriptions
+			};
+
+			return serviceQuery;
 		}
 	}
 }
