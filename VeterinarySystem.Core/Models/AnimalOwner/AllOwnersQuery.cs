@@ -12,11 +12,11 @@ namespace VeterinarySystem.Core.Models.AnimalOwner
 
 		public SearchParameter Parameter { get; init; }
 
-		public int CurrentPage { get; init; } = 1;
-
 		public int TotalOwnersCount { get; set; }
 
         public int TotalPages { get; set; }
+
+		public int CurrentPage { get; init; } = 1;
 
         public IEnumerable<AnimalOwnerMiniServiceModel> Owners { get; set; } = new List<AnimalOwnerMiniServiceModel>();
 	}

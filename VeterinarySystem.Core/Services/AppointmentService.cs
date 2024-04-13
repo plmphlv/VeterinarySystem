@@ -201,9 +201,11 @@ namespace VeterinarySystem.Core.Services
             queryable = queryable
                 .OrderBy(appointment => appointment.AppointmentDate);
 
-            int totalAppointments = queryable.Count();
+            int totalAppointmentsCount = queryable.Count();
 
-            ICollection<AppointmentServiceModel> appointments = await queryable
+			int totalPages = (int)Math.Ceiling((double)totalAppointmentsCount / appointmentsPerPage);
+
+			ICollection<AppointmentServiceModel> appointments = await queryable
                 .Skip((currentPage - 1) * appointmentsPerPage)
                 .Take(appointmentsPerPage)
                 .Select(appointments => new AppointmentServiceModel()
@@ -217,7 +219,8 @@ namespace VeterinarySystem.Core.Services
 
             AppointmenQueryServiceModel appointmenQuery = new AppointmenQueryServiceModel()
             {
-                TotalAppointmens = totalAppointments,
+                TotalAppointmens = totalAppointmentsCount,
+                TotalPages = totalPages,
                 Appointmens = appointments
             };
 

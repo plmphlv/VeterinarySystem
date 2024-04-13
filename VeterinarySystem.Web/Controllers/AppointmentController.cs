@@ -152,15 +152,18 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Search([FromQuery]AllAppointmentsQueryModel query)
+		public async Task<IActionResult> Search([FromQuery] AllAppointmentsQueryModel query)
 		{
-			if (query.StartDate is null && query.EndDate is null)
+			if (query.StartDate is null)
 			{
 				query.StartDate = DateTime.Today;
+			}
+
+			if (query.EndDate is null)
+			{
 				query.EndDate = DateTime.Today;
 			}
 
-			// Call your service method to get appointments for the specified period
 			AppointmenQueryServiceModel queryResult = await appointmentService.GetAppointmensForPeriod(
 				query.StartDate,
 				query.EndDate,
@@ -168,10 +171,10 @@ namespace VeterinarySystem.Web.Controllers
 				AllAppointmentsQueryModel.AppointmensPerPage // Pass appointmentsPerPage parameter
 			);
 
-			// Update properties of the query model based on the search result
 			query.Appointments = queryResult.Appointmens;
-			query.AppointmensCount = queryResult.TotalAppointmens;
+			query.TotalAppointmensCount = queryResult.TotalAppointmens;
 			query.CurrentPage = query.CurrentPage; // Update the CurrentPage property
+			query.TotalPages = queryResult.TotalPages;
 
 			return View(query);
 		}

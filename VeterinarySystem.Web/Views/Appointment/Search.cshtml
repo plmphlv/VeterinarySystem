@@ -36,7 +36,7 @@ else
 	<p>No appointments found.</p>
 }
 
-@if (Model.AppointmensCount > AllAppointmentsQueryModel.AppointmensPerPage)
+@if (Model.TotalAppointmensCount > AllAppointmentsQueryModel.AppointmensPerPage)
 {
 	<div class="row">
 		@if (Model.CurrentPage > 1)

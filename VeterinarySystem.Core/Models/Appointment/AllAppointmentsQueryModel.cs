@@ -2,13 +2,13 @@
 {
 	public class AllAppointmentsQueryModel
 	{
-		public const int AppointmensPerPage = 3;
+		public const int AppointmensPerPage = 8;
 
 		public DateTime? StartDate { get; set; } = null;
 
 		public DateTime? EndDate { get; set; } = null;
 
-        public int AppointmensCount { get; set; }
+        public int TotalAppointmensCount { get; set; }
 
         public int TotalPages { get; set; }
 
