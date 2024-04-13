@@ -3,6 +3,7 @@ using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Models.StaffMember;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using VeterinarySystem.Data.DataSeeding.Admin;
+using VeterinarySystem.Core.Infrastructure;
 
 namespace VeterinarySystem.Core.Contracts
 {
@@ -31,5 +32,10 @@ namespace VeterinarySystem.Core.Contracts
 		Task<string> CheckPrescriptionNumber(int id);
 
 		Task<DateTime> CheckPrescriptionDate(int id);
+
+		Task<PrescriptionsQueryServiceModel> GetPrescriptionHistory(int animalId,
+			MedicalHistoryOrder PrescriptionsOrder = MedicalHistoryOrder.Newest,
+			int currentPage = 1,
+			int prescriptionsPerPage = 1);
 	}
 }

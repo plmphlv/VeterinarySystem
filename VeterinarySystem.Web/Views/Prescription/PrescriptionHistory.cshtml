@@ -1,0 +1,52 @@
+﻿@using VeterinarySystem.Core.Models.Prescription
+@model PrescriptionsHistoryQueryModel
+@{
+	ViewData["Title"] = "Search";
+}
+<form method="get">
+	<div class="row">
+		<div class="form-group col-md-3">
+			<div class="form-group">
+				<label asp-for="Order"></label>
+				<select asp-for="Order" class="form-control">
+					<option value="0">Newset</option>
+					<option value="1">Oldest</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group mt-4 p-2">
+				<a class="btn btn-primary" href="@Url.Action("PrescriptionHistory", "Prescription", new {  AnimalId = Model.AnimalId, Order = Model.Order, CurrentPage = Model.CurrentPage, AnimalName = Model.AnimalName })">Organise</a>
+			</div>
+		</div>
+	</div>
+</form>
+@if (!Model.Prescriptions.Any())
+{
+	<h2 class="text-center">@Model.AnimalName has no prescriptions issiued yet.</h2>
+}
+else
+{
+	<div class="row">
+		@foreach (PrescriptionServiceModel prescriptions in Model.Prescriptions)
+		{
+			<partial name="_PrescriptionHistoryPartial" model="@prescriptions" />
+		}
+	</div>
+}
+
+
+@if (Model.TotalPrescriptions > PrescriptionsHistoryQueryModel.PrescriptionsPerPage)
+{
+	<div class="row">
+		@if (Model.CurrentPage > 1)
+		{
+			<a href="@Url.Action("PrescriptionHistory", "Prescription", new {  AnimalId = Model.AnimalId, Order = Model.Order, CurrentPage =Model.CurrentPage - 1, AnimalName = Model.AnimalName })">Previous</a>
+		}
+		<span>Page @Model.CurrentPage</span>
+		@if (Model.CurrentPage < Model.TotalPages)
+		{
+			<a href="@Url.Action("PrescriptionHistory", "Prescription", new {  AnimalId = Model.AnimalId, Order = Model.Order, CurrentPage = Model.CurrentPage + 1,  AnimalName = Model.AnimalName })">Next</a>
+		}
+	</div>
+}

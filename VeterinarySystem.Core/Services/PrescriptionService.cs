@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Infrastructure;
 using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Models.StaffMember;
@@ -25,7 +26,7 @@ namespace VeterinarySystem.Core.Services
 		{
 			PrescriptionCounter? counter = await data.PrescriptionCounters.FirstOrDefaultAsync();
 
-			counter.CurrentNumber += 1;
+			counter.CurrentNumber++;
 
 			Prescription prescription = new Prescription()
 			{
@@ -151,9 +152,10 @@ namespace VeterinarySystem.Core.Services
 		public async Task<string> GetPrescriptionNumber()
 		{
 			PrescriptionCounter? counter = await data.PrescriptionCounters
+				.AsNoTracking()
 				.FirstOrDefaultAsync();
 
-			counter.CurrentNumber += 1;
+			counter.CurrentNumber++;
 
 			return $"{counter.CurrentNumber:D9}";
 		}
@@ -161,6 +163,7 @@ namespace VeterinarySystem.Core.Services
 		public async Task<string> CheckPrescriptionNumber(int id)
 		{
 			return await data.Prescriptions
+				.AsNoTracking()
 				.Where(prescription => prescription.Id == id)
 				.Select(prescription => prescription.Number)
 				.FirstOrDefaultAsync();
@@ -172,6 +175,49 @@ namespace VeterinarySystem.Core.Services
 				.Where(prescription => prescription.Id == id)
 				.Select(prescription => prescription.IssueDate)
 				.FirstOrDefaultAsync();
+		}
+
+		public async Task<PrescriptionsQueryServiceModel> GetPrescriptionHistory(int animalId, MedicalHistoryOrder PrescriptionsOrder = MedicalHistoryOrder.Newest,
+			int currentPage = 1,
+			int prescriptionsPerPage = 1)
+		{
+			IQueryable<Prescription> query = data.Prescriptions
+				.AsNoTracking()
+				.Where(prescription => prescription.AnimalId == animalId)
+				.AsQueryable();
+
+			if (PrescriptionsOrder == MedicalHistoryOrder.Oldest)
+			{
+				query = query.OrderBy(prescription => prescription.IssueDate);
+			}
+			else
+			{
+				query = query.OrderByDescending(prescription => prescription.IssueDate);
+			}
+
+			int totalPrescriptions = query.Count();
+			int totalPages = (int)Math.Ceiling((double)totalPrescriptions / prescriptionsPerPage);
+
+			ICollection<PrescriptionServiceModel> prescriptions = await query
+				.Skip((currentPage - 1) * prescriptionsPerPage)
+				.Take(prescriptionsPerPage)
+				.Select(prescriptions => new PrescriptionServiceModel()
+				{
+					Id = prescriptions.Id,
+					Number = prescriptions.Number,
+					Description = prescriptions.Description,
+					IssueDate = prescriptions.IssueDate.ToString(EntityConstants.DateOnlyFormat),
+					StaffName = $"{prescriptions.StaffMember.FirstName} {prescriptions.StaffMember.LastName}"
+				}).ToListAsync();
+
+			PrescriptionsQueryServiceModel serviceQuery = new PrescriptionsQueryServiceModel()
+			{
+				TotalPrescriptionsCount = totalPrescriptions,
+				TotalPages = totalPages,
+				Prescriptions = prescriptions
+			};
+
+			return serviceQuery;
 		}
 	}
 }

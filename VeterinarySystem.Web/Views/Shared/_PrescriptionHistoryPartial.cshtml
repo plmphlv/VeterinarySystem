@@ -1,0 +1,13 @@
+﻿@using VeterinarySystem.Core.Models.Prescription
+@model PrescriptionServiceModel
+
+<div class="card" style="width: 18rem;">
+	<div class="card-body">
+		<h5 class="card-title">Prescription Info</h5>
+		<p class="card-text">Number: @Model.Number</p>
+		<p class="card-text">Description: @Model.Description</p>
+		<p class="card-text">Issue Date: @Model.IssueDate</p>
+		<p class="card-text">Issued from @Model.StaffName</p>
+		<a class="btn btn-primary" asp-controller="Prescription" asp-action="Details" asp-route-id="@Model.Id">Details</a>
+	</div>
+</div>

@@ -57,13 +57,13 @@ namespace VeterinarySystem.Web.Controllers
 				ModelState.AddModelError(nameof(newForm.IssueDate), ErrorMessages.IssueDateError);
 			}
 
-			if (!ModelState.IsValid)
-			{
-				newForm.Number = number;
-				newForm.IssueDate = date;
-				newForm.Staff = await prescriptionService.GetStaffMembers();
-				return View(newForm);
-			}
+			//if (!ModelState.IsValid)
+			//{
+			//	newForm.Number = number;
+			//	newForm.IssueDate = date;
+			//	newForm.Staff = await prescriptionService.GetStaffMembers();
+			//	return View(newForm);
+			//}
 
 			int newId = await prescriptionService.AddPrescription(newForm, id);
 
@@ -156,6 +156,26 @@ namespace VeterinarySystem.Web.Controllers
 			await prescriptionService.DeletePrescription(id);
 
 			return RedirectToAction(nameof(Details), new { Id = id });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> PrescriptionHistory([FromQuery] PrescriptionsHistoryQueryModel query)
+		{
+			if (!await animalService.AnimalExists(query.AnimalId))
+			{
+				return BadRequest();
+			}
+
+			PrescriptionsQueryServiceModel serviceQuery = await prescriptionService.GetPrescriptionHistory(query.AnimalId,
+				query.Order,
+				query.CurrentPage,
+				PrescriptionsHistoryQueryModel.PrescriptionsPerPage);
+
+			query.TotalPrescriptions = serviceQuery.TotalPrescriptionsCount;
+			query.TotalPages = serviceQuery.TotalPages;
+			query.Prescriptions = serviceQuery.Prescriptions;
+
+			return View(query);
 		}
 	}
 }
