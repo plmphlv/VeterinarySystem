@@ -1,0 +1,33 @@
+﻿@using VeterinarySystem.Core.Models.User
+@model RegisterUserModel
+
+@{
+	ViewData["Title"] = "Register";
+}
+
+<form asp-action="Register" method="post">
+	<div asp-validation-summary="ModelOnly" class="danger"></div>
+	<div class="form-group">
+		<input asp-for="FirstName" class="form-control auth-input" placeholder="FirstName">
+		<span asp-validation-for="FirstName" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<input asp-for="LastName" class="form-control auth-input" placeholder="LastName">
+		<span asp-validation-for="LastName" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<input asp-for="Email" class="form-control auth-input" placeholder="Email">
+		<span asp-validation-for="Email" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<input type="password" asp-for="Password" class="form-control auth-input" placeholder="Password">
+		<span asp-validation-for="Password" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<input type="password" asp-for="ConfirmPassword" class="form-control auth-input" placeholder="ConfirmPassword">
+		<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+	</div>
+
+	<input type="submit" value="Register " />
+</form>

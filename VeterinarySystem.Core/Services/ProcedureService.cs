@@ -3,7 +3,6 @@ using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Infrastructure;
 using VeterinarySystem.Core.Models.Common;
-using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Models.Procedure;
 using VeterinarySystem.Core.Models.StaffMember;
 using VeterinarySystem.Data;
@@ -40,8 +39,13 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task<int> DeleteProcetude(int id)
 		{
-			Procedure procedure = await data.Procedures
+			Procedure? procedure = await data.Procedures
 				.FirstOrDefaultAsync(x => x.Id == id);
+
+			if (procedure == null)
+			{
+				throw new NullReferenceException();
+			}
 
 			int entityId = procedure.AnimalId;
 
@@ -55,6 +59,11 @@ namespace VeterinarySystem.Core.Services
 		{
 			Procedure procedure = await data.Procedures
 				.FirstOrDefaultAsync(p => p.Id == id);
+
+			if (procedure == null)
+			{
+				throw new NullReferenceException();
+			}
 
 			procedure.Name = model.Name;
 			procedure.Description = model.Description;
@@ -79,6 +88,11 @@ namespace VeterinarySystem.Core.Services
 					StaffMemberFullName = $"{p.StaffMember.FirstName} {p.StaffMember.LastName}"
 				})
 				.FirstOrDefaultAsync();
+
+			if (model == null)
+			{
+				throw new NullReferenceException();
+			}
 
 			return model;
 		}
@@ -118,7 +132,13 @@ namespace VeterinarySystem.Core.Services
 					Description = procedure.Description,
 					Date = procedure.Date,
 					StaffMemberId = procedure.StaffMemberId
-				}).FirstOrDefaultAsync();
+				})
+				.FirstOrDefaultAsync();
+
+			if (form == null)
+			{
+				throw new NullReferenceException();
+			}
 
 			return form;
 		}
@@ -135,6 +155,11 @@ namespace VeterinarySystem.Core.Services
 					Controller = controllerName
 				}
 			).FirstOrDefaultAsync();
+
+			if (model == null)
+			{
+				throw new NullReferenceException();
+			}
 
 			return model;
 		}

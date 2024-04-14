@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Core", "Ve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Web", "VeterinarySystem.Web\VeterinarySystem.Web.csproj", "{01B878F5-48E2-4A0D-BDB9-68F3E046F57C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeterinarySystem.Test", "VeterinarySystem.Test\VeterinarySystem.Test.csproj", "{C113E85C-0C23-4582-A416-310942987DD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{01B878F5-48E2-4A0D-BDB9-68F3E046F57C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01B878F5-48E2-4A0D-BDB9-68F3E046F57C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01B878F5-48E2-4A0D-BDB9-68F3E046F57C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C113E85C-0C23-4582-A416-310942987DD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C113E85C-0C23-4582-A416-310942987DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C113E85C-0C23-4582-A416-310942987DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C113E85C-0C23-4582-A416-310942987DD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

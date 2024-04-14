@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Appointment;
@@ -7,6 +8,7 @@ using VeterinarySystem.Core.Tools.ExtenshionMethods;
 
 namespace VeterinarySystem.Web.Controllers
 {
+	[Authorize]
 	public class AppointmentController : Controller
 	{
 		private readonly IAnimalOwnerService ownerService;

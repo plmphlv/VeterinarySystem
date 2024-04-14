@@ -26,6 +26,11 @@ namespace VeterinarySystem.Core.Services
 		{
 			PrescriptionCounter? counter = await data.PrescriptionCounters.FirstOrDefaultAsync();
 
+			if (counter == null)
+			{
+				throw new NullReferenceException();
+			}
+
 			counter.CurrentNumber++;
 
 			Prescription prescription = new Prescription()
@@ -60,12 +65,23 @@ namespace VeterinarySystem.Core.Services
 				})
 				.FirstOrDefaultAsync();
 
+			if (prescriptionDetails is null)
+			{
+				throw new NullReferenceException();
+			}
+
 			return prescriptionDetails;
 		}
 
 		public async Task EditPrescription(int prescriptionId, PrescriptionFormModel form)
 		{
-			Prescription prescription = await data.Prescriptions.FirstOrDefaultAsync(prescription => prescription.Id == prescriptionId);
+			Prescription? prescription = await data.Prescriptions
+				.FirstOrDefaultAsync(prescription => prescription.Id == prescriptionId);
+
+			if (prescription is null)
+			{
+				throw new NullReferenceException();
+			}
 
 			prescription.Description = form.Description;
 			prescription.StaffMemberId = form.StaffMemberId;
@@ -75,7 +91,13 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task<int> DeletePrescription(int prescriptionId)
 		{
-			Prescription prescription = await data.Prescriptions.FirstOrDefaultAsync(prescription => prescription.Id == prescriptionId);
+			Prescription? prescription = await data.Prescriptions
+				.FirstOrDefaultAsync(prescription => prescription.Id == prescriptionId);
+
+			if (prescription is null)
+			{
+				throw new NullReferenceException();
+			}
 
 			int animalId = prescription.AnimalId;
 
@@ -115,6 +137,11 @@ namespace VeterinarySystem.Core.Services
 				})
 				.FirstOrDefaultAsync();
 
+			if (form is null)
+			{
+				throw new NullReferenceException();
+			}
+
 			return form;
 		}
 
@@ -130,6 +157,11 @@ namespace VeterinarySystem.Core.Services
 					Controller = controllerName
 				})
 				.FirstOrDefaultAsync();
+
+			if (model is null)
+			{
+				throw new NullReferenceException();
+			}
 
 			return model;
 		}
@@ -155,6 +187,11 @@ namespace VeterinarySystem.Core.Services
 				.AsNoTracking()
 				.FirstOrDefaultAsync();
 
+			if (counter is null)
+			{
+				throw new NullReferenceException();
+			}
+
 			counter.CurrentNumber++;
 
 			return $"{counter.CurrentNumber:D9}";
@@ -162,11 +199,18 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task<string> CheckPrescriptionNumber(int id)
 		{
-			return await data.Prescriptions
+			string? prescriptionNumber = await data.Prescriptions
 				.AsNoTracking()
 				.Where(prescription => prescription.Id == id)
 				.Select(prescription => prescription.Number)
 				.FirstOrDefaultAsync();
+
+			if (prescriptionNumber is null)
+			{
+				throw new NullReferenceException();
+			}
+
+			return prescriptionNumber;
 		}
 
 		public async Task<DateTime> CheckPrescriptionDate(int id)

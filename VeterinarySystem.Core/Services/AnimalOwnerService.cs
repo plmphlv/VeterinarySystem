@@ -19,9 +19,9 @@ namespace VeterinarySystem.Core.Services
 			data = dbContext;
 		}
 
-		public async Task<OwnerQueryModel> Search(string? searchTerm, 
-			SearchParameter parameter = SearchParameter.FullName, 
-			int pageSize = 5, 
+		public async Task<OwnerQueryModel> Search(string? searchTerm,
+			SearchParameter parameter = SearchParameter.FullName,
+			int pageSize = 5,
 			int currentPage = 1)
 		{
 			IQueryable<AnimalOwner> ownerQuery = data.AnimalOwners
@@ -99,6 +99,7 @@ namespace VeterinarySystem.Core.Services
 		{
 			OwnerServiceModel? animalOwnerDetails = await data.AnimalOwners
 				.AsNoTracking()
+				.Where(owner => owner.Id == id)
 				.Select(owner => new OwnerServiceModel()
 				{
 					Id = owner.Id,
@@ -117,7 +118,12 @@ namespace VeterinarySystem.Core.Services
 						AnimalTypeName = animal.AnimalType.Name
 					}).ToList()
 				})
-				.SingleOrDefaultAsync(owner => owner.Id == id);
+				.SingleOrDefaultAsync();
+
+			if (animalOwnerDetails is null)
+			{
+				throw new NullReferenceException();
+			}
 
 			animalOwnerDetails.TotalAnimalsCount = animalOwnerDetails.Animals.Count();
 
@@ -152,12 +158,22 @@ namespace VeterinarySystem.Core.Services
 					PhoneNumber = owner.PhoneNumber
 				}).FirstOrDefaultAsync();
 
+			if (ownerForm is null)
+			{
+				throw new NullReferenceException();
+			}
+
 			return ownerForm;
 		}
 
 		public async Task EditAnimalOwner(int id, AnimalOwnerFormModel model)
 		{
 			AnimalOwner? animalOwner = await data.AnimalOwners.FindAsync(id);
+
+			if (animalOwner is null)
+			{
+				throw new NullReferenceException();
+			}
 
 			animalOwner.FirstName = model.FirstName;
 			animalOwner.LastName = model.LastName;
@@ -168,7 +184,12 @@ namespace VeterinarySystem.Core.Services
 
 		public async Task DeleteAnimalOwner(int id)
 		{
-			AnimalOwner owner = await data.AnimalOwners.FindAsync(id);
+			AnimalOwner? owner = await data.AnimalOwners.FindAsync(id);
+
+			if (owner is null)
+			{
+				throw new NullReferenceException();
+			}
 
 			data.AnimalOwners.Remove(owner);
 			await data.SaveChangesAsync();
@@ -187,20 +208,25 @@ namespace VeterinarySystem.Core.Services
 				}
 			).FirstOrDefaultAsync();
 
+			if (model is null)
+			{
+				throw new NullReferenceException();
+			}
+
 			return model;
 		}
 
 		public async Task DeleteAnimalOwner(int id, string controllerName)
 		{
-			AnimalOwner owner = await data.AnimalOwners.FirstOrDefaultAsync(owner => owner.Id == id);
+			AnimalOwner? owner = await data.AnimalOwners.FirstOrDefaultAsync(owner => owner.Id == id);
+
+			if (owner is null)
+			{
+				throw new NullReferenceException();
+			}
 
 			data.AnimalOwners.Remove(owner);
 			await data.SaveChangesAsync();
-		}
-
-		public Task<DeleteViewModel> GetDeleteModel(int id)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

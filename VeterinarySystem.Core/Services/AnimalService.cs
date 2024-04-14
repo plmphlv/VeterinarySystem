@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Core.Models.Common;
@@ -78,6 +77,11 @@ namespace VeterinarySystem.Core.Services
 			Animal? animal = await data.Animals
 				.FirstOrDefaultAsync(animal => animal.Id == id);
 
+			if (animal is null)
+			{
+				throw new NullReferenceException();
+			}
+
 			data.Animals.Remove(animal);
 			await data.SaveChangesAsync();
 		}
@@ -112,6 +116,7 @@ namespace VeterinarySystem.Core.Services
 		{
 			AnimalServiceModel? animal = await data.Animals
 				.AsNoTracking()
+				.Where(animal => animal.Id == id)
 				.Select(animal => new AnimalServiceModel()
 				{
 					Id = animal.Id,
@@ -121,7 +126,12 @@ namespace VeterinarySystem.Core.Services
 					AnimalTypeName = animal.AnimalType.Name,
 					OwnerFullName = $"{animal.AnimalOwner.FirstName} {animal.AnimalOwner.LastName}"
 				})
-				.FirstOrDefaultAsync(animal => animal.Id == id);
+				.FirstOrDefaultAsync();
+
+			if (animal is null)
+			{
+				throw new NullReferenceException();
+			}
 
 			return animal;
 		}
@@ -162,6 +172,11 @@ namespace VeterinarySystem.Core.Services
 
 				}).FirstOrDefaultAsync();
 
+			if (animal is null)
+			{
+				throw new NullReferenceException();
+			}
+
 			return animal;
 		}
 
@@ -177,6 +192,11 @@ namespace VeterinarySystem.Core.Services
 					Controller = controllerName
 				}
 			).FirstOrDefaultAsync();
+
+			if (model is null)
+			{
+				throw new NullReferenceException();
+			}
 
 			return model;
 		}

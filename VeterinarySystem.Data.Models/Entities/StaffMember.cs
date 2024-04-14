@@ -6,25 +6,27 @@ using VeterinarySystem.Common;
 
 namespace VeterinarySystem.Data.Domain.Entities
 {
-    public class StaffMember : IdentityUser
-    {
-        public StaffMember()
-        {
-            Appointments = new HashSet<Appointment>();
-            Procedures = new HashSet<Procedure>();
-        }
+	public class StaffMember : IdentityUser
+	{
+		public StaffMember()
+		{
+			Appointments = new HashSet<Appointment>();
+			Procedures = new HashSet<Procedure>();
+		}
 
-        [Required,
-         Unicode(true), 
-         MaxLength(EntityConstants.HumanNameMaxLength)]
-        public string FirstName { get; set; } = null!;
+		[Required,
+		 Unicode(true),
+		 MaxLength(EntityConstants.HumanNameMaxLength)]
+		public string FirstName { get; set; } = null!;
 
-        [Required,
-         Unicode(true),
-         MaxLength(EntityConstants.HumanNameMaxLength)]
-        public string LastName { get; set; } = null!;
+		[Required,
+		 Unicode(true),
+		 MaxLength(EntityConstants.HumanNameMaxLength)]
+		public string LastName { get; set; } = null!;
 
-        public ICollection<Appointment> Appointments { get; set; }
-        public ICollection<Procedure> Procedures { get; set; }
-    }
+		public bool IsDisabled { get; set; } = false;
+
+		public ICollection<Appointment> Appointments { get; set; }
+		public ICollection<Procedure> Procedures { get; set; }
+	}
 }

@@ -3,15 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Common;
-using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Models.Procedure;
-using VeterinarySystem.Core.Services;
 using VeterinarySystem.Core.Tools.ExtenshionMethods;
 using VeterinarySystem.Data.DataSeeding.Admin;
 
-namespace VeterinarySystem.Web.Controllers
+namespace VeterinarySystem.Web.Areas.Admin.Controllers
 {
-	[Authorize]
+	[Authorize(Roles = AdminUser.AdminRoleName)]
+	[Area(AdminUser.AdminArea)]
 	public class ProcedureController : Controller
 	{
 		private readonly IAnimalService animalService;
@@ -20,50 +19,8 @@ namespace VeterinarySystem.Web.Controllers
 
 		public ProcedureController(IAnimalService _animalService, IProcedureService _procedureService)
 		{
-			animalService = _animalService;
-			procedureService = _procedureService;
-		}
-
-		[HttpGet]
-		public async Task<IActionResult> Add(int id)
-		{
-			if (!await animalService.AnimalExists(id))
-			{
-				return BadRequest();
-			}
-
-			ProcedureFormModel model = new ProcedureFormModel()
-			{
-				Date = DateTimeQuickTools.GetDateAndTime(),
-				Staff = await procedureService.GetStaffMembers()
-			};
-
-			return View(model);
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> Add(int id, ProcedureFormModel form)
-		{
-			if (!await animalService.AnimalExists(id))
-			{
-				return BadRequest();
-			}
-
-			if (!form.Date.CompareDate())
-			{
-				ModelState
-				   .AddModelError(nameof(form.Date), ErrorMessages.EarlierThatTodayDateError);
-			}
-
-			if (ModelState.IsValid)
-			{
-				form.Staff = await procedureService.GetStaffMembers();
-				return View(form);
-			}
-
-			int newEntityId = await procedureService.CreateNewProcetude(id, form);
-
-			return RedirectToAction(nameof(Details), new { Id = newEntityId });
+			this.animalService = _animalService;
+			this.procedureService = _procedureService;
 		}
 
 		[HttpGet]
