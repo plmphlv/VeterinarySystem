@@ -3,7 +3,7 @@ using VeterinarySystem.Core.Models.Common;
 
 namespace VeterinarySystem.Core.Contracts
 {
-	public interface IAnimalService
+    public interface IAnimalService
 	{
 		Task<int> AddNewAnimal(AnimalFormModel animalForm, int ownerId);//C
 
@@ -26,5 +26,9 @@ namespace VeterinarySystem.Core.Contracts
 		Task<AnimalFormModel> GetAnimalEditingForm(int animalId);
 
 		Task<DeleteViewModel> GetDeleteViewModel(int id, string controllerName);
+
+		Task AddNewAnimalType(AnimalTypeFormModel form);
+
+		Task DeleteAnimalType(AnimalTypeDeleteFormModel form);
 	}
 }

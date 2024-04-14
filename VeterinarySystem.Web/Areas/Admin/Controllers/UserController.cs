@@ -49,27 +49,20 @@ namespace VeterinarySystem.Web.Areas.Admin.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		public async Task<IActionResult> DeleteUser()
+		public async Task<IActionResult> DisableUser()
 		{
-			return View();
+			DisableUserFormModel model = new DisableUserFormModel();
+			model.Staff = await userService.GetStaffMembers();
+
+			return View(model);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> DeleteUser(RegisterUserModel model)
+		public async Task<IActionResult> DisableUser(DisableUserFormModel model)
 		{
-			if (!ModelState.IsValid)
-			{
-				return View();
-			}
+			await userService.Delete(model.StaffMemberId);
 
-			var result = await userService.Register(model);
-
-			if (!result.Succeeded)
-			{
-				return View("UserError", ErrorMessages.ErrorRegistering);
-			}
-
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("AdminMenu");
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Data.DataSeeding.Admin;
 
 namespace VeterinarySystem.Web.Areas.Admin.Controllers
@@ -16,6 +17,22 @@ namespace VeterinarySystem.Web.Areas.Admin.Controllers
 		{
 			ownerService = _ownerService;
 			animalService = _animalService;
+		}
+
+		public async Task<IActionResult> DeleteAnimalType()
+		{
+			AnimalTypeDeleteFormModel model = new AnimalTypeDeleteFormModel();
+			model.AnimalTypes = await animalService.AllAnimalTypes();
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> DeleteAnimalType(AnimalTypeDeleteFormModel model)
+		{
+			await animalService.DeleteAnimalType(model);
+
+			return RedirectToAction("AdminMenu");
 		}
 	}
 }

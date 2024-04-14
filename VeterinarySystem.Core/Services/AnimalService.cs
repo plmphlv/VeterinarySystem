@@ -200,5 +200,28 @@ namespace VeterinarySystem.Core.Services
 
 			return model;
 		}
+
+		public async Task AddNewAnimalType(AnimalTypeFormModel form)
+		{
+			await data.AnimalTypes.AddAsync(new AnimalType()
+			{
+				Name = form.TyperName
+			});
+
+			await data.SaveChangesAsync();
+		}
+
+		public async Task DeleteAnimalType(AnimalTypeDeleteFormModel form)
+		{
+			AnimalType? type = await data.AnimalTypes.FirstOrDefaultAsync(aT => aT.Id == form.TypeId);
+
+			if (type is null)
+			{
+				throw new NullReferenceException();
+			}
+
+			data.AnimalTypes.Remove(type);
+			await data.SaveChangesAsync();
+		}
 	}
 }

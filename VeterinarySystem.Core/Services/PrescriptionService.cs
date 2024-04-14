@@ -170,7 +170,7 @@ namespace VeterinarySystem.Core.Services
 		{
 			ICollection<StaffServiceModel> staff = await data.Users
 				.AsNoTracking()
-				.Where(u => u.Email != AdminUser.AdminEmail)
+				.Where(u => u.Email != AdminUser.AdminEmail && u.IsDisabled == false)
 				.Select(u => new StaffServiceModel()
 				{
 					StaffId = u.Id,

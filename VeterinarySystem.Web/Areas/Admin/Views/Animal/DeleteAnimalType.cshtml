@@ -1,0 +1,21 @@
+﻿@{
+	ViewData["Title"] = "Disable User";
+}
+@using VeterinarySystem.Core.Models.Animal
+@model AnimalTypeDeleteFormModel
+
+<form method="post">
+	<div class="form-group">
+		<label asp-for="TypeId" class="control-label"></label>
+		<select asp-for="TypeId" class="form-control">
+			@foreach (var type in Model.AnimalTypes)
+			{
+				<option value="@type.Id">@type.Name</option>
+			}
+		</select>
+		<span asp-validation-for="TypeId" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<input type="submit" value="Delete" class="btn btn-primary" />
+	</div>
+</form>

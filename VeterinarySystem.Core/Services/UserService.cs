@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Models.StaffMember;
 using VeterinarySystem.Core.Models.User;
 using VeterinarySystem.Data;
+using VeterinarySystem.Data.DataSeeding.Admin;
 using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Core.Services
@@ -181,6 +183,21 @@ namespace VeterinarySystem.Core.Services
 				.ToArray();
 
 			return (model, roles);
+		}
+
+		public async Task<ICollection<StaffServiceModel>> GetStaffMembers()
+		{
+			ICollection<StaffServiceModel> staff = await data.Users
+				.AsNoTracking()
+				.Where(u => u.Email != AdminUser.AdminEmail && u.IsDisabled == false)
+				.Select(u => new StaffServiceModel()
+				{
+					StaffId = u.Id,
+					StaffName = $"{u.FirstName} {u.LastName}"
+				})
+				.ToListAsync();
+
+			return staff;
 		}
 	}
 }

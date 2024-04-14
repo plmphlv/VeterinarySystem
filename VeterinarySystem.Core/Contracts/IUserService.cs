@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using VeterinarySystem.Core.Models.StaffMember;
 using VeterinarySystem.Core.Models.User;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using VeterinarySystem.Data.DataSeeding.Admin;
 
 namespace VeterinarySystem.Core.Contracts
 {
@@ -21,5 +24,8 @@ namespace VeterinarySystem.Core.Contracts
 		Task<UserProfileModel> GetUserProfile(string userId);
 
 		Task<(UserRoleModel user, IEnumerable<SelectListItem> roles)> GetUserWithRoles(string id);
+
+		Task<ICollection<StaffServiceModel>> GetStaffMembers();
+
 	}
 }
