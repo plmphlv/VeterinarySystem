@@ -215,18 +215,5 @@ namespace VeterinarySystem.Core.Services
 
 			return model;
 		}
-
-		public async Task DeleteAnimalOwner(int id, string controllerName)
-		{
-			AnimalOwner? owner = await data.AnimalOwners.FirstOrDefaultAsync(owner => owner.Id == id);
-
-			if (owner is null)
-			{
-				throw new NullReferenceException();
-			}
-
-			data.AnimalOwners.Remove(owner);
-			await data.SaveChangesAsync();
-		}
 	}
 }

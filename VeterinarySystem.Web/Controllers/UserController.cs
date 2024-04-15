@@ -1,24 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Localization;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.User;
-using VeterinarySystem.Data.DataSeeding.Admin;
 
 namespace VeterinarySystem.Web.Controllers
 {
-	[Authorize]
 	public class UserController : Controller
 	{
 		private readonly IUserService userService;
-		private readonly RoleManager<IdentityRole> roleManager;
 
-		public UserController(RoleManager<IdentityRole> _roleManager, IUserService _userService)
+		public UserController(IUserService _userService)
 		{
 			userService = _userService;
-			roleManager = _roleManager;
 		}
 
 		public IActionResult Login()
