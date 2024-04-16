@@ -20,7 +20,7 @@ namespace VeterinarySystem.Core.Services
 			data = context;
 		}
 
-		public async Task<int> CreateNewProcetude(int id, ProcedureFormModel model)
+		public async Task<int> CreateNewProcedude(int id, ProcedureFormModel model)
 		{
 			Procedure procedure = new Procedure()
 			{
@@ -37,7 +37,7 @@ namespace VeterinarySystem.Core.Services
 			return procedure.Id;
 		}
 
-		public async Task<int> DeleteProcetude(int id)
+		public async Task<int> DeleteProcedude(int id)
 		{
 			Procedure? procedure = await data.Procedures
 				.FirstOrDefaultAsync(x => x.Id == id);
@@ -55,7 +55,7 @@ namespace VeterinarySystem.Core.Services
 			return entityId;
 		}
 
-		public async Task EditProcetude(ProcedureFormModel model, int id)
+		public async Task EditProcedude(ProcedureFormModel model, int id)
 		{
 			Procedure procedure = await data.Procedures
 				.FirstOrDefaultAsync(p => p.Id == id);
@@ -73,7 +73,7 @@ namespace VeterinarySystem.Core.Services
 			await data.SaveChangesAsync();
 		}
 
-		public async Task<ProcedureServiceModel> GetProcetudeDetails(int id)
+		public async Task<ProcedureServiceModel> GetProcedudeDetails(int id)
 		{
 			ProcedureServiceModel? model = await data.Procedures
 				.AsNoTracking()

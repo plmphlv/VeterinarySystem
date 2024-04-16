@@ -61,7 +61,7 @@ namespace VeterinarySystem.Web.Controllers
 				return View(form);
 			}
 
-			int newEntityId = await procedureService.CreateNewProcetude(id, form);
+			int newEntityId = await procedureService.CreateNewProcedude(id, form);
 
 			return RedirectToAction(nameof(Details), new { Id = newEntityId });
 		}
@@ -74,7 +74,7 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			ProcedureServiceModel model = await procedureService.GetProcetudeDetails(id);
+			ProcedureServiceModel model = await procedureService.GetProcedudeDetails(id);
 
 			return View(model);
 		}
@@ -119,7 +119,7 @@ namespace VeterinarySystem.Web.Controllers
 				return View(form);
 			}
 
-			await procedureService.EditProcetude(form, id);
+			await procedureService.EditProcedude(form, id);
 
 			return RedirectToAction(nameof(Details), new { Id = id });
 		}
@@ -141,7 +141,7 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			int entityId = await procedureService.DeleteProcetude(id);
+			int entityId = await procedureService.DeleteProcedude(id);
 
 			return RedirectToAction(nameof(Details), "Animal", new { Id = entityId });
 		}

@@ -7,12 +7,12 @@ namespace VeterinarySystem.Core.Contracts
 {
 	public interface IProcedureService
 	{
-		Task<int> CreateNewProcetude(int id, ProcedureFormModel model);
+		Task<int> CreateNewProcedude(int id, ProcedureFormModel model);
 
-		Task<ProcedureServiceModel> GetProcetudeDetails(int id);
+		Task<ProcedureServiceModel> GetProcedudeDetails(int id);
 
-		Task EditProcetude(ProcedureFormModel model, int id);
-		Task<int> DeleteProcetude(int id);
+		Task EditProcedude(ProcedureFormModel model, int id);
+		Task<int> DeleteProcedude(int id);
 
 		Task<bool> ProcedureExists(int id);
 
