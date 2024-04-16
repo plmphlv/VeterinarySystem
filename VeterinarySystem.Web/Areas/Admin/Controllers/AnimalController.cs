@@ -19,6 +19,22 @@ namespace VeterinarySystem.Web.Areas.Admin.Controllers
 			animalService = _animalService;
 		}
 
+		public IActionResult AddNewAnimalType()
+		{
+			AnimalTypeFormModel model = new AnimalTypeFormModel();
+
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> AddNewAnimalType(AnimalTypeFormModel model)
+		{
+			await animalService.AddNewAnimalType(model);
+
+			return RedirectToAction("AdminMenu");
+		}
+
 		public async Task<IActionResult> DeleteAnimalType()
 		{
 			AnimalTypeDeleteFormModel model = new AnimalTypeDeleteFormModel();

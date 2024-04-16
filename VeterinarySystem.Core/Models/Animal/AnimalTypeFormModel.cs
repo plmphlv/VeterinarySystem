@@ -2,6 +2,6 @@
 {
 	public class AnimalTypeFormModel
 	{
-		public string TyperName { get; set; } = string.Empty;
+		public string TypeName { get; set; } = string.Empty;
 	}
 }

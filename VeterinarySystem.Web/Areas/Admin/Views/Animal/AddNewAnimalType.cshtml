@@ -1,0 +1,15 @@
+﻿@using VeterinarySystem.Core.Models.Animal
+@model AnimalTypeFormModel
+
+@{
+	ViewData["Title"] = "Add new Animal Type";
+}
+
+<form asp-action="Register" method="post">
+	<div asp-validation-summary="ModelOnly" class="danger"></div>
+	<div class="form-group">
+		<input asp-for="TypeName" class="form-control auth-input" placeholder="Dog">
+		<span asp-validation-for="TypeName" class="text-danger"></span>
+	</div>
+	<input type="submit" value="Add" />
+</form>

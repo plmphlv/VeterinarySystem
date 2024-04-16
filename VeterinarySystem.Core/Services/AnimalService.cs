@@ -205,7 +205,7 @@ namespace VeterinarySystem.Core.Services
 		{
 			await data.AnimalTypes.AddAsync(new AnimalType()
 			{
-				Name = form.TyperName
+				Name = form.TypeName
 			});
 
 			await data.SaveChangesAsync();
