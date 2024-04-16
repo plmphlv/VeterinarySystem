@@ -76,7 +76,7 @@ namespace VeterinarySystem.Test.Test
 		}
 
 		[Test]
-		public async Task Test_EditAnimal()
+		public async Task Test_EditProcedude()
 		{
 			ProcedureFormModel procetudeForm = new ProcedureFormModel()
 			{
@@ -87,7 +87,7 @@ namespace VeterinarySystem.Test.Test
 
 			await service.EditProcedude(procetudeForm, procedure1Id);
 
-			ProcedureServiceModel? procedureActualResult = await service.GetProcedudeDetails(procedure1Id);
+			ProcedureServiceModel? procedureActualResult = await service.GetProcedudeDetails(_procedure1.Id);
 
 			Assert.That(procedureActualResult.Id, Is.EqualTo(procedure1Id));
 			Assert.That(procedureActualResult.Name, Is.EqualTo(procetudeForm.Name));
@@ -101,6 +101,24 @@ namespace VeterinarySystem.Test.Test
 			bool result = await service.ProcedureExists(procedure1Id);
 
 			Assert.That(result, Is.EqualTo(false));
+		}
+
+		[Test]
+		public async Task Test_CreateNewProcedude()
+		{
+			ProcedureFormModel form = new ProcedureFormModel()
+			{
+				Name = "Blood Test",
+				Description = "A blood tets for diabeties",
+				Date = DateTime.Today.AddDays(1),
+				StaffMemberId = staffMemberId
+			};
+
+			int newId = await service.CreateNewProcedude(animalId, form);
+			bool result = await service.ProcedureExists(newId);
+
+			Assert.That(result, Is.EqualTo(true));
+			Assert.That(newId, Is.EqualTo(procedure1Id + 1));
 		}
 
 		[TearDown]
