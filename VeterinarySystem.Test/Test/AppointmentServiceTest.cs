@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Appointment;
+using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Services;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
@@ -43,7 +45,7 @@ namespace VeterinarySystem.Test.Test
 		}
 
 		[Test]
-		public async Task Test_AnimalOwnerExists1()
+		public async Task Test_AppointmenExists1()
 		{
 			bool result = await service.AppointmenExists(appointmentId);
 
@@ -51,11 +53,31 @@ namespace VeterinarySystem.Test.Test
 		}
 
 		[Test]
-		public async Task Test_AnimalOwnerExists2()
+		public async Task Test_AppointmenExists2()
 		{
 			bool result = await service.AppointmenExists(-2077);
 
 			Assert.That(result, Is.EqualTo(false));
+		}
+
+		[Test]
+		public async Task Test_AddAppointment()
+		{
+			AppointmentFromModel appointmentTestForm = new AppointmentFromModel()
+			{
+				Date = DateTime.Now,
+				Description = "New test add",
+				StaffMemberId = staffMemberId
+			};
+
+			int newId = await service.AddAppointment(appointmentTestForm, ownerId);
+
+			AppointmentServiceModel? appointmentActualResult = await service.GetAppointmentDetails(newId);
+
+			Assert.That(appointmentActualResult.Id, Is.EqualTo(appointmentId + 1));
+			Assert.That(appointmentTestForm.Date.ToString(EntityConstants.DateFormat), Is.EqualTo(appointmentActualResult.AppointmentDate));
+			Assert.That(appointmentTestForm.Description, Is.EqualTo(appointmentActualResult.Description));
+			Assert.That(appointmentTestForm.StaffMemberId, Is.EqualTo(staffMemberId));
 		}
 
 		[Test]
@@ -87,12 +109,35 @@ namespace VeterinarySystem.Test.Test
 		}
 
 		[Test]
-		public async Task Test_RemoveAppointment()
+		public async Task Test_DeleteAppointment()
 		{
-			await service.RemoveAppointment(appointmentId);
+			int testOwnerId = await service.DeleteAppointment(appointmentId);
 			bool result = await service.AppointmenExists(appointmentId);
 
 			Assert.That(result, Is.EqualTo(false));
+			Assert.That(testOwnerId, Is.EqualTo(ownerId));
+		}
+
+		[Test]
+		public async Task Test_GetDeleteViewModel()
+		{
+			string controllerName = "TestController";
+
+			DeleteViewModel? model = await service.GetDeleteViewModel(appointmentId, controllerName);
+
+			Assert.That(model.Id, Is.EqualTo(appointmentId));
+			Assert.That(model.Description, Is.EqualTo(appointment.AppointmentDate.ToString(EntityConstants.DateFormat)));
+			Assert.That(model.Controller, Is.EqualTo(controllerName));
+		}
+
+		[Test]
+		public async Task Test_GetFormForEditing()
+		{
+			AppointmentFromModel? model = await service.GetFormForEditing(appointmentId);
+
+			Assert.That(model.Description, Is.EqualTo(appointment.AppointmentDesctiption));
+			Assert.That(model.Date.ToString(EntityConstants.DateFormat), Is.EqualTo(appointment.AppointmentDate.ToString(EntityConstants.DateFormat)));
+			Assert.That(model.StaffMemberId, Is.EqualTo(appointment.StaffMemberId));
 		}
 
 		[TearDown]

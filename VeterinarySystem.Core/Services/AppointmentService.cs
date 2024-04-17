@@ -79,20 +79,6 @@ namespace VeterinarySystem.Core.Services
 			await data.SaveChangesAsync();
 		}
 
-		public async Task RemoveAppointment(int appontmentId)
-		{
-			Appointment? appointment = await data.Appointments
-				.FirstOrDefaultAsync(appointment => appointment.Id == appontmentId);
-
-			if (appointment is null)
-			{
-				throw new NullReferenceException();
-			}
-
-			data.Appointments.Remove(appointment);
-			await data.SaveChangesAsync();
-		}
-
 		public async Task ChangeAppointmentUpcomingStatus(int appointmentId)
 		{
 			Appointment? appointment = await data.Appointments.

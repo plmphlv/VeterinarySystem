@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System.Drawing;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Animal;
-using VeterinarySystem.Core.Models.AnimalOwner;
+using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Services;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
@@ -15,9 +14,11 @@ namespace VeterinarySystem.Test.Test
 		private ServiceProvider serviceProvider;
 		private IAnimalService service;
 		private int animalId;
+		private Animal animal;
 		private int ownerId;
 		private AnimalOwner owner;
-		private Animal animal;
+		private int animalTypeId;
+		private AnimalType animalType;
 
 		[SetUp]
 		public async Task Setup()
@@ -159,6 +160,30 @@ namespace VeterinarySystem.Test.Test
 			Assert.That(newPetId, Is.EqualTo(animalId + 1));
 		}
 
+		[Test]
+		public async Task Test_GetAnimalEditingForm()
+		{
+			AnimalFormModel? form = await service.GetAnimalEditingForm(animalId);
+
+			Assert.That(form, Is.Not.Null);
+			Assert.That(form.Name, Is.EqualTo(animal.Name));
+			Assert.That(form.Age, Is.EqualTo(animal.Age));
+			Assert.That(form.Weight, Is.EqualTo(animal.Weight));
+			Assert.That(form.AnimalTypeId, Is.EqualTo(animal.AnimalTypeId));
+		}
+
+		[Test]
+		public async Task Test_GetDeleteViewModel()
+		{
+			string controllerName = "TestController";
+
+			DeleteViewModel? model = await service.GetDeleteViewModel(animalId, controllerName);
+
+			Assert.That(model.Id, Is.EqualTo(animalId));
+			Assert.That(model.Description, Is.EqualTo(animal.Name));
+			Assert.That(model.Controller, Is.EqualTo(controllerName));
+		}
+
 		[TearDown]
 		public async Task TearDown()
 		{
@@ -183,6 +208,12 @@ namespace VeterinarySystem.Test.Test
 				AnimalOwnerId = 2,
 			};
 
+			AnimalType testType = new AnimalType()
+			{
+				Name = "Test"
+			};
+
+			await context.AnimalTypes.AddAsync(testType);
 			await context.AnimalOwners.AddAsync(owner1);
 			await context.Animals.AddAsync(pet);
 			await context.SaveChangesAsync();
@@ -191,6 +222,8 @@ namespace VeterinarySystem.Test.Test
 			animalId = pet.Id;
 			owner = owner1;
 			animal = pet;
+			animalTypeId = testType.Id;
+			animalType = testType;
 		}
 	}
 }

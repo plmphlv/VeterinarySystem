@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.Procedure;
 using VeterinarySystem.Core.Services;
 using VeterinarySystem.Data;
@@ -82,12 +84,13 @@ namespace VeterinarySystem.Test.Test
 			{
 				Name = "Test",
 				Description = "Castration",
-				Date = DateTime.Today.AddDays(1)
+				Date = DateTime.Today.AddDays(1),
+				StaffMemberId = staffMemberId
 			};
 
 			await service.EditProcedude(procetudeForm, procedure1Id);
 
-			ProcedureServiceModel? procedureActualResult = await service.GetProcedudeDetails(_procedure1.Id);
+			ProcedureServiceModel? procedureActualResult = await service.GetProcedudeDetails(procedure1Id);
 
 			Assert.That(procedureActualResult.Id, Is.EqualTo(procedure1Id));
 			Assert.That(procedureActualResult.Name, Is.EqualTo(procetudeForm.Name));
@@ -119,6 +122,29 @@ namespace VeterinarySystem.Test.Test
 
 			Assert.That(result, Is.EqualTo(true));
 			Assert.That(newId, Is.EqualTo(procedure1Id + 1));
+		}
+
+		[Test]
+		public async Task Test_GetEditingForm()
+		{
+			ProcedureFormModel? model = await service.GetEditingForm(procedure1Id);
+
+			Assert.That(model.Name, Is.EqualTo(_procedure1.Name));
+			Assert.That(model.Description, Is.EqualTo(_procedure1.Description));
+			Assert.That(model.Date.ToString(EntityConstants.DateFormat), Is.EqualTo(_procedure1.Date.ToString(EntityConstants.DateFormat)));
+			Assert.That(model.StaffMemberId, Is.EqualTo(_procedure1.StaffMemberId));
+		}
+
+		[Test]
+		public async Task Test_GetDeleteViewModel()
+		{
+			string controllerName = "TestController";
+
+			DeleteViewModel? model = await service.GetDeleteViewModel(ownerId, controllerName);
+
+			Assert.That(model.Id, Is.EqualTo(ownerId));
+			Assert.That(model.Description, Is.EqualTo(_procedure1.Name));
+			Assert.That(model.Controller, Is.EqualTo(controllerName));
 		}
 
 		[TearDown]

@@ -4,6 +4,7 @@ using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Core.Models.AnimalOwner;
+using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Services;
 using VeterinarySystem.Data;
@@ -86,7 +87,7 @@ namespace VeterinarySystem.Test.Test
 				StaffMemberId = staffMemberId
 			};
 
-			await service.EditPrescription(ownerId, prescriptionTestForm);
+			await service.EditPrescription(prescriptionId, prescriptionTestForm);
 
 			PrescriptionServiceModel? prescriptionResult = await service.GetPrescriptionDetails(prescriptionId);
 
@@ -124,6 +125,56 @@ namespace VeterinarySystem.Test.Test
 			Assert.That(newId, Is.EqualTo(prescriptionId + 1));
 		}
 
+		[Test]
+		public async Task Test_GetNewPrescriptionForm()
+		{
+			PrescriptionFormModel newForm = await service.GetNewPrescriptionForm();
+
+			int formNumber = int.Parse(newForm.Number);
+			int actualNumber = (int.Parse(prescription.Number)) + 1;
+
+			Assert.That(formNumber, Is.EqualTo(actualNumber));
+			Assert.That(newForm.IssueDate.ToString(EntityConstants.DateFormat), Is.EqualTo(DateTime.Today.ToString(EntityConstants.DateFormat)));
+		}
+
+		[Test]
+		public async Task Test_CheckPrescriptionNumber()
+		{
+			string number = await service.CheckPrescriptionNumber(prescriptionId);
+
+			Assert.That(number, Is.EqualTo(prescription.Number));
+		}
+
+		[Test]
+		public async Task Test_CheckPrescriptionDate()
+		{
+			string date = (await service.CheckPrescriptionDate(prescriptionId)).ToString(EntityConstants.DateFormat);
+
+			Assert.That(date, Is.EqualTo(prescription.IssueDate.ToString(EntityConstants.DateFormat)));
+		}
+
+		[Test]
+		public async Task Test_GetDeleteViewModel()
+		{
+			string controllerName = "TestController";
+
+			DeleteViewModel? model = await service.GetDeleteViewModel(prescriptionId, controllerName);
+
+			Assert.That(model.Id, Is.EqualTo(prescriptionId));
+			Assert.That(model.Description, Is.EqualTo(prescription.Number));
+			Assert.That(model.Controller, Is.EqualTo(controllerName));
+		}
+
+		[Test]
+		public async Task Test_GetFormForEditing()
+		{
+			PrescriptionFormModel form = await service.GetFormForEditing(prescriptionId);
+
+			Assert.That(form.Number, Is.EqualTo(prescription.Number));
+			Assert.That(form.Description, Is.EqualTo(prescription.Description));
+			Assert.That(form.IssueDate.ToString(EntityConstants.DateFormat), Is.EqualTo(prescription.IssueDate.ToString(EntityConstants.DateFormat)));
+		}
+
 		[TearDown]
 		public async Task TearDown()
 		{
@@ -146,6 +197,7 @@ namespace VeterinarySystem.Test.Test
 			{
 				Name = "Test",
 				Age = 2,
+				Weight = 3.14,
 				AnimalTypeId = 1,
 				AnimalOwnerId = 2,
 			};
@@ -180,6 +232,8 @@ namespace VeterinarySystem.Test.Test
 
 			ownerId = owner1.Id;
 			owner = owner1;
+			animalId = pet.Id;
+			animal = pet;
 			staffMemberId = staff.Id;
 			staffMember = staff;
 			prescriptionId = _prescription.Id;

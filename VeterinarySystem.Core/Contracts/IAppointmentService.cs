@@ -12,8 +12,6 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task EditAppointment(int appontmentId, AppointmentFromModel form);
 
-		Task RemoveAppointment(int appontmentId);
-
 		Task ChangeAppointmentUpcomingStatus(int appointmentId);
 
 		Task<bool> AppointmenExists(int appontmentId);
