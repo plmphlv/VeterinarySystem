@@ -1,9 +1,11 @@
-﻿namespace VeterinarySystem.Core.Models.Common
+﻿using VeterinarySystem.Core.Contracts;
+
+namespace VeterinarySystem.Core.Models.Common
 {
-	public class DeleteViewModel
+	public class DeleteViewModel : IDescription
 	{
 		public int Id { get; set; }
-		public string Name { get; set; } = string.Empty;
+		public string Description { get; set; } = string.Empty;
 		public string Controller { get; set; } = string.Empty;
 	}
 }

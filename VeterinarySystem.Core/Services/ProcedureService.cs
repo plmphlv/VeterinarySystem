@@ -84,6 +84,7 @@ namespace VeterinarySystem.Core.Services
 					Name = p.Name,
 					Description = p.Description,
 					Date = p.Date.ToString(EntityConstants.DateFormat),
+					AnimalId = p.AnimalId,
 					AnimalName = p.Animal.Name,
 					StaffMemberFullName = $"{p.StaffMember.FirstName} {p.StaffMember.LastName}"
 				})
@@ -151,7 +152,7 @@ namespace VeterinarySystem.Core.Services
 				.Select(e => new DeleteViewModel()
 				{
 					Id = e.Id,
-					Name = e.Name,
+					Description = e.Name,
 					Controller = controllerName
 				}
 			).FirstOrDefaultAsync();

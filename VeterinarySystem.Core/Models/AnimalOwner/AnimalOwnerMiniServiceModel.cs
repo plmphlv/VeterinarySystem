@@ -1,6 +1,8 @@
-﻿namespace VeterinarySystem.Core.Models.AnimalOwner
+﻿using VeterinarySystem.Core.Contracts;
+
+namespace VeterinarySystem.Core.Models.AnimalOwner
 {
-	public class AnimalOwnerMiniServiceModel
+    public class AnimalOwnerMiniServiceModel : IOwner
 	{
 		public int Id { get; set; }
 

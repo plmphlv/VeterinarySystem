@@ -1,4 +1,5 @@
 ﻿@using VeterinarySystem.Core.Models.Animal
+@using VeterinarySystem.Core.Infrastructure
 @model AnimalServiceModel
 
 @{
@@ -7,10 +8,10 @@
 <div class="card" style="width: 18rem;">
 	<div class="card-body">
 		<h5 class="card-title">Animal Info</h5>
-		<p class="card-text">Name: @Model.Name</p>
+		<p class="card-text">Name: @Model.AnimalName</p>
 		<p class="card-text">Type: @Model.AnimalTypeName</p>
 		<p class="card-text">Age: @Model.Age</p>
 		<p class="card-text">Weight: @Model.Weight</p>
-		<a class="btn btn-primary" asp-controller="Animal" asp-action="Details" asp-route-id="@Model.Id">Details</a>
+		<a class="btn btn-primary" asp-controller="Animal" asp-action="Details" asp-route-id="@Model.Id" asp-route-information="@Model.GetAnimalInformation()">Details</a>
 	</div>
 </div>

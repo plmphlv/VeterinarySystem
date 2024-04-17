@@ -93,7 +93,7 @@ namespace VeterinarySystem.Test.Test
 			string ownerFullname = $"{owner.FirstName} {owner.LastName}";
 
 			Assert.That(animalActualResult.Id, Is.EqualTo(animalId));
-			Assert.That(animalActualResult.Name, Is.EqualTo(animal.Name));
+			Assert.That(animalActualResult.AnimalName, Is.EqualTo(animal.Name));
 			Assert.That(animalActualResult.Weight, Is.EqualTo(animal.Weight));
 			Assert.That(animalActualResult.AnimalTypeName, Is.EqualTo("Cat"));
 			Assert.That(animalActualResult.OwnerFullName, Is.EqualTo(ownerFullname));
@@ -116,7 +116,7 @@ namespace VeterinarySystem.Test.Test
 			int animalTypeId = await service.GetAnimalTypeById(animalId);
 
 			Assert.That(animalId, Is.EqualTo(animalActualResult.Id));
-			Assert.That(animalTestForm.Name, Is.EqualTo(animalActualResult.Name));
+			Assert.That(animalTestForm.Name, Is.EqualTo(animalActualResult.AnimalName));
 			Assert.That(animalTestForm.Weight, Is.EqualTo(animalActualResult.Weight));
 			Assert.That(animalTestForm.Age, Is.EqualTo(animalActualResult.Age));
 			Assert.That(animalTypeId, Is.EqualTo(animalTestForm.AnimalTypeId));

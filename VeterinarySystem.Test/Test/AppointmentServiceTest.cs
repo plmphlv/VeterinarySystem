@@ -65,7 +65,7 @@ namespace VeterinarySystem.Test.Test
 
 			Assert.That(appointmenActualResult.Id, Is.EqualTo(appointmentId));
 			Assert.That(appointmenActualResult.Description, Is.EqualTo(appointment.AppointmentDesctiption));
-			Assert.That(appointmenActualResult.OwnerFullName, Is.EqualTo($"{owner.FirstName} {owner.LastName}"));
+			Assert.That(appointmenActualResult.FullName, Is.EqualTo($"{owner.FirstName} {owner.LastName}"));
 			Assert.That(appointmenActualResult.StaffName, Is.EqualTo($"{staffMember.FirstName} {staffMember.LastName}"));
 		}
 

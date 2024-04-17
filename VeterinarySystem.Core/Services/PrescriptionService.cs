@@ -153,7 +153,7 @@ namespace VeterinarySystem.Core.Services
 				.Select(e => new DeleteViewModel()
 				{
 					Id = e.Id,
-					Name = e.Number,
+					Description = e.Number,
 					Controller = controllerName
 				})
 				.FirstOrDefaultAsync();

@@ -1,4 +1,5 @@
 ﻿@using VeterinarySystem.Core.Models.Prescription
+@using VeterinarySystem.Core.Infrastructure
 @model PrescriptionServiceModel
 
 <div class="card" style="width: 18rem;">
@@ -8,6 +9,6 @@
 		<p class="card-text">Description: @Model.Description</p>
 		<p class="card-text">Issue Date: @Model.IssueDate</p>
 		<p class="card-text">Issued from @Model.StaffName</p>
-		<a class="btn btn-primary" asp-controller="Prescription" asp-action="Details" asp-route-id="@Model.Id">Details</a>
+		<a class="btn btn-primary" asp-controller="Prescription" asp-action="Details" asp-route-id="@Model.Id" asp-route-information="@Model.GetInformationWithDescription()">Details</a>
 	</div>
 </div>

@@ -6,6 +6,7 @@ using VeterinarySystem.Data.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using VeterinarySystem.Data.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VeterinarySystem.Web
 {
@@ -46,7 +47,10 @@ namespace VeterinarySystem.Web
 
 			builder.Services.AddTransient<IPrescriptionService, PrescriptionService>();
 
-			builder.Services.AddControllersWithViews();
+			builder.Services.AddControllersWithViews(options =>
+			{
+				options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+			});
 
 			var app = builder.Build();
 

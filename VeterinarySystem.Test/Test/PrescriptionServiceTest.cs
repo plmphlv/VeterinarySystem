@@ -172,8 +172,8 @@ namespace VeterinarySystem.Test.Test
 				StaffMemberId = staff.Id
 			};
 
-			//var counter = await context.PrescriptionCounters.FirstOrDefaultAsync(c => c.Id == 1);
-			//counter.CurrentNumber++;
+			var counter = await context.PrescriptionCounters.FirstOrDefaultAsync(c => c.Id == 1);
+			counter.CurrentNumber++;
 
 			await context.Prescriptions.AddAsync(_prescription);
 			await context.SaveChangesAsync();

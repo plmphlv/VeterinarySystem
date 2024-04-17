@@ -1,4 +1,5 @@
 ﻿@using VeterinarySystem.Core.Models.Prescription
+@using VeterinarySystem.Core.Infrastructure
 @using VeterinarySystem.Data.DataSeeding.Admin
 @model PrescriptionServiceModel
 
@@ -37,7 +38,7 @@
 			@Html.DisplayFor(model => model.AnimalName)
 		</dd>
 	</dl>
-	<a asp-controller="Animal" asp-action="Details" asp-route-id="@Model.AnimalId">Back to Animal Details</a>
+	<a asp-controller="Animal" asp-action="Details" asp-route-id="@Model.AnimalId" asp-route-information="@Model.GetAnimalInformation()">Back to Animal Details</a>
 	@if (this.User.Identity.IsAuthenticated && User.IsInRole(AdminUser.AdminRoleName))
 	{
 		<a asp-controller="Prescription" asp-action="Edit">Edit Prescription</a>

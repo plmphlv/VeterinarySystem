@@ -1,4 +1,5 @@
 ﻿@using VeterinarySystem.Core.Models.Procedure
+@using VeterinarySystem.Core.Infrastructure
 @model ProcedureServiceModel
 
 @{
@@ -42,6 +43,7 @@
 			@Html.DisplayFor(model => model.StaffMemberFullName)
 		</dd>
 	</dl>
+	<a asp-controller="Animal" asp-action="Details" asp-route-id="@Model.AnimalId" asp-route-information="@Model.GetAnimalInformation()">Back to Animal Details</a>
 	<a class="btn btn-primary" asp-controller="Procedure" asp-action="Edit" asp-route-id="@Model.Id">Edit Procedure</a>
 	<a class="btn btn-danger" asp-controller="AnimalOwner" asp-action="Delete" asp-route-id="@Model.Id">Delete Procedure</a>
 </div>

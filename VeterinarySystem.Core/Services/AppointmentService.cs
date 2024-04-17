@@ -49,7 +49,7 @@ namespace VeterinarySystem.Core.Services
 					Description = appointment.AppointmentDesctiption,
 					IsUpcoming = appointment.IsUpcoming,
 					OwnerId = appointment.AnimalOwnerId,
-					OwnerFullName = $"{appointment.AnimalOwner.FirstName} {appointment.AnimalOwner.LastName}",
+					FullName = $"{appointment.AnimalOwner.FirstName} {appointment.AnimalOwner.LastName}",
 					StaffName = $"{appointment.StaffMember.FirstName} {appointment.StaffMember.LastName}"
 				})
 				.FirstOrDefaultAsync();
@@ -164,7 +164,7 @@ namespace VeterinarySystem.Core.Services
 				.Select(e => new DeleteViewModel()
 				{
 					Id = e.Id,
-					Name = e.AppointmentDate.ToString(EntityConstants.DateFormat),
+					Description = e.AppointmentDate.ToString(EntityConstants.DateFormat),
 					Controller = controllerName
 				}
 			).FirstOrDefaultAsync();
@@ -212,7 +212,7 @@ namespace VeterinarySystem.Core.Services
 					Id = appointment.Id,
 					AppointmentDate = appointment.AppointmentDate.ToString(EntityConstants.DateFormat),
 					Description = appointment.AppointmentDesctiption,
-					OwnerFullName = $"{appointment.AnimalOwner.FirstName} {appointment.AnimalOwner.LastName}"
+					FullName = $"{appointment.AnimalOwner.FirstName} {appointment.AnimalOwner.LastName}"
 				})
 				.ToListAsync();
 
@@ -249,7 +249,7 @@ namespace VeterinarySystem.Core.Services
 					Id = appointments.Id,
 					Description = appointments.AppointmentDesctiption,
 					AppointmentDate = appointments.AppointmentDate.ToString(EntityConstants.DateFormat),
-					OwnerFullName = $"{appointments.AnimalOwner.FirstName} {appointments.AnimalOwner.LastName}",
+					FullName = $"{appointments.AnimalOwner.FirstName} {appointments.AnimalOwner.LastName}",
 				})
 				.ToListAsync();
 

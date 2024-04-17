@@ -1,9 +1,12 @@
-﻿namespace VeterinarySystem.Core.Models.Animal
+﻿using VeterinarySystem.Core.Contracts;
+
+namespace VeterinarySystem.Core.Models.Animal
 {
-	public class AnimalServiceModel
+	public class AnimalServiceModel : IAnimal
 	{
 		public int Id { get; set; }
-		public string Name { get; set; } = string.Empty;
+
+		public string AnimalName { get; set; } = string.Empty;
 
 		public int Age { get; set; }
 

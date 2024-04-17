@@ -112,7 +112,7 @@ namespace VeterinarySystem.Core.Services
 					Animals = owner.Animals.Select(animal => new AnimalServiceModel()
 					{
 						Id = animal.Id,
-						Name = animal.Name,
+						AnimalName = animal.Name,
 						Age = animal.Age,
 						Weight = animal.Weight,
 						AnimalTypeName = animal.AnimalType.Name
@@ -203,7 +203,7 @@ namespace VeterinarySystem.Core.Services
 				.Select(e => new DeleteViewModel()
 				{
 					Id = e.Id,
-					Name = $"{e.FirstName} {e.LastName}",
+					Description = $"{e.FirstName} {e.LastName}",
 					Controller = controllerName
 				}
 			).FirstOrDefaultAsync();

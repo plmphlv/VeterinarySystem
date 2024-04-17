@@ -1,6 +1,8 @@
-﻿namespace VeterinarySystem.Core.Models.Procedure
+﻿using VeterinarySystem.Core.Contracts;
+
+namespace VeterinarySystem.Core.Models.Procedure
 {
-	public class ProcedureServiceModel
+	public class ProcedureServiceModel : IDescription, IAnimal
 	{
 		public int Id { get; set; }
 
@@ -9,6 +11,8 @@
 		public string Description { get; set; } = string.Empty;
 
 		public string Date { get; set; } = string.Empty;
+
+		public int AnimalId { get; set; }
 
 		public string AnimalName { get; set; } = string.Empty;
 
