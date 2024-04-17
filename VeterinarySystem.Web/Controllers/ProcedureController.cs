@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Infrastructure;
 using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Models.Procedure;
@@ -67,7 +68,7 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Details(int id)
+		public async Task<IActionResult> Details(int id, string information)
 		{
 			if (!await procedureService.ProcedureExists(id))
 			{
@@ -75,6 +76,11 @@ namespace VeterinarySystem.Web.Controllers
 			}
 
 			ProcedureServiceModel model = await procedureService.GetProcedudeDetails(id);
+
+			if (information != model.GetInformationWithDescription())
+			{
+				return BadRequest();
+			}
 
 			return View(model);
 		}

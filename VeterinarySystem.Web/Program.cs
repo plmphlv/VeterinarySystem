@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using VeterinarySystem.Data.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace VeterinarySystem.Web
 {
@@ -52,6 +53,17 @@ namespace VeterinarySystem.Web
 				options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
 			});
 
+			builder.Services.ConfigureApplicationCookie(options =>
+			{
+				options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+				options.Cookie.Name = "UserAccess";
+				options.Cookie.HttpOnly = true;
+				options.ExpireTimeSpan = TimeSpan.FromDays(30);
+				options.LoginPath = "/User/Login";
+				options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+				options.SlidingExpiration = true;
+			});
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -75,6 +87,35 @@ namespace VeterinarySystem.Web
 			app.UseAuthentication();
 
 			app.UseAuthorization();
+
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllerRoute(
+					name: "AnimalOwner Details",
+					pattern: "/AnimalOwner/Details/{id}/{information}",
+					defaults: new { Controller = "AnimalOwner", Action = "Details" }
+					);
+				endpoints.MapControllerRoute(
+					name: "Animal Details",
+					pattern: "/Animal/Details/{id}/{information}",
+					defaults: new { Controller = "Animal", Action = "Details" }
+					);
+				endpoints.MapControllerRoute(
+					name: "Appointment Details",
+					pattern: "/Appointment/Details/{id}/{information}",
+					defaults: new { Controller = "Appointment", Action = "Details" }
+					);
+				endpoints.MapControllerRoute(
+					name: "Prescription Details",
+					pattern: "/Prescription/Details/{id}/{information}",
+					defaults: new { Controller = "Prescription", Action = "Details" }
+					);
+				endpoints.MapControllerRoute(
+					name: "Procedure Details",
+					pattern: "/Procedure/Details/{id}/{information}",
+					defaults: new { Controller = "Procedure", Action = "Details" }
+					);
+			});
 
 			app.MapControllerRoute(
 				name: "Admin",

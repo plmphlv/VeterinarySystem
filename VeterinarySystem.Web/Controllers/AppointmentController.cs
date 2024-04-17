@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Infrastructure;
 using VeterinarySystem.Core.Models.Appointment;
 using VeterinarySystem.Core.Models.Common;
 using VeterinarySystem.Core.Tools.ExtenshionMethods;
@@ -65,7 +66,7 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Details(int id)
+		public async Task<IActionResult> Details(int id, string information)
 		{
 			if (!await appointmentService.AppointmenExists(id))
 			{
@@ -73,6 +74,12 @@ namespace VeterinarySystem.Web.Controllers
 			}
 
 			AppointmentServiceModel model = await appointmentService.GetAppointmentDetails(id);
+
+			if (information != model.GetInformationWithDescription())
+			{
+				return BadRequest();
+			}
+
 			return View(model);
 		}
 

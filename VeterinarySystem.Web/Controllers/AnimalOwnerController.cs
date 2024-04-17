@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
+using VeterinarySystem.Core.Infrastructure;
 using VeterinarySystem.Core.Models.AnimalOwner;
 using VeterinarySystem.Core.Models.Common;
 
@@ -60,7 +61,7 @@ namespace VeterinarySystem.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Details(int id)
+		public async Task<IActionResult> Details(int id, string information)
 		{
 			if (!await animaOwnerService.AnimalOwnerExists(id))
 			{
@@ -68,6 +69,11 @@ namespace VeterinarySystem.Web.Controllers
 			}
 
 			OwnerServiceModel ownerDetails = await animaOwnerService.GetOwnerDetails(id);
+
+			if (information != ownerDetails.GetOwnerInformation())
+			{
+				return BadRequest();
+			}
 
 			return View(ownerDetails);
 		}
