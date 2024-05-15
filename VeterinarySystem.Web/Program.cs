@@ -1,13 +1,12 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Services;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using VeterinarySystem.Data.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace VeterinarySystem.Web
 {
@@ -38,15 +37,15 @@ namespace VeterinarySystem.Web
 
 			builder.Services.AddTransient<IUserService, UserService>();
 
-			builder.Services.AddTransient<IAnimalOwnerService, AnimalOwnerService>();
+			builder.Services.AddScoped<IAnimalOwnerService, AnimalOwnerService>();
 
-			builder.Services.AddTransient<IAnimalService, AnimalService>();
+			builder.Services.AddScoped<IAnimalService, AnimalService>();
 
-			builder.Services.AddTransient<IAppointmentService, AppointmentService>();
+			builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 
-			builder.Services.AddTransient<IProcedureService, ProcedureService>();
+			builder.Services.AddScoped<IProcedureService, ProcedureService>();
 
-			builder.Services.AddTransient<IPrescriptionService, PrescriptionService>();
+			builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
 
 			builder.Services.AddControllersWithViews(options =>
 			{

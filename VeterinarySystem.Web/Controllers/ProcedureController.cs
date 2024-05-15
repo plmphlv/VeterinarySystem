@@ -4,11 +4,8 @@ using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Infrastructure;
 using VeterinarySystem.Core.Models.Common;
-using VeterinarySystem.Core.Models.Prescription;
 using VeterinarySystem.Core.Models.Procedure;
-using VeterinarySystem.Core.Services;
 using VeterinarySystem.Core.Tools.ExtenshionMethods;
-using VeterinarySystem.Data.DataSeeding.Admin;
 
 namespace VeterinarySystem.Web.Controllers
 {
@@ -76,11 +73,6 @@ namespace VeterinarySystem.Web.Controllers
 			}
 
 			ProcedureServiceModel model = await procedureService.GetProcedudeDetails(id);
-
-			if (information != model.GetInformationWithDescription())
-			{
-				return BadRequest();
-			}
 
 			return View(model);
 		}

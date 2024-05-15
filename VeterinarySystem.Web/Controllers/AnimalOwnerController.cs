@@ -70,11 +70,6 @@ namespace VeterinarySystem.Web.Controllers
 
 			OwnerServiceModel ownerDetails = await animaOwnerService.GetOwnerDetails(id);
 
-			if (information != ownerDetails.GetOwnerInformation())
-			{
-				return BadRequest();
-			}
-
 			return View(ownerDetails);
 		}
 

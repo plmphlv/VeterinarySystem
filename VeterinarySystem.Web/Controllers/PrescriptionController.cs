@@ -80,11 +80,6 @@ namespace VeterinarySystem.Web.Controllers
 
 			PrescriptionServiceModel model = await prescriptionService.GetPrescriptionDetails(id);
 
-			if (information != model.GetInformationWithDescription())
-			{
-				return BadRequest();
-			}
-
 			return View(model);
 		}
 

@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using VeterinarySystem.Core.Models.StaffMember;
 using VeterinarySystem.Core.Models.User;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using VeterinarySystem.Data.DataSeeding.Admin;
 
 namespace VeterinarySystem.Core.Contracts
 {
@@ -27,5 +25,6 @@ namespace VeterinarySystem.Core.Contracts
 
 		Task<ICollection<StaffServiceModel>> GetStaffMembers();
 
+		Task<string> GetUserLastName(string userId);
 	}
 }

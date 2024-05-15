@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using VeterinarySystem.Core.Models.Appointment
+@using VeterinarySystem.Data.Domain.Entities
+@using VeterinarySystem.Web.Infrastructure
+@model (string userLastName, ICollection<AppointmentServiceModel> appointments)
+@inject SignInManager<StaffMember> SignInManager
+@inject UserManager<StaffMember> UserManager
+
+@{
+	ViewData["Title"] = "Home Page";
+}
+
+
+@if (!Model.appointments.Any())
+{
+	<h3 class="text-center">Hello Dr. @Model.userLastName You have no appointments for today.</h3>
+}
+else
+{
+	<h3 class="text-center">Hello Dr. @Model.userLastName. Here is today's Schedule:</h3>
+	<br />
+	<div class="row">
+		@foreach (AppointmentServiceModel appointment in Model.appointments)
+		{
+			<partial name="_AppointmentSchedulePartial" model="@appointment" />
+		}
+	</div>
+}
+
+
+

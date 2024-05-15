@@ -8,33 +8,8 @@
 
 @{
 	ViewData["Title"] = "Home Page";
-
-	string lastName = string.Empty;
-
-	if (SignInManager.IsSignedIn(User))
-	{
-		StaffMember user = await UserManager.FindByIdAsync(User.Id());
-		lastName = user.LastName;
-	}
 }
 
-@if (this.User.Identity.IsAuthenticated)
-{
-	@if (!Model.Any())
-	{
-		<h3 class="text-center">Hello Dr. @lastName. You have no appointments for today.</h3>
-	}
-	else
-	{
-		<h3 class="text-center">Hello Dr. @lastName. Here is today's Schedule:</h3>
-		<br />
-		<div class="row">
-			@foreach (AppointmentServiceModel appointment in Model)
-			{
-				<partial name="_AppointmentSchedulePartial" model="@appointment" />
-			}
-		</div>
-	}
-}
+	
 
 

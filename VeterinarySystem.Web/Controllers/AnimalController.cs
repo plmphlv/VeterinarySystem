@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
 using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Infrastructure;
 using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Core.Models.Common;
-using VeterinarySystem.Core.Services;
 
 namespace VeterinarySystem.Web.Controllers
 {
@@ -69,11 +67,6 @@ namespace VeterinarySystem.Web.Controllers
 			}
 
 			AnimalServiceModel model = await animalService.GetAnimalDetails(id);
-
-			if (information != model.GetAnimalInformation())
-			{
-				return BadRequest();
-			}
 
 			return View(model);
 		}

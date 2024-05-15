@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.StaffMember;
 using VeterinarySystem.Core.Models.User;
@@ -198,6 +196,15 @@ namespace VeterinarySystem.Core.Services
 				.ToListAsync();
 
 			return staff;
+		}
+
+		public async Task<string> GetUserLastName(string userId)
+		{
+			StaffMember? user = await userManager.FindByIdAsync(userId);
+
+			string? staffMemberLastName = user.LastName;
+
+			return staffMemberLastName;
 		}
 	}
 }

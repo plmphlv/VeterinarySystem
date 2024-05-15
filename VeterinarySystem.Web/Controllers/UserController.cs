@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using VeterinarySystem.Common;
+﻿using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.User;
 
@@ -27,17 +25,13 @@ namespace VeterinarySystem.Web.Controllers
 			{
 				await userService.Login(model);
 			}
-			catch (ArgumentException ae)
-			{
-				return View("UserError", ae.Message);
-			}
 			catch (Exception)
 			{
-				return View("UserError", ErrorMessages.ErrorLoggingIn);
+				return RedirectToAction(nameof(Login));
 			}
 
 
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Welcome", "Home");
 		}
 	}
 

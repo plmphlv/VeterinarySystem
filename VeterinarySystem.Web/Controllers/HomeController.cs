@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using VeterinarySystem.Core.Contracts;
 using VeterinarySystem.Core.Models.Appointment;
+using VeterinarySystem.Web.Infrastructure;
 using VeterinarySystem.Web.Models;
 
 namespace VeterinarySystem.Web.Controllers
@@ -10,22 +12,36 @@ namespace VeterinarySystem.Web.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly IAppointmentService appointmentService;
+		private readonly IUserService userService;
 
-		public HomeController(ILogger<HomeController> logger, IAppointmentService _appointmentService)
+		public HomeController(ILogger<HomeController> logger, 
+			IAppointmentService _appointmentService, 
+			IUserService _userService)
 		{
 			_logger = logger;
 			appointmentService = _appointmentService;
+			userService = _userService;
 		}
 
 		public async Task<IActionResult> Index()
 		{
 			if (this.User.Identity.IsAuthenticated)
 			{
-				ICollection<AppointmentServiceModel> schedule = await appointmentService.TodaysSchedule();
-
-				return View(schedule);
+				return RedirectToAction(nameof(Welcome));
 			}
+
 			return View();
+		}
+
+		[Authorize]
+		public async Task<IActionResult> Welcome()
+		{
+			ICollection<AppointmentServiceModel> schedule = await appointmentService.TodaysSchedule();
+
+			string lastName = await userService.GetUserLastName(this.User.Id());
+
+
+			return View((lastName, schedule));
 		}
 
 		public IActionResult Privacy()

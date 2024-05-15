@@ -75,11 +75,6 @@ namespace VeterinarySystem.Web.Controllers
 
 			AppointmentServiceModel model = await appointmentService.GetAppointmentDetails(id);
 
-			if (information != model.GetInformationWithDescription())
-			{
-				return BadRequest();
-			}
-
 			return View(model);
 		}
 
