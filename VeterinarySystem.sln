@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Data", "VeterinarySystem.Data\VeterinarySystem.Data.csproj", "{48D92273-0CD4-402B-A30E-7F667563DF82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A03.VeterinarySystem.Data", "VeterinarySystem.Data\A03.VeterinarySystem.Data.csproj", "{48D92273-0CD4-402B-A30E-7F667563DF82}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Data.Domain", "VeterinarySystem.Data.Models\VeterinarySystem.Data.Domain.csproj", "{15793B99-70B3-44AE-8B58-9D0ED3DDE1C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A04.VeterinarySystem.Domain", "VeterinarySystem.Data.Models\A04.VeterinarySystem.Domain.csproj", "{15793B99-70B3-44AE-8B58-9D0ED3DDE1C1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Common", "VeterinarySystem.Common\VeterinarySystem.Common.csproj", "{C0F45166-8A01-4462-8AA4-DF11BDA95D05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A05.VeterinarySystem.Common", "VeterinarySystem.Common\A05.VeterinarySystem.Common.csproj", "{C0F45166-8A01-4462-8AA4-DF11BDA95D05}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Core", "VeterinarySystem.Core\VeterinarySystem.Core.csproj", "{9B672106-546E-4F20-B5C4-B6A4693BE4B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A02.VeterinarySystem.Core", "VeterinarySystem.Core\A02.VeterinarySystem.Core.csproj", "{9B672106-546E-4F20-B5C4-B6A4693BE4B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Web", "VeterinarySystem.Web\VeterinarySystem.Web.csproj", "{01B878F5-48E2-4A0D-BDB9-68F3E046F57C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A01.VeterinarySystem.Web", "VeterinarySystem.Web\A01.VeterinarySystem.Web.csproj", "{01B878F5-48E2-4A0D-BDB9-68F3E046F57C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeterinarySystem.Test", "VeterinarySystem.Test\VeterinarySystem.Test.csproj", "{C113E85C-0C23-4582-A416-310942987DD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeterinarySystem.Test", "VeterinarySystem.Test\VeterinarySystem.Test.csproj", "{C113E85C-0C23-4582-A416-310942987DD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

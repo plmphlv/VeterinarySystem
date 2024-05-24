@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VeterinarySystem.Web\VeterinarySystem.Web.csproj" />
+    <ProjectReference Include="..\VeterinarySystem.Web\A01.VeterinarySystem.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

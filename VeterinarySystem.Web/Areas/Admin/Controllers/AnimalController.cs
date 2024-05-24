@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Animal.Animal;
+using Animal.Contracts;
+using AnimalOwner.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.Animal;
 using VeterinarySystem.Data.DataSeeding.Admin;
 
 namespace VeterinarySystem.Web.Areas.Admin.Controllers
 {
-	[Authorize(Roles = AdminUser.AdminRoleName)]
+    [Authorize(Roles = AdminUser.AdminRoleName)]
 	[Area(AdminUser.AdminArea)]
 	public class AnimalController : Controller
 	{

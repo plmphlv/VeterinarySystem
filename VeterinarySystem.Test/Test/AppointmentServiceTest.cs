@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Appointments;
+using Appointments.Appointment;
+using Appointments.Contracts;
+using Common.Common;
+using Microsoft.Extensions.DependencyInjection;
 using VeterinarySystem.Common;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.Appointment;
-using VeterinarySystem.Core.Models.Common;
-using VeterinarySystem.Core.Services;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
 
@@ -16,7 +16,7 @@ namespace VeterinarySystem.Test.Test
 		private IAppointmentService service;
 
 		private int ownerId;
-		private AnimalOwner owner;
+		private Data.Domain.Entities.AnimalOwner owner;
 
 		private string staffMemberId;
 		private StaffMember staffMember;
@@ -149,7 +149,7 @@ namespace VeterinarySystem.Test.Test
 
 		private async Task SeedDb(VeterinarySystemDbContext context)
 		{
-			AnimalOwner owner1 = new AnimalOwner()
+			Data.Domain.Entities.AnimalOwner owner1 = new Data.Domain.Entities.AnimalOwner()
 			{
 				FirstName = "Johny",
 				LastName = "Test",

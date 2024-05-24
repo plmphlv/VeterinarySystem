@@ -1,8 +1,18 @@
+using Animal;
+using Animal.Contracts;
+using AnimalOwner.Contracts;
+using Appointments;
+using Appointments.Contracts;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using VeterinarySystem.Core.Contracts;
+using Prescriptions;
+using Prescriptions.Contracts;
+using Procedures;
+using Procedures.Contracts;
+using Users;
+using Users.Contracts;
 using VeterinarySystem.Core.Services;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
@@ -10,14 +20,14 @@ using VeterinarySystem.Data.Infrastructure;
 
 namespace VeterinarySystem.Web
 {
-	public class Program
+    public class Program
 	{
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
-			var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+			string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 			builder.Services.AddDbContext<VeterinarySystemDbContext>(options =>
 				options.UseSqlServer(connectionString));
@@ -35,7 +45,7 @@ namespace VeterinarySystem.Web
 			  .AddRoles<IdentityRole>()
 			  .AddEntityFrameworkStores<VeterinarySystemDbContext>();
 
-			builder.Services.AddTransient<IUserService, UserService>();
+			builder.Services.AddScoped<IUserService, UserService>();
 
 			builder.Services.AddScoped<IAnimalOwnerService, AnimalOwnerService>();
 

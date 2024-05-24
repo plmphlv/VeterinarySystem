@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Animal.Animal;
+using Animal.Contracts;
+using AnimalOwner.Contracts;
+using Common.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.Animal;
-using VeterinarySystem.Core.Models.Common;
 
 namespace VeterinarySystem.Web.Controllers
 {
-	[Authorize]
+    [Authorize]
 	public class AnimalController : Controller
 	{
 		private readonly IAnimalOwnerService ownerService;
@@ -116,7 +117,21 @@ namespace VeterinarySystem.Web.Controllers
 		public async Task<IActionResult> Delete(int id)
 		{
 			string controllerName = this.GetType().Name.Replace("Controller", "");
-			DeleteViewModel model = await animalService.GetDeleteViewModel(id, controllerName);
+
+			DeleteViewModel model;
+
+			try
+			{
+				model = await animalService.GetDeleteViewModel(id, controllerName);
+			}
+			catch (NullReferenceException ex)
+			{
+				return View(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				return View(ex.Message);
+			}
 
 			return View(model);
 		}
@@ -136,7 +151,19 @@ namespace VeterinarySystem.Web.Controllers
 				return BadRequest();
 			}
 
-			await animalService.DeleteAnimal(id);
+			try
+			{
+				await animalService.DeleteAnimal(id);
+			}
+			catch (NullReferenceException ex)
+			{
+				return View(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				return View(ex.Message);
+			}
+
 
 			return RedirectToAction(nameof(Details), "AnimalOwner", new { Id = ownerId });
 		}

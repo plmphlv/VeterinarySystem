@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Animal.Contracts;
+using Common.Tools;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Prescriptions.Contracts;
+using Prescriptions.Prescription;
 using VeterinarySystem.Common;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Infrastructure;
-using VeterinarySystem.Core.Models.Prescription;
-using VeterinarySystem.Core.Tools.ExtenshionMethods;
 
 namespace VeterinarySystem.Web.Controllers
 {
-	[Authorize]
+    [Authorize]
 	public class PrescriptionController : Controller
 	{
 		private readonly IAnimalService animalService;

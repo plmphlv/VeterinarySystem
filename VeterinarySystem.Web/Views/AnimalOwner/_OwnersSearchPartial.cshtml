@@ -1,5 +1,4 @@
-﻿@using VeterinarySystem.Core.Models.AnimalOwner
-@using VeterinarySystem.Core.Infrastructure
+﻿@using AnimalOwner.AnimalOwner
 @model AnimalOwnerMiniServiceModel
 
 <div class="card" style="width: 18rem;">
@@ -7,6 +6,6 @@
 		<h5 class="card-title">Owner Info</h5>
 		<p class="card-text">Full Name: @Model.FullName</p>
 		<p class="card-text">PhoneNumber: @Model.PhoneNumber</p>
-		<a class="btn btn-primary" asp-controller="AnimalOwner" asp-action="Details" asp-route-id="@Model.Id" asp-route-information="@Model.GetOwnerInformation()">Details</a>
+		<a class="btn btn-primary" asp-controller="AnimalOwner" asp-action="Details" asp-route-id="@Model.Id">Details</a>
 	</div>
 </div>

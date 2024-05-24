@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Users.Contracts;
+using Users.User;
 using VeterinarySystem.Common;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.User;
 using VeterinarySystem.Data.DataSeeding.Admin;
 
 namespace VeterinarySystem.Web.Areas.Admin.Controllers
 {
-	[Authorize(Roles = AdminUser.AdminRoleName)]
+    [Authorize(Roles = AdminUser.AdminRoleName)]
 	[Area(AdminUser.AdminArea)]
 	public class UserController : Controller
 	{

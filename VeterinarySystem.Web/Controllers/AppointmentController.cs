@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AnimalOwner.Contracts;
+using Appointments.Appointment;
+using Appointments.Contracts;
+using Common.Common;
+using Common.Tools;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VeterinarySystem.Common;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Infrastructure;
-using VeterinarySystem.Core.Models.Appointment;
-using VeterinarySystem.Core.Models.Common;
-using VeterinarySystem.Core.Tools.ExtenshionMethods;
 
 namespace VeterinarySystem.Web.Controllers
 {

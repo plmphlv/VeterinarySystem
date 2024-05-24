@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.User;
+using Users.Contracts;
+using Users.User;
 
 namespace VeterinarySystem.Web.Controllers
 {
-	public class UserController : Controller
+    public class UserController : Controller
 	{
 		private readonly IUserService userService;
 

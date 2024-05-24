@@ -1,22 +1,22 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.Animal;
-using VeterinarySystem.Core.Models.Common;
-using VeterinarySystem.Core.Services;
+﻿using Animal;
+using Animal.Animal;
+using Animal.Contracts;
+using Common.Common;
+using Microsoft.Extensions.DependencyInjection;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
 
 namespace VeterinarySystem.Test.Test
 {
-	public class AnimalServiceTest
+    public class AnimalServiceTest
 	{
 		private InMemoryDbContext dbContext;
 		private ServiceProvider serviceProvider;
 		private IAnimalService service;
 		private int animalId;
-		private Animal animal;
+		private Data.Domain.Entities.Animal animal;
 		private int ownerId;
-		private AnimalOwner owner;
+		private Data.Domain.Entities.AnimalOwner owner;
 		private int animalTypeId;
 		private AnimalType animalType;
 
@@ -193,14 +193,14 @@ namespace VeterinarySystem.Test.Test
 
 		private async Task SeedDb(VeterinarySystemDbContext context)
 		{
-			AnimalOwner owner1 = new AnimalOwner()
+			Data.Domain.Entities.AnimalOwner owner1 = new Data.Domain.Entities.AnimalOwner()
 			{
 				FirstName = "Johny",
 				LastName = "Test",
 				PhoneNumber = "1234567890"
 			};
 
-			Animal pet = new Animal()
+			Data.Domain.Entities.Animal pet = new Data.Domain.Entities.Animal()
 			{
 				Name = "Test",
 				Age = 2,

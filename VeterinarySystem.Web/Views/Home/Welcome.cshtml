@@ -1,7 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using VeterinarySystem.Core.Models.Appointment
+﻿@using Appointments.Appointment
+@using Microsoft.AspNetCore.Identity
 @using VeterinarySystem.Data.Domain.Entities
-@using VeterinarySystem.Web.Infrastructure
 @model (string userLastName, ICollection<AppointmentServiceModel> appointments)
 @inject SignInManager<StaffMember> SignInManager
 @inject UserManager<StaffMember> UserManager

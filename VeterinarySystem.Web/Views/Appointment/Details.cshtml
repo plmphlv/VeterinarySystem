@@ -1,5 +1,4 @@
-﻿@using VeterinarySystem.Core.Models.Appointment
-@using VeterinarySystem.Core.Infrastructure
+﻿@using Appointments.Appointment
 @model AppointmentServiceModel
 
 @{
@@ -38,7 +37,7 @@
 		</dd>
 	</dl>
 	<br />
-	<a class="btn btn-primary" asp-controller="Animal" asp-action="Details" asp-route-id="@Model.OwnerId" asp-route-information="@Model.GetOwnerInformation()">Back To Owner</a>
+	<a class="btn btn-primary" asp-controller="Animal" asp-action="Details" asp-route-id="@Model.OwnerId">Back To Owner</a>
 	<a class="btn btn-primary" asp-controller="Appointment" asp-action="Edit" asp-route-id="@Model.Id">Edit Appointment</a>
 	<a class="btn btn-danger" asp-controller="Appointment" asp-action="Delete" asp-route-id="@Model.Id">Delete Appointment</a>
 </div>

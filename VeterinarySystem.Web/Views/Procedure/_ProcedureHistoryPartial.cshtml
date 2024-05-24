@@ -1,5 +1,4 @@
-﻿@using VeterinarySystem.Core.Models.Procedure
-@using VeterinarySystem.Core.Infrastructure
+﻿@using Procedures.Procedure
 @model ProcedureServiceModel
 
 <div class="card" style="width: 18rem;">
@@ -8,6 +7,6 @@
 		<p class="card-text">Description: @Model.Description</p>
 		<p class="card-text">Performed on @Model.Date</p>
 		<p class="card-text">Performed by @Model.StaffMemberFullName</p>
-		<a class="btn btn-primary" asp-controller="Procedure" asp-action="Details" asp-route-id="@Model.Id" asp-route-information="@Model.GetInformationWithDescription()">Details</a>
+		<a class="btn btn-primary" asp-controller="Procedure" asp-action="Details" asp-route-id="@Model.Id">Details</a>
 	</div>
 </div>

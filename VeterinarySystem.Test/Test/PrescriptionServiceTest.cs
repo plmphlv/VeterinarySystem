@@ -1,15 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common.Common;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Prescriptions;
+using Prescriptions.Contracts;
+using Prescriptions.Prescription;
 using VeterinarySystem.Common;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.Animal;
-using VeterinarySystem.Core.Models.AnimalOwner;
-using VeterinarySystem.Core.Models.Common;
-using VeterinarySystem.Core.Models.Prescription;
-using VeterinarySystem.Core.Services;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace VeterinarySystem.Test.Test
 {
@@ -20,7 +17,7 @@ namespace VeterinarySystem.Test.Test
 		private IPrescriptionService service;
 
 		private int ownerId;
-		private AnimalOwner owner;
+		private Data.Domain.Entities.AnimalOwner owner;
 
 		private string staffMemberId;
 		private StaffMember staffMember;
@@ -28,7 +25,7 @@ namespace VeterinarySystem.Test.Test
 		private int prescriptionId;
 		private int animalId;
 
-		private Animal animal;
+		private Data.Domain.Entities.Animal animal;
 		private Prescription prescription;
 
 		[SetUp]
@@ -184,7 +181,7 @@ namespace VeterinarySystem.Test.Test
 
 		private async Task SeedDb(VeterinarySystemDbContext context)
 		{
-			AnimalOwner owner1 = new AnimalOwner()
+			Data.Domain.Entities.AnimalOwner owner1 = new Data.Domain.Entities.AnimalOwner()
 			{
 				FirstName = "Johny",
 				LastName = "Test",
@@ -193,7 +190,7 @@ namespace VeterinarySystem.Test.Test
 
 			await context.AnimalOwners.AddAsync(owner1);
 
-			Animal pet = new Animal()
+			Data.Domain.Entities.Animal pet = new Data.Domain.Entities.Animal()
 			{
 				Name = "Test",
 				Age = 2,

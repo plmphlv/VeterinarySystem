@@ -1,10 +1,10 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using VeterinarySystem.Core.Models.Appointment
+﻿@using Appointments.Appointment
+@using Microsoft.AspNetCore.Identity
 @using VeterinarySystem.Data.Domain.Entities
-@using VeterinarySystem.Web.Infrastructure
+
 @model ICollection<AppointmentServiceModel>
-@inject SignInManager<StaffMember> SignInManager
-@inject UserManager<StaffMember> UserManager
+@* @inject SignInManager<StaffMember> SignInManager
+@inject UserManager<StaffMember> UserManager *@
 
 @{
 	ViewData["Title"] = "Home Page";

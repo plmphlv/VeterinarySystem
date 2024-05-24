@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Animal.Contracts;
+using Common.Common;
+using Common.Tools;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Procedures.Contracts;
+using Procedures.Procedure;
 using VeterinarySystem.Common;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.Common;
-using VeterinarySystem.Core.Models.Procedure;
-using VeterinarySystem.Core.Tools.ExtenshionMethods;
 using VeterinarySystem.Data.DataSeeding.Admin;
 
 namespace VeterinarySystem.Web.Areas.Admin.Controllers
 {
-	[Authorize(Roles = AdminUser.AdminRoleName)]
+    [Authorize(Roles = AdminUser.AdminRoleName)]
 	[Area(AdminUser.AdminArea)]
 	public class ProcedureController : Controller
 	{

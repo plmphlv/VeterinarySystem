@@ -1,14 +1,15 @@
+using Appointments.Appointment;
+using Appointments.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.Appointment;
+using Users.Contracts;
 using VeterinarySystem.Web.Infrastructure;
 using VeterinarySystem.Web.Models;
 
 namespace VeterinarySystem.Web.Controllers
 {
-	public class HomeController : Controller
+    public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly IAppointmentService appointmentService;

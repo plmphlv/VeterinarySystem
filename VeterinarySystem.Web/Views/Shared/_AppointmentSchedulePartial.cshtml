@@ -1,5 +1,4 @@
-﻿@using VeterinarySystem.Core.Models.Appointment
-@using VeterinarySystem.Core.Infrastructure
+﻿@using Appointments.Appointment
 @model AppointmentServiceModel
 
 <div class="card" style="width: 18rem;">
@@ -8,6 +7,6 @@
 		<p class="card-text">Description: @Model.Description</p>
 		<p class="card-text">Date: @Model.AppointmentDate</p>
 		<p class="card-text">Owner: @Model.FullName</p>
-		<a class="btn btn-primary" asp-controller="Appointment" asp-action="Details" asp-route-id="@Model.Id" asp-route-information="@Model.GetInformationWithDescription()">Details</a>
+		<a class="btn btn-primary" asp-controller="Appointment" asp-action="Details" asp-route-id="@Model.Id">Details</a>
 	</div>
 </div>

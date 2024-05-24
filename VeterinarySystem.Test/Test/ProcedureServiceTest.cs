@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Common.Common;
 using Microsoft.Extensions.DependencyInjection;
+using Procedures;
+using Procedures.Contracts;
+using Procedures.Procedure;
 using VeterinarySystem.Common;
-using VeterinarySystem.Core.Contracts;
-using VeterinarySystem.Core.Models.Common;
-using VeterinarySystem.Core.Models.Procedure;
-using VeterinarySystem.Core.Services;
 using VeterinarySystem.Data;
 using VeterinarySystem.Data.Domain.Entities;
 
@@ -17,10 +16,10 @@ namespace VeterinarySystem.Test.Test
 		private IProcedureService service;
 
 		private int animalId;
-		private Animal animal;
+		private Data.Domain.Entities.Animal animal;
 
 		private int ownerId;
-		private AnimalOwner owner;
+		private Data.Domain.Entities.AnimalOwner owner;
 
 		private Procedure _procedure1;
 		private int procedure1Id;
@@ -156,7 +155,7 @@ namespace VeterinarySystem.Test.Test
 
 		private async Task SeedDb(VeterinarySystemDbContext context)
 		{
-			AnimalOwner owner1 = new AnimalOwner()
+			Data.Domain.Entities.AnimalOwner owner1 = new Data.Domain.Entities.AnimalOwner()
 			{
 				FirstName = "Johny",
 				LastName = "Test",
@@ -165,7 +164,7 @@ namespace VeterinarySystem.Test.Test
 
 			await context.AnimalOwners.AddAsync(owner1);
 
-			Animal pet = new Animal()
+			Data.Domain.Entities.Animal pet = new Data.Domain.Entities.Animal()
 			{
 				Name = "Test",
 				Age = 2,
